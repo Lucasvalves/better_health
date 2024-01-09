@@ -11,34 +11,45 @@ datasource db {
 }
 
 model Users {
-  id       String    @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
+  id        String      @id @default(uuid())
+  name      String
+  email     String      @unique
+  password  String
+  Consultas Consultas[]
 }
 
-model Paciente {
-  id   String    @id @default(uuid())
-  nome String
-  cpf  String @unique
+model Pacientes {
+  id        String      @id @default(uuid())
+  nome      String
+  cpf       String      @unique
+  Consultas Consultas[]
 }
 
-model Medico {
-  id   String    @id @default(uuid())
-  nome String
-  crm  String @unique
+model Medicos {
+  id             String           @id @default(uuid())
+  nome           String
+  crm            String           @unique
+  Consultas      Consultas[]
+  Especialidades Especialidades[]
 }
 
-model Especialidade {
-  id        String    @id @default(uuid())
-  descricao String
-  medicoId  Int
+model Especialidades {
+  id         String      @id @default(uuid())
+  descricao  String
+  medicos_id String
+  medicos    Medicos     @relation(fields: [medicos_id], references: [id])
+  Consulta   Consultas[]
 }
 
-model Consulta {
-  id              String      @id @default(uuid())
-  data            DateTime
-  pacienteId      Int
-  medicoId        Int
-  especialidadeId Int
+model Consultas {
+  id                String         @id @default(uuid())
+  date              DateTime
+  pacientes_id      String         @default("")
+  medicos_id        String         @default("")
+  especialidades_id String         @default("")
+  user_id           String         @default("")
+  pacientes         Pacientes      @relation(fields: [pacientes_id], references: [id])
+  medicos           Medicos        @relation(fields: [medicos_id], references: [id])
+  especialidades    Especialidades @relation(fields: [especialidades_id], references: [id])
+  users             Users          @relation(fields: [user_id], references: [id])
 }
