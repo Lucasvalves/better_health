@@ -6,12 +6,6 @@ class UsersController {
 	constructor() {
 		this.usersServices = new UsersServices()
 	}
-	// index(request:Request, response:Response, next:NextFunction){
-	//buscar todos usuarios
-	// }
-	// show(request:Request, response:Response, next:NextFunction){
-	//buscar um usuario
-	// }
 
 	async store(request: Request, response: Response, next: NextFunction) {
 		//criar usuario

@@ -2,6 +2,7 @@ import { compare, hash } from 'bcrypt'
 import { ICreate, IUpdate } from '../interfaces/UserInterface'
 import { UsersRepository } from '../repositories/UsersRepository'
 import { sign } from 'jsonwebtoken'
+
 class UsersServices {
 	private usersRepository: UsersRepository
 	constructor() {
@@ -28,7 +29,7 @@ class UsersServices {
 		if (oldPasswork && newPassword) {
 			const findUserById = await this.usersRepository.findUserById(user_id)
 			if (!findUserById) {
-				throw new Error('User obot found')
+				throw new Error('User not found')
 			}
 			const passwordMatch = compare(oldPasswork, findUserById.password)
 			if (!passwordMatch) {
@@ -37,11 +38,7 @@ class UsersServices {
 
 			password = await hash(newPassword, 10)
 
-			await this.usersRepository.updatePassword(
-				name,
-				password,
-				user_id
-			)
+			await this.usersRepository.updatePassword(name, password, user_id)
 		}
 
 		return {
