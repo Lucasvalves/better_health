@@ -8,7 +8,7 @@ class PatientsServices {
 		this.patientsRepository = new PatientsRepository()
 	}
 	async create({ name, cpf, user_id }: ICreate) {
-		const findByPatient = await this.patientsRepository.findByPatient(cpf)
+		const findByPatient = await this.patientsRepository.findByCpf(cpf)
 
 		if (findByPatient) {
 			throw new Error('This CPF already exists')

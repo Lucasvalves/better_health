@@ -13,7 +13,7 @@ class PatientsRepository {
 		})
 		return result
 	}
-	async findByPatient(cpf: string) {
+	async findByCpf(cpf: string) {
 		const patient = await prisma.patients.findFirst({
 			where: { cpf },
 		})

@@ -17,6 +17,7 @@ model Users {
   password     String
   Appointments Appointments[]
   Patients     Patients[]
+  Doctors      Doctors[]
 }
 
 model Patients {
@@ -33,6 +34,8 @@ model Doctors {
   name         String
   crm          String         @unique
   specialties  String         @default("")
+  user_id      String         @default("")
+  user         Users          @relation(fields: [user_id], references: [id])
   Appointments Appointments[]
 }
 
@@ -41,8 +44,8 @@ model Appointments {
   date        DateTime
   patients_id String   @default("")
   doctors_id  String   @default("")
+  users_id    String?
   patients    Patients @relation(fields: [patients_id], references: [id])
   doctors     Doctors  @relation(fields: [doctors_id], references: [id])
-  Users       Users?   @relation(fields: [usersId], references: [id])
-  usersId     String?
+  Users       Users?   @relation(fields: [users_id], references: [id])
 }
