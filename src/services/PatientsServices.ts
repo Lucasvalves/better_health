@@ -18,5 +18,25 @@ class PatientsServices {
 
 		return create
 	}
+	async index(user_id: string) {
+		const result = await this.patientsRepository.findAllByUser(user_id)
+
+		return result
+	}
+	async findPatientsById(id: string) {
+		const result = await this.patientsRepository.findPatient(id)
+
+		return result
+	}
+	async findPatientsByCpf(cpf: string) {
+		const result = await this.patientsRepository.findByCpf(cpf)
+
+		if (!result) {
+			throw new Error("User doens't exists")
+		}
+
+		return result
+	}
 }
 export { PatientsServices }
+

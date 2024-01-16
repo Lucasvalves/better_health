@@ -10,6 +10,8 @@ class DoctorsController {
 	async store(request: Request, response: Response, next: NextFunction) {
 		const { name, crm, specialties } = request.body
 		const {user_id} = request
+		console.log(user_id);
+
 
 		try {
 		const result = await this.doctorsServices.create({ name, crm, specialties, user_id })

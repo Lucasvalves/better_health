@@ -64,7 +64,7 @@ class UsersServices {
 		}
 		const token = sign({ email }, scretKey, {
 			subject: findUser.id,
-			expiresIn: 60 * 15,
+			expiresIn: 60 * 60,
 		})
 
 		return {
