@@ -15,11 +15,48 @@ class DoctorsRepository {
 	}
 
 	async findByCrm(crm: string) {
-		const result = await prisma.doctors.findFirst({
+		const doctor = await prisma.doctors.findFirst({
 			where: {
 				crm,
 			},
 		})
+		return doctor
+	}
+
+	async findDoctorsById(user_id: string) {
+		const doctors = await prisma.doctors.findMany({
+			where: {
+				user_id,
+			},
+		})
+
+		return doctors
+	}
+
+	async findDoctorId(id: string) {
+		const doctor = await prisma.doctors.findFirst({
+			where: {
+				id,
+			},
+		})
+
+		return doctor
+	}
+	async delete(id: string) {
+		const result = await prisma.doctors.delete({
+			where: { id },
+		})
+		return result
+	}
+
+	async findSpecialties(specialties: string) {
+
+		const result = await prisma.doctors.findMany({
+			where: {
+				specialties,
+			},
+		})
+
 		return result
 	}
 }

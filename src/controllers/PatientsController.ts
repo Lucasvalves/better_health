@@ -7,11 +7,16 @@ class PatientsController {
 		this.patientsServices = new PatientsServices()
 	}
 	async store(request: Request, response: Response, next: NextFunction) {
-		const { name, cpf } = request.body
+		const { name, cpf, phone } = request.body
 		const { user_id } = request
 
 		try {
-			const result = await this.patientsServices.create({ name, cpf, user_id })
+			const result = await this.patientsServices.create({
+				name,
+				cpf,
+				user_id,
+				phone,
+			})
 			return response.status(201).json(result)
 		} catch (error) {
 			next(error)
@@ -47,7 +52,6 @@ class PatientsController {
 		response: Response,
 		next: NextFunction
 	) {
-
 		const { cpf } = request.params
 
 		try {
@@ -56,6 +60,32 @@ class PatientsController {
 		} catch (error) {
 			next(error)
 		}
+	}
+	async update(request: Request, response: Response, next: NextFunction) {
+		const { name, cpf, phone } = request.body
+		const {id} =  request.params
+
+		try {
+			const result = await this.patientsServices.update({id, name, cpf, phone})
+
+			return response.json(result)
+		} catch (error) {
+			next(error)
+		}
+	}
+	async delete(request: Request, response: Response, next: NextFunction){
+
+		const {id} = request.params
+
+		try {
+			const result = await this.patientsServices.delete(id)
+			
+			return response.json(result)
+
+		} catch (error) {
+			next(error)
+		}
+
 	}
 }
 

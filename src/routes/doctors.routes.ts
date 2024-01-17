@@ -13,9 +13,35 @@ class DoctorsRoutes {
 	}
 
 	getRoutes(): Router {
-		this.router.post('/',
+		this.router.post(
+			'/',
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.doctorsController.store.bind(this.doctorsController)
+		)
+		this.router.get(
+			'/',
+			this.authMiddleware.auth.bind(this.authMiddleware),
+			this.doctorsController.index.bind(this.doctorsController)
+		)
+		this.router.get(
+			'/:id',
+			this.authMiddleware.auth.bind(this.authMiddleware),
+			this.doctorsController.findDoctorsById.bind(this.doctorsController)
+		)
+		this.router.get(
+			'/crm/:crm',
+			this.authMiddleware.auth.bind(this.authMiddleware),
+			this.doctorsController.findDoctorsByCrm.bind(this.doctorsController)
+		)
+		this.router.delete(
+			'/:id',
+			this.authMiddleware.auth.bind(this.authMiddleware),
+			this.doctorsController.delete.bind(this.doctorsController)
+		)
+		this.router.get(
+			'/specialties/:specialties',
+			this.authMiddleware.auth.bind(this.authMiddleware),
+			this.doctorsController.findBySpecialties.bind(this.doctorsController)
 		)
 
 		return this.router

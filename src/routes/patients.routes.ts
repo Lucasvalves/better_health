@@ -35,6 +35,16 @@ class PatientsRoutes {
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.patientsController.findPatientsByCpf.bind(this.patientsController)
 		)
+		this.router.put(
+			'/:id',
+			this.authMiddleware.auth.bind(this.authMiddleware),
+			this.patientsController.update.bind(this.patientsController)
+		)
+		this.router.delete(
+			'/:id',
+			this.authMiddleware.auth.bind(this.authMiddleware),
+			this.patientsController.delete.bind(this.patientsController)
+		)
 
 		return this.router
 	}

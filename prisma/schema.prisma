@@ -24,8 +24,9 @@ model Patients {
   id           String         @id @default(uuid())
   name         String
   cpf          String         @unique
+  phone        String         @default("")
   user_id      String         @default("")
-  user         Users          @relation(fields: [user_id], references: [id])
+  Users        Users          @relation(fields: [user_id], references: [id])
   Appointments Appointments[]
 }
 
@@ -35,7 +36,7 @@ model Doctors {
   crm          String         @unique
   specialties  String         @default("")
   user_id      String         @default("")
-  user         Users          @relation(fields: [user_id], references: [id])
+  Users        Users          @relation(fields: [user_id], references: [id])
   Appointments Appointments[]
 }
 
@@ -45,7 +46,7 @@ model Appointments {
   patients_id String   @default("")
   doctors_id  String   @default("")
   users_id    String?
-  patients    Patients @relation(fields: [patients_id], references: [id])
-  doctors     Doctors  @relation(fields: [doctors_id], references: [id])
+  Patients    Patients @relation(fields: [patients_id], references: [id])
+  Doctors     Doctors  @relation(fields: [doctors_id], references: [id])
   Users       Users?   @relation(fields: [users_id], references: [id])
 }
