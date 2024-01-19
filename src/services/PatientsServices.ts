@@ -21,8 +21,8 @@ class PatientsServices {
 
 		return create
 	}
-	async index(user_id: string) {
-		const result = await this.patientsRepository.findAllByUser(user_id)
+	async index() {
+		const result = await this.patientsRepository.findAll()
 
 		return result
 	}
@@ -83,12 +83,14 @@ class PatientsServices {
 
 		return result
 	}
-	async delete(id: string){
-
+	async delete(id: string) {
 		const result = await this.patientsRepository.delete(id)
 
-		return result
+		if (!result) {
+			throw new Error("Patient doens't exists")
+		}
 
+		return result
 	}
 }
 export { PatientsServices }

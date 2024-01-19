@@ -38,12 +38,6 @@ class DoctorsRoutes {
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.doctorsController.delete.bind(this.doctorsController)
 		)
-		this.router.get(
-			'/specialties/:specialties',
-			this.authMiddleware.auth.bind(this.authMiddleware),
-			this.doctorsController.findBySpecialties.bind(this.doctorsController)
-		)
-
 		return this.router
 	}
 }

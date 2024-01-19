@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, json } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { PatientsServices } from '../services/PatientsServices'
 
 class PatientsController {
@@ -24,10 +24,9 @@ class PatientsController {
 	}
 
 	async index(request: Request, response: Response, next: NextFunction) {
-		const { user_id } = request
 
 		try {
-			const result = await this.patientsServices.index(user_id)
+			const result = await this.patientsServices.index()
 			return response.json(result)
 		} catch (error) {
 			next(error)
@@ -79,7 +78,7 @@ class PatientsController {
 
 		try {
 			const result = await this.patientsServices.delete(id)
-			
+
 			return response.json(result)
 
 		} catch (error) {

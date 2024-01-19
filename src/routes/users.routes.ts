@@ -13,7 +13,7 @@ class UsersRoutes {
 		this.authMiddleware = new AuthMiddleware()
 	}
 
-	getRoutes() {
+	getRoutes(): Router {
 		this.router.post(
 			//rota de inserir usuarios
 			'/',

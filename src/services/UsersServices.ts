@@ -1,5 +1,5 @@
 import { compare, hash } from 'bcrypt'
-import { ICreate, IUpdate } from '../interfaces/UserInterface'
+import { ICreate, IUpdate } from '../../UserInterface'
 import { UsersRepository } from '../repositories/UsersRepository'
 import { sign } from 'jsonwebtoken'
 
@@ -64,7 +64,8 @@ class UsersServices {
 		}
 		const token = sign({ email }, scretKey, {
 			subject: findUser.id,
-			expiresIn: 60 * 60,
+			expiresIn: '365d',
+			//expiresIn: 60 * 15,
 		})
 
 		return {

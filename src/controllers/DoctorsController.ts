@@ -8,14 +8,14 @@ class DoctorsController {
 		this.doctorsServices = new DoctorsServices()
 	}
 	async store(request: Request, response: Response, next: NextFunction) {
-		const { name, crm, specialties } = request.body
+		const { name, crm, specialties_id } = request.body
 		const { user_id } = request
 
 		try {
 			const result = await this.doctorsServices.create({
 				name,
 				crm,
-				specialties,
+				specialties_id,
 				user_id,
 			})
 
@@ -42,6 +42,8 @@ class DoctorsController {
 		next: NextFunction
 	) {
 		const { id } = request.params
+		console.log(id);
+
 
 		try {
 			const result = await this.doctorsServices.findDoctorsById(id)
@@ -64,25 +66,16 @@ class DoctorsController {
 			next(error)
 		}
 	}
-	async delete(request: Request, response: Response, next: NextFunction){
-		const {id} = request.params
+	async delete(request: Request, response: Response, next: NextFunction) {
+		const { id } = request.params
 
 		try {
-			const result =  await this.doctorsServices.delete(id)
+			const result = await this.doctorsServices.delete(id)
 
 			return response.json(result)
-
 		} catch (error) {
 			next(error)
-		}//trim()
-	}
-	async findBySpecialties(request: Request, response: Response, next: NextFunction){
-		const {specialties} = request.params
-
-		const result = await this.doctorsServices.findBySpecialties(specialties)
-
-		return response.json(result)
-
+		}
 	}
 }
 export { DoctorsController }

@@ -26,11 +26,9 @@ class PatientsRepository {
 
 		return patient
 	}
-	async findAllByUser(user_id: string) {
+	async findAll() {
 		//buscando todos pacientes cadastrado por o mesmo usuario
-		const pacinets = await prisma.patients.findMany({
-			where: { user_id },
-		})
+		const pacinets = await prisma.patients.findMany()
 		return pacinets
 	}
 	async findPatient(id: string) {

@@ -14,10 +14,15 @@ class AppointmentsRoutes {
 	}
 
 	getRoutes(): Router {
+		// this.router.post(
+		// 	'/',
+		// 	this.authMiddleware.auth.bind(this.authMiddleware),
+		// 	this.appointmentsController.store.bind(this.appointmentsController)
+		// )
 		this.router.post(
-			'/',
+			'/dias-disponiveis',
 			this.authMiddleware.auth.bind(this.authMiddleware),
-			this.appointmentsController.store.bind(this.appointmentsController)
+			this.appointmentsController.availableDays.bind(this.appointmentsController)
 		)
 
 		return this.router

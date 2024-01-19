@@ -1,4 +1,4 @@
-import { Icreate } from '../interfaces/DoctorsInterfaces'
+import { ICreate } from '../interfaces/DoctorsInterfaces'
 import { DoctorsRepository } from '../repositories/DoctorsRepository'
 
 class DoctorsServices {
@@ -8,7 +8,7 @@ class DoctorsServices {
 		this.doctorsRepository = new DoctorsRepository()
 	}
 
-	async create({ name, crm, specialties, user_id }: Icreate) {
+	async create({ name, crm, specialties_id, user_id }: ICreate) {
 		const findDoctor = await this.doctorsRepository.findByCrm(crm)
 
 		if (findDoctor) {
@@ -18,22 +18,23 @@ class DoctorsServices {
 		const result = await this.doctorsRepository.create({
 			name,
 			crm,
-			specialties,
+			specialties_id,
 			user_id,
 		})
 
 		return result
 	}
 	async index(user_id: string) {
-		const result = await this.doctorsRepository.findDoctorsById(user_id)
+		const result = await this.doctorsRepository.findDoctorsByUserId(user_id)
 
 		return result
 	}
 
 	async findDoctorsById(id: string) {
 		const result = await this.doctorsRepository.findDoctorId(id)
+
 		if (!result) {
-			throw new Error("User doens't exists")
+			throw new Error("Doctor t doens't exists")
 		}
 
 		return result
@@ -43,7 +44,7 @@ class DoctorsServices {
 		const result = await this.doctorsRepository.findByCrm(crm)
 
 		if (!result) {
-			throw new Error("User doens't exists")
+			throw new Error("Doctor doens't exists")
 		}
 
 		return result
@@ -51,13 +52,12 @@ class DoctorsServices {
 	async delete(id: string) {
 		const result = await this.doctorsRepository.delete(id)
 
-		return result
-	}
-	async findBySpecialties(specialties:string){
-		const result = await this.doctorsRepository.findSpecialties(specialties)
+		if (!result) {
+			throw new Error("Doctor doens't exists")
+		}
 
 		return result
-
 	}
+
 }
 export { DoctorsServices }

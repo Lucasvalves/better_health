@@ -1,7 +1,7 @@
-export interface Icreate{
+export interface ICreate{
 	name: string;
 	crm: string;
-	specialties: string
+	specialties_id: string
 	user_id: string
 
 }

@@ -1,13 +1,13 @@
 import { prisma } from '../database/prisma'
-import { Icreate } from '../interfaces/DoctorsInterfaces'
+import { ICreate } from '../interfaces/DoctorsInterfaces'
 
 class DoctorsRepository {
-	async create({ name, crm, specialties, user_id }: Icreate) {
+	async create({ name, crm, specialties_id, user_id }: ICreate) {
 		const result = await prisma.doctors.create({
 			data: {
 				name,
 				crm,
-				specialties,
+				specialties_id,
 				user_id,
 			},
 		})
@@ -23,10 +23,13 @@ class DoctorsRepository {
 		return doctor
 	}
 
-	async findDoctorsById(user_id: string) {
+	async findDoctorsByUserId(user_id: string) {
 		const doctors = await prisma.doctors.findMany({
 			where: {
 				user_id,
+			},
+			include: {
+				Specialties: true,
 			},
 		})
 
@@ -46,17 +49,6 @@ class DoctorsRepository {
 		const result = await prisma.doctors.delete({
 			where: { id },
 		})
-		return result
-	}
-
-	async findSpecialties(specialties: string) {
-
-		const result = await prisma.doctors.findMany({
-			where: {
-				specialties,
-			},
-		})
-
 		return result
 	}
 }

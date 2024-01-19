@@ -30,23 +30,48 @@ model Patients {
   Appointments Appointments[]
 }
 
-model Doctors {
+model Specialties {
   id           String         @id @default(uuid())
-  name         String
-  crm          String         @unique
-  specialties  String         @default("")
-  user_id      String         @default("")
-  Users        Users          @relation(fields: [user_id], references: [id])
+  name         String         @unique
+  duration      DateTime
+  Doctors      Doctors[]
   Appointments Appointments[]
+  Times        Times[]
+}
+
+model Doctors {
+  id             String         @id @default(uuid())
+  name           String
+  crm            String         @unique
+  specialties_id String         @default("")
+  user_id        String         @default("")
+  Specialties    Specialties    @relation(fields: [specialties_id], references: [id])
+  Users          Users          @relation(fields: [user_id], references: [id])
+  Appointments   Appointments[]
+  Times          Times[]
 }
 
 model Appointments {
-  id          String   @id @default(uuid())
-  date        DateTime
-  patients_id String   @default("")
-  doctors_id  String   @default("")
-  users_id    String?
-  Patients    Patients @relation(fields: [patients_id], references: [id])
-  Doctors     Doctors  @relation(fields: [doctors_id], references: [id])
-  Users       Users?   @relation(fields: [users_id], references: [id])
+  id             String      @id @default(uuid())
+  date           DateTime
+  patients_id    String      @default("")
+  specialties_id String      @default("")
+  doctors_id     String      @default("")
+  users_id       String?
+  Patients       Patients?   @relation(fields: [patients_id], references: [id])
+  Specialties    Specialties @relation(fields: [specialties_id], references: [id])
+  Doctors        Doctors     @relation(fields: [doctors_id], references: [id])
+  Users          Users?      @relation(fields: [users_id], references: [id])
+}
+
+model Times {
+  id               String      @id @default(uuid())
+  days             Int
+  registrationDate DateTime    @default(now())
+  startHour        DateTime
+  endHour          DateTime
+  doctors_id       String      @default("")
+  specialties_id   String      @default("")
+  Doctors          Doctors     @relation(fields: [doctors_id], references: [id])
+  Specialties      Specialties @relation(fields: [specialties_id], references: [id])
 }
