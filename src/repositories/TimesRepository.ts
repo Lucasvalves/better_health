@@ -19,12 +19,18 @@ class TimesRepository {
 			},
 			include: {
 				Doctors: true, // Include user data in the returned object
+				Specialties: true,
 			},
 		})
 		return result
 	}
 	async allTimes() {
-		const result = await prisma.times.findMany()
+		const result = await prisma.times.findMany({
+			include: {
+				Doctors: true, // Include user data in the returned object
+				Specialties: true,
+			},
+		})
 
 		return result
 	}
