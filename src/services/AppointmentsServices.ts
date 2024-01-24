@@ -1,3 +1,4 @@
+import { format, toDate } from 'date-fns'
 import {
 	ICreate,
 	ICreateAvailableDays,
@@ -6,7 +7,8 @@ import { AppointmentsRepository } from '../repositories/AppointmentsRepository'
 import { DoctorsRepository } from '../repositories/DoctorsRepository'
 import { TimesRepository } from '../repositories/TimesRepository'
 import { SpecialtiesRepository } from '../repositories/SpecialtiesRepository'
-import { getMinutes, format, add, isBefore, addDays, addHours } from 'date-fns'
+import { getMinutes, add, isBefore, addDays, addHours } from 'date-fns'
+import { util } from '../util'
 
 class AppointmentsServices {
 	private appointmentsRepository: AppointmentsRepository
@@ -42,19 +44,13 @@ class AppointmentsServices {
 
 		const timers = await this.timesRepository.allTimes()
 
-		// console.log('minutesService', minutesService) //30
-		// console.log('duration', specialty.duration) //2029-02-01T03:30:00.000Z
-		// const hour = format(specialty.duration, 'HH:mm:ss')
-		// console.log('hour', hour) //00:30:00
 
 		/* PORUCRE NOS PRÓXIMOS 365 DIAS
 			ATÉ A AGENDA CONTER 7 DIAS DISPONÍVES
 		 */
-		let combinedDateStart
-		let combinedDateEnd
 
+		const SLOT_DURATION = 30
 		let dayWeekAvailable: boolean
-		let bahia: string
 
 		for (let i = 0; i <= 365 && schedule.length <= 7; i++) {
 			const validSpaces = timers.filter((timer) => {
@@ -73,35 +69,28 @@ class AppointmentsServices {
 			//TODOS OS DOCTORS DISPONIVEIS NO DIA E SEUS HORÁRIOS
 
 			if (validSpaces.length > 0) {
-				let allDaysTimers = {} as string
+				let allDaysTimers = {}
 
 				for (let space of validSpaces) {
-					////for(let id of space.doctors_id){
-
-					// if(!allDaysTimers[bahia]){
-					// 	allDaysTimers[bahia] = []
-					// }
-						console.log(space.doctors_id);
-
-					//}
-
-					//PEGAR TODOS OS HORARIOS DE ESPAÇO E JOGAR DENTRO DO COLABORADOR
-					// space.Doctors = {
-					// 	...
-					// 	(combinedDateStart = addHours(
-					// 		lastDay,
-					// 		space.startHour.getHours()
-					// 	)),
-
-					// 	//minutesService,
-					// }
-
-					//allDaysTimers[space.doctors_id] = [...allDaysTimers[space.Doctors.id]]
+					allDaysTimers = [
+						space.Doctors.id,
+						space.Doctors.name,
+						util(
+							format(lastDay, 'yyyy-MM-dd'),
+							format(addHours(space.startHour, +3), 'HH:mm'),
+							format(addHours(space.endHour, +3), 'HH:mm'),
+							SLOT_DURATION
+						),
+					]
 				}
-				//console.log(validSpaces);
 
+				//OCUPAÇÃO DE CADA ESPECIALISTA NO DIA
+
+ 
 				if (isBefore(tomorow, lastDay)) {
-					schedule.push(format(lastDay, 'dd-MM-yyyy'))
+					schedule.push({
+						[format(lastDay, 'dd-MM-yyyy')]: allDaysTimers,
+					})
 				}
 			}
 
@@ -112,6 +101,5 @@ class AppointmentsServices {
 			schedule,
 		}
 	}
-	//combinedDateTime.setMinutes(parsedTime.getMinutes());
 }
 export { AppointmentsServices }

@@ -1,5 +1,5 @@
 import { compare, hash } from 'bcrypt'
-import { ICreate, IUpdate } from '../../UserInterface'
+import { ICreate, IUpdate } from '../interfaces/UserInterface'
 import { UsersRepository } from '../repositories/UsersRepository'
 import { sign } from 'jsonwebtoken'
 
