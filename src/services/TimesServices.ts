@@ -19,10 +19,6 @@ class TimesServices {
 
 		}
 
-
-
-
-
 		const result = await this.timesRepository.create({
 			days,
 			startHour,

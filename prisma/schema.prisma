@@ -11,13 +11,12 @@ datasource db {
 }
 
 model Users {
-  id           String         @id @default(uuid())
-  name         String
-  email        String         @unique
-  password     String
-  Appointments Appointments[]
-  Patients     Patients[]
-  Doctors      Doctors[]
+  id       String     @id @default(uuid())
+  name     String
+  email    String     @unique
+  password String
+  Patients Patients[]
+  Doctors  Doctors[]
 }
 
 model Patients {
@@ -33,7 +32,7 @@ model Patients {
 model Specialties {
   id           String         @id @default(uuid())
   name         String         @unique
-  duration      DateTime
+  duration     DateTime
   Doctors      Doctors[]
   Appointments Appointments[]
   Times        Times[]
@@ -57,11 +56,9 @@ model Appointments {
   patients_id    String      @default("")
   specialties_id String      @default("")
   doctors_id     String      @default("")
-  users_id       String?
   Patients       Patients?   @relation(fields: [patients_id], references: [id])
   Specialties    Specialties @relation(fields: [specialties_id], references: [id])
   Doctors        Doctors     @relation(fields: [doctors_id], references: [id])
-  Users          Users?      @relation(fields: [users_id], references: [id])
 }
 
 model Times {

@@ -14,11 +14,16 @@ class AppointmentsRoutes {
 	}
 
 	getRoutes(): Router {
-		// this.router.post(
-		// 	'/',
-		// 	this.authMiddleware.auth.bind(this.authMiddleware),
-		// 	this.appointmentsController.store.bind(this.appointmentsController)
-		// )
+		this.router.post(
+			'/',
+			this.authMiddleware.auth.bind(this.authMiddleware),
+			this.appointmentsController.store.bind(this.appointmentsController)
+		),
+		this.router.get(
+			'/filter',
+			this.authMiddleware.auth.bind(this.authMiddleware),
+			this.appointmentsController.index.bind(this.appointmentsController)
+		)
 		this.router.post(
 			'/dias-disponiveis',
 			this.authMiddleware.auth.bind(this.authMiddleware),

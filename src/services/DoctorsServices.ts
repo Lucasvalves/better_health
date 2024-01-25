@@ -1,15 +1,23 @@
 import { ICreate } from '../interfaces/DoctorsInterfaces'
 import { DoctorsRepository } from '../repositories/DoctorsRepository'
+import { SpecialtiesRepository } from '../repositories/SpecialtiesRepository'
 
 class DoctorsServices {
 	private doctorsRepository: DoctorsRepository
+	private specialtiesRepository: SpecialtiesRepository
 
 	constructor() {
 		this.doctorsRepository = new DoctorsRepository()
+		this.specialtiesRepository = new 		SpecialtiesRepository()
 	}
 
 	async create({ name, crm, specialties_id, user_id }: ICreate) {
 		const findDoctor = await this.doctorsRepository.findByCrm(crm)
+		const findSpecialty = await this.specialtiesRepository.find(specialties_id)
+
+		if (!findSpecialty ) {
+			throw new Error("This specialty doesn't exists")
+		}
 
 		if (findDoctor) {
 			throw new Error('This CRM already exists')
