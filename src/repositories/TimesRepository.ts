@@ -49,6 +49,20 @@ class TimesRepository {
 		})
 		return result
 	}
+	// async findByDoctors(doctors_id: string) {
+	// 	const result = await prisma.times.findMany({
+	// 		where: {
+	// 			doctors_id,
+	// 		},
+	// 		select: {
+	// 			//data: { // nome da propriedade que deseja
+	// 				days: true, // indica que queremos apenas a parte da data
+	// 			//},
+	// 		},
+	// 	})
+	// 	return result
+	// 	//console.log(result)
+	// }
 }
 
 export { TimesRepository }

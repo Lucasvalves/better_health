@@ -15,7 +15,7 @@ class SpecialtiesServices {
 			throw new Error('Specialty already exists')
 		}
 
-		const duration = new Date('2029-02-01T03:30:00.000Z')
+		const duration = new Date('2029-02-01T00:30:00.000Z')
 
 		const create = await this.specialtiesRepository.create(name, duration)
 		return create

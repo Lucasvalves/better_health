@@ -29,20 +29,34 @@ class AppointmentsRepository {
 			})
 			return result
 		}
-		async findDoctorsByUserId(user_id: string) {
-			const doctors = await prisma.doctors.findMany({
+		async findByDoctorsId(doctors_id:string, lastDay:Date) {
+			const result = await prisma.appointments.findMany({
 				where: {
-					user_id,
+					doctors_id,
+
+					date:{//trazendo agendamentos do doctor no dia informado
+						gte: startOfDay(lastDay),
+						lt:endOfDay(lastDay),
+					 }
+				}, select: {
+						date: true, // indica que queremos apenas a parte da data
+						Specialties:true,
+						Doctors:true,
 				},
-				include: {
-					Specialties: true,
+				orderBy: {
+				  date: 'asc', //ordenando de forma crescente
 				},
+
 			})
-			return doctors
+			return result
+
+
+
 		}
 }
 
 export { AppointmentsRepository }
+
 
 
 

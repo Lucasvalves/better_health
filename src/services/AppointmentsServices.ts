@@ -2,6 +2,7 @@ import {
 	ICreate,
 	ICreateAvailableDays,
 	IFilter,
+	IObjeto,
 } from '../interfaces/AppointmentsInterface'
 import { AppointmentsRepository } from '../repositories/AppointmentsRepository'
 import { DoctorsRepository } from '../repositories/DoctorsRepository'
@@ -14,13 +15,14 @@ import {
 	addDays,
 	addHours,
 	format,
-	toDate,
 	endOfDay,
 	startOfDay,
 } from 'date-fns'
-import { util } from '../util'
+import { breakTimeRange, addMinutesToDate,splitByvalue } from '../util'
 import { PatientsRepository } from '../repositories/PatientsRepository'
-
+export interface IBusySchedules {
+	[chave: string]: string
+}
 class AppointmentsServices {
 	private appointmentsRepository: AppointmentsRepository
 	private patientsRepository: PatientsRepository
@@ -57,24 +59,25 @@ class AppointmentsServices {
 	}
 
 	async index({ range, specialties_id }: IFilter) {
-		//console.log()
-
 		if (range.start != undefined && range.end != undefined) {
 			let start = range.start
 			let end = range.end
 			start = startOfDay(new Date(start))
-			end =  endOfDay(new Date(end))
+			end = endOfDay(new Date(end))
 
-
-			const result = await this.appointmentsRepository.find({specialties_id,start, end})
+			const result = await this.appointmentsRepository.find({
+				specialties_id,
+				start,
+				end,
+			})
 			return result
 		}
 
 		throw new Error('Start date or end date not specified')
 	}
+
 	async availableDays({ date, specialties_id }: ICreateAvailableDays) {
 		const specialty = await this.specialtiesRepository.find(specialties_id)
-		//const result = await this.specialtiesRepository.find(specialties_id)
 
 		//verificando se specialidade solicitada existe
 		if (!specialty) {
@@ -84,15 +87,15 @@ class AppointmentsServices {
 		let lastDay = new Date(date)
 		const tomorow = addDays(new Date(), 1)
 
-		const minutesService = getMinutes(specialty.duration)
+		const minutesDuration = getMinutes(specialty.duration)
 
 		const timers = await this.timesRepository.allTimes()
 
-		/* PORUCRE NOS PRÓXIMOS 365 DIAS
-			ATÉ A AGENDA CONTER 7 DIAS DISPONÍVES
+		/*
+			procura nos próximos 365 dias até a agenda conter
+			7 dias disponiveis
 		 */
 
-		const SLOT_DURATION = 30
 		let dayWeekAvailable: boolean
 
 		for (let i = 0; i <= 365 && schedule.length <= 7; i++) {
@@ -109,30 +112,58 @@ class AppointmentsServices {
 				return dayWeekAvailable && serviceAvailable
 			})
 
-			//TODOS OS DOCTORS DISPONIVEIS NO DIA E SEUS HORÁRIOS
-
+			//todos os doctors disponiveis no dia e seus horarios
 			if (validSpaces.length > 0) {
-				let allDaysTimers = {}
+				let allDaysTimers: IObjeto = []
 
 				for (let space of validSpaces) {
-					allDaysTimers = [
+					allDaysTimers[space.Doctors.id] = [
 						space.Doctors.id,
-						space.Doctors.name,
-						util(
+						//space.Doctors.name,
+						...breakTimeRange(
 							format(lastDay, 'yyyy-MM-dd'),
 							format(addHours(space.startHour, +3), 'HH:mm'),
 							format(addHours(space.endHour, +3), 'HH:mm'),
-							SLOT_DURATION
+							minutesDuration
 						),
 					]
 				}
+				//Ocupação de cada doctor no dia
+				for (let doctors_id of Object.keys(allDaysTimers)) {
+					const schedules = await this.appointmentsRepository.findByDoctorsId(
+						doctors_id,
+						lastDay
+					)
 
-				//OCUPAÇÃO DE CADA ESPECIALISTA NO DIA
+					//recuperar horarios agendados
+					let busySchedules: IObjeto= schedules.map((schedule) => ({
+						start: format(schedule.date, 'HH:mm'),
+						end: addMinutesToDate(schedule.date, schedule.Specialties.duration),
+					}))
+
+					busySchedules = busySchedules
+						.map((timer: string) => {
+							const result = Object.values(timer)
+
+							return result
+						})
+						.flat()
+
+
+						allDaysTimers = splitByvalue(allDaysTimers[doctors_id]?.map((timer: string) => {
+
+							return busySchedules.includes(timer) ? '-' : timer
+
+						}), '-').filter((space) => space.length > 0).flat()
+
+				}
+				//console.log(allDaysTimers)
 
 				if (isBefore(tomorow, lastDay)) {
 					schedule.push({
 						[format(lastDay, 'dd-MM-yyyy')]: allDaysTimers,
 					})
+
 				}
 			}
 

@@ -1,3 +1,4 @@
+import { IBreakTimeRange } from './interfaces/AppointmentsInterface'
 import {
 	format,
 	parse,
@@ -5,15 +6,15 @@ import {
 	isBefore,
 	isAfter,
 	addMinutes,
-	getHours
+	getMinutes,
+	getHours,
 } from 'date-fns'
 
-//Função para quebrar um intervalo de tempo em segmentos menores
-export const util = (
-	startDate: string,
-	startTime: string,
-	endTime: string,
-	intervalMinutes: number
+export const breakTimeRange: IBreakTimeRange = (
+	startDate,
+	startTime,
+	endTime,
+	intervalMinutes
 ) => {
 	const result = []
 	const startDateTime = addHours(
@@ -35,12 +36,32 @@ export const util = (
 			break
 		}
 
-		result.push(
-			format(currentDateTime, 'HH:mm'),
-		)
+		result.push(format(currentDateTime, 'HH:mm'))
 
 		currentDateTime = nextDateTime
 	}
 
 	return result
+}
+
+export const addMinutesToDate = (date: Date, duration: Date) => {
+	const minutesToDate = addMinutes(
+		addHours(date, getHours(addHours(duration, +3))),
+		getMinutes(duration)
+	)
+
+	return format(minutesToDate, 'HH:mm')
+}
+
+export const splitByvalue = (array: string[], value: string) => {
+	let newArray = [[]]
+	array?.forEach((item:string) => {
+		if (item != value) {
+			newArray[newArray.length - 1].push(item)
+		}else{
+			newArray.push([])
+		}
+	})
+
+	return newArray
 }
