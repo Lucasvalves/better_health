@@ -1,8 +1,9 @@
 import {
+	IBreakTimeRange,
 	ICreate,
 	ICreateAvailableDays,
 	IFilter,
-	IObjeto,
+	IObject,
 } from '../interfaces/AppointmentsInterface'
 import { AppointmentsRepository } from '../repositories/AppointmentsRepository'
 import { DoctorsRepository } from '../repositories/DoctorsRepository'
@@ -18,7 +19,13 @@ import {
 	endOfDay,
 	startOfDay,
 } from 'date-fns'
-import { breakTimeRange, addMinutesToDate,splitByvalue } from '../util'
+import {
+	breakTimeRange,
+	addMinutesToDate,
+	splitByvalue,
+	chunk,
+	omit,
+} from '../util'
 import { PatientsRepository } from '../repositories/PatientsRepository'
 export interface IBusySchedules {
 	[chave: string]: string
@@ -40,7 +47,6 @@ class AppointmentsServices {
 		const doctors = await this.doctorsRepository.findDoctorId(doctors_id)
 		const specialty = await this.specialtiesRepository.find(specialties_id)
 		const patients = await this.patientsRepository.findPatient(patients_id)
-
 		if (specialty?.id != doctors?.specialties_id) {
 			throw new Error('This doctor does not provide the specified specialty')
 		}
@@ -84,42 +90,41 @@ class AppointmentsServices {
 			throw new Error("Specialty doens't exists")
 		}
 		const schedule = []
+		let doctrs: IObject = []
 		let lastDay = new Date(date)
 		const tomorow = addDays(new Date(), 1)
 
 		const minutesDuration = getMinutes(specialty.duration)
 
 		const timers = await this.timesRepository.allTimes()
-
-		/*
-			procura nos próximos 365 dias até a agenda conter
-			7 dias disponiveis
-		 */
-
 		let dayWeekAvailable: boolean
 
 		for (let i = 0; i <= 365 && schedule.length <= 7; i++) {
 			const validSpaces = timers.filter((timer) => {
-				//verificar o dia da semana
+
 				const timerString = timer.days.toString()
 				dayWeekAvailable = timerString.includes(
 					lastDay.getDay().toLocaleString('pt-BR')
 				)
 
-				//verificar especialidade disponivel
+
 				const serviceAvailable = timer.specialties_id.includes(specialties_id)
 
 				return dayWeekAvailable && serviceAvailable
 			})
 
-			//todos os doctors disponiveis no dia e seus horarios
-			if (validSpaces.length > 0) {
-				let allDaysTimers: IObjeto = []
 
+			if (validSpaces.length > 0) {
+				let allDayTimers: IObject = {}
 				for (let space of validSpaces) {
-					allDaysTimers[space.Doctors.id] = [
-						space.Doctors.id,
-						//space.Doctors.name,
+					let doctors_id = space.doctors_id
+					if (!allDayTimers[doctors_id]) {
+						allDayTimers[doctors_id] = []
+					}
+
+					allDayTimers[doctors_id] = [
+
+						...allDayTimers[doctors_id],
 						...breakTimeRange(
 							format(lastDay, 'yyyy-MM-dd'),
 							format(addHours(space.startHour, +3), 'HH:mm'),
@@ -128,49 +133,62 @@ class AppointmentsServices {
 						),
 					]
 				}
+
 				//Ocupação de cada doctor no dia
-				for (let doctors_id of Object.keys(allDaysTimers)) {
+				for (let doctors_id of Object.keys(allDayTimers)) {
 					const schedules = await this.appointmentsRepository.findByDoctorsId(
 						doctors_id,
 						lastDay
 					)
 
-					//recuperar horarios agendados
-					let busySchedules: IObjeto= schedules.map((schedule) => ({
-						start: format(schedule.date, 'HH:mm'),
-						end: addMinutesToDate(schedule.date, schedule.Specialties.duration),
-					}))
-
-					busySchedules = busySchedules
-						.map((timer: string) => {
-							const result = Object.values(timer)
-
-							return result
-						})
+					let busySchedules: IObject = schedules
+						.map((schedule) => ({
+							start: format(addHours(schedule.date, +3), 'HH:mm'),
+							end: addMinutesToDate(
+								addHours(schedule.date, +3),
+								schedule.Specialties.duration
+							),
+						}))
 						.flat()
 
+					busySchedules = busySchedules
+						.map((timer: string) => Object.values(timer))
+						.flat()
 
-						allDaysTimers = splitByvalue(allDaysTimers[doctors_id]?.map((timer: string) => {
+					let freeTimer: IObject = splitByvalue(
+						allDayTimers[doctors_id]?.map((freeTimer: string) => {
+							return busySchedules.includes(freeTimer) ? '-' : freeTimer
+						}),
+						'-'
+					)
+						.filter((space) => space.length > 0)
+						.flat()
 
-							return busySchedules.includes(timer) ? '-' : timer
+					freeTimer = chunk(freeTimer, 2)
 
-						}), '-').filter((space) => space.length > 0).flat()
+
+					allDayTimers[doctors_id] = freeTimer
 
 				}
-				//console.log(allDaysTimers)
-
-				if (isBefore(tomorow, lastDay)) {
-					schedule.push({
-						[format(lastDay, 'dd-MM-yyyy')]: allDaysTimers,
-					})
-
+				
+				const doctorsTotal = Object.keys(allDayTimers).length
+				if (doctorsTotal > 0) {
+					if (isBefore(tomorow, lastDay)) {
+						doctrs.push(Object.keys(allDayTimers))
+						schedule.push({
+							[format(lastDay, 'dd-MM-yyyy')]: allDayTimers,
+						})
+					}
 				}
 			}
 
 			lastDay = add(lastDay, { days: 1 })
 		}
 
+		doctrs = [...new Set(doctrs.flat())]
+
 		return {
+			doctrs,
 			schedule,
 		}
 	}

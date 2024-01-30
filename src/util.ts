@@ -1,4 +1,4 @@
-import { IBreakTimeRange } from './interfaces/AppointmentsInterface'
+import { IBreakTimeRange, IObject} from './interfaces/AppointmentsInterface'
 import {
 	format,
 	parse,
@@ -54,8 +54,9 @@ export const addMinutesToDate = (date: Date, duration: Date) => {
 }
 
 export const splitByvalue = (array: string[], value: string) => {
-	let newArray = [[]]
+	let newArray: string[][]  = [[]]
 	array?.forEach((item:string) => {
+
 		if (item != value) {
 			newArray[newArray.length - 1].push(item)
 		}else{
@@ -65,3 +66,29 @@ export const splitByvalue = (array: string[], value: string) => {
 
 	return newArray
 }
+
+type AnyObject = Record<string, any>;
+
+export const  omit = <T extends AnyObject, K extends keyof T>(obj: T, keyToOmit: K): Omit<T, K> => {
+  if (!obj || typeof obj !== 'object' || !keyToOmit) {
+    return obj as Omit<T, K>;
+  }
+
+  const { [keyToOmit]: omittedKey, ...rest } = obj;
+  return rest as Omit<T, K>;
+}
+
+export const chunk=(array: IObject, size:number) => {
+  if (!Array.isArray(array) || size <= 0) {
+    return [];
+  }
+
+  const result = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+
+  return result;
+}
+
+

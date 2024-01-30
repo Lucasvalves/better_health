@@ -21,7 +21,7 @@ export interface IRangeRepository {
 	start?: Date| undefined
 	end?: Date | undefined
 }
-export interface IObjeto {
+export interface IObject{
 	[chave: string]: any
 }
 export interface IBreakTimeRange {
@@ -32,3 +32,4 @@ export interface IBreakTimeRange {
     intervalMinutes: number
   ): string[];
 }
+
