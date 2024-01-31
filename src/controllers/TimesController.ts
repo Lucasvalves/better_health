@@ -39,8 +39,6 @@ class TimesController {
 	}
 	async findBySpecialties(request: Request, response: Response, next: NextFunction){
 		const {specialties_id} = request.body
-		console.log("specialties_id controller: ", specialties_id);
-
 
 		try {
 			const result = await this.timesServices.findBySpecialties(specialties_id)

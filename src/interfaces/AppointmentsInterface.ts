@@ -32,4 +32,3 @@ export interface IBreakTimeRange {
     intervalMinutes: number
   ): string[];
 }
-

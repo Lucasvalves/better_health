@@ -29,6 +29,15 @@ class AppointmentsRepository {
 			})
 			return result
 		}
+		async findSchedules(specialties_id:string, date: string ){
+			const result = await prisma.appointments.findFirst({
+				where: {
+					specialties_id,
+					date,
+				},
+			})
+			return result
+		}
 		async findByDoctorsId(doctors_id:string, lastDay:Date) {
 			const result = await prisma.appointments.findMany({
 				where: {
@@ -49,9 +58,6 @@ class AppointmentsRepository {
 
 			})
 			return result
-
-
-
 		}
 }
 

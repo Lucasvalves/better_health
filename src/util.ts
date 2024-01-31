@@ -67,16 +67,6 @@ export const splitByvalue = (array: string[], value: string) => {
 	return newArray
 }
 
-type AnyObject = Record<string, any>;
-
-export const  omit = <T extends AnyObject, K extends keyof T>(obj: T, keyToOmit: K): Omit<T, K> => {
-  if (!obj || typeof obj !== 'object' || !keyToOmit) {
-    return obj as Omit<T, K>;
-  }
-
-  const { [keyToOmit]: omittedKey, ...rest } = obj;
-  return rest as Omit<T, K>;
-}
 
 export const chunk=(array: IObject, size:number) => {
   if (!Array.isArray(array) || size <= 0) {

@@ -25,7 +25,7 @@ class AppointmentsRoutes {
 			this.appointmentsController.index.bind(this.appointmentsController)
 		)
 		this.router.post(
-			'/dias-disponiveis',
+			'/available-days',
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.appointmentsController.availableDays.bind(this.appointmentsController)
 		)

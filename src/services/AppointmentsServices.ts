@@ -1,5 +1,4 @@
 import {
-	IBreakTimeRange,
 	ICreate,
 	ICreateAvailableDays,
 	IFilter,
@@ -18,18 +17,11 @@ import {
 	format,
 	endOfDay,
 	startOfDay,
+	getHours,
 } from 'date-fns'
-import {
-	breakTimeRange,
-	addMinutesToDate,
-	splitByvalue,
-	chunk,
-	omit,
-} from '../util'
+import { breakTimeRange, addMinutesToDate, splitByvalue, chunk } from '../util'
 import { PatientsRepository } from '../repositories/PatientsRepository'
-export interface IBusySchedules {
-	[chave: string]: string
-}
+
 class AppointmentsServices {
 	private appointmentsRepository: AppointmentsRepository
 	private patientsRepository: PatientsRepository
@@ -47,13 +39,27 @@ class AppointmentsServices {
 		const doctors = await this.doctorsRepository.findDoctorId(doctors_id)
 		const specialty = await this.specialtiesRepository.find(specialties_id)
 		const patients = await this.patientsRepository.findPatient(patients_id)
+
 		if (specialty?.id != doctors?.specialties_id) {
 			throw new Error('This doctor does not provide the specified specialty')
 		}
 		if (!patients) {
 			throw new Error('Invalid patient')
 		}
+		const hour = getHours(addHours(date, +3))
 
+		if (hour <= 8 || hour >= 17) {
+			throw new Error('Create Schedule between 8 and 17.')
+		}
+
+		const schedules = await this.appointmentsRepository.findSchedules(
+			specialties_id,
+			date
+		)
+
+		if (schedules) {
+			throw new Error('There is already a patient scheduled for that time')
+		}
 		const result = await this.appointmentsRepository.create({
 			patients_id,
 			specialties_id,
@@ -84,8 +90,6 @@ class AppointmentsServices {
 
 	async availableDays({ date, specialties_id }: ICreateAvailableDays) {
 		const specialty = await this.specialtiesRepository.find(specialties_id)
-
-		//verificando se specialidade solicitada existe
 		if (!specialty) {
 			throw new Error("Specialty doens't exists")
 		}
@@ -101,18 +105,15 @@ class AppointmentsServices {
 
 		for (let i = 0; i <= 365 && schedule.length <= 7; i++) {
 			const validSpaces = timers.filter((timer) => {
-
 				const timerString = timer.days.toString()
 				dayWeekAvailable = timerString.includes(
 					lastDay.getDay().toLocaleString('pt-BR')
 				)
 
-
 				const serviceAvailable = timer.specialties_id.includes(specialties_id)
 
 				return dayWeekAvailable && serviceAvailable
 			})
-
 
 			if (validSpaces.length > 0) {
 				let allDayTimers: IObject = {}
@@ -123,7 +124,6 @@ class AppointmentsServices {
 					}
 
 					allDayTimers[doctors_id] = [
-
 						...allDayTimers[doctors_id],
 						...breakTimeRange(
 							format(lastDay, 'yyyy-MM-dd'),
@@ -133,8 +133,6 @@ class AppointmentsServices {
 						),
 					]
 				}
-
-				//Ocupação de cada doctor no dia
 				for (let doctors_id of Object.keys(allDayTimers)) {
 					const schedules = await this.appointmentsRepository.findByDoctorsId(
 						doctors_id,
@@ -166,11 +164,8 @@ class AppointmentsServices {
 
 					freeTimer = chunk(freeTimer, 2)
 
-
 					allDayTimers[doctors_id] = freeTimer
-
 				}
-				
 				const doctorsTotal = Object.keys(allDayTimers).length
 				if (doctorsTotal > 0) {
 					if (isBefore(tomorow, lastDay)) {
