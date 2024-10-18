@@ -11,12 +11,13 @@ datasource db {
 }
 
 model Users {
-  id       String     @id @default(uuid())
-  name     String
-  email    String     @unique
-  password String
-  Patients Patients[]
-  Doctors  Doctors[]
+  id         String     @id @default(uuid())
+  name       String
+  email      String     @unique
+  password   String
+  avatar_url String     @default("")
+  Patients   Patients[]
+  Doctors    Doctors[]
 }
 
 model Patients {

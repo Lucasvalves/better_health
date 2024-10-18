@@ -7,27 +7,28 @@ class UsersController {
 		this.usersServices = new UsersServices()
 	}
 
-	async store(request: Request, response: Response, next: NextFunction) {
+	async store(request: Request, response: Response, next: NextFunction) : Promise<void>  {
 		//criar usuario
 		const { name, email, password } = request.body
 
 		try {
 			const result = await this.usersServices.create({ name, email, password })
-			return response.status(201).json(result)
+			response.status(201).json(result)
 		} catch (error) {
 			next(error)
+			response.status(401)
 		}
 	}
-	async auth(request: Request, response: Response, next: NextFunction) {
+	async auth(request: Request, response: Response, next: NextFunction) : Promise<void>  {
 		const { email, password } = request.body
 		try {
 			const result = await this.usersServices.auth(email, password)
-			return response.json(result)
+			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}
 	}
-	async update(request: Request, response: Response, next: NextFunction) {
+	async update(request: Request, response: Response, next: NextFunction) : Promise<void> {
 		const { name, oldPasswork, newPassword } = request.body
 		const { user_id } = request
 		try {
@@ -37,7 +38,7 @@ class UsersController {
 				newPassword,
 				user_id,
 			})
-			return response.status(200).json(result)
+			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}
