@@ -7,21 +7,22 @@ class SpecialtiesController {
 		this.specialtiesServices = new SpecialtiesServices()
 	}
 
-	async store(request: Request, response: Response, next: NextFunction) {
+	async store(request: Request, response: Response, next: NextFunction): Promise<void> {
 		//criar usuario
 		const { name } = request.body
+		console.log('Received name:', name);
 
 		try {
 			const result = await this.specialtiesServices.create(name)
-			return response.status(201).json(result)
+			response.status(201).json(result)
 		} catch (error) {
 			next(error)
 		}
 	}
-	async index(request: Request, response: Response, next: NextFunction) {
+	async index(request: Request, response: Response, next: NextFunction) : Promise<void> {
 		try {
 			const result = await this.specialtiesServices.index()
-			return response.status(201).json(result)
+			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}
@@ -30,12 +31,12 @@ class SpecialtiesController {
 		request: Request,
 		response: Response,
 		next: NextFunction
-	) {
+	): Promise<void>  {
 		const { id } = request.params
 
 		try {
 			const result = await this.specialtiesServices.findSpecialty(id)
-			return response.status(201).json(result)
+			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}

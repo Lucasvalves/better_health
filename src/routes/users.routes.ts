@@ -15,7 +15,6 @@ class UsersRoutes {
 
 	getRoutes(): Router {
 		this.router.post(
-			//rota de inserir usuarios
 			'/',
 			this.usersController.store.bind(this.usersController)
 		)

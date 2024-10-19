@@ -30,7 +30,6 @@ class SpecialtiesRoutes {
 			this.specialtiesController.findSpecialty.bind(this.specialtiesController)
 		)
 
-
 		return this.router
 	}
 }

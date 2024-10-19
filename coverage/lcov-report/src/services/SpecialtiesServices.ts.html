@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/controllers/UsersController.ts</title>
+    <title>Code coverage report for src/services/SpecialtiesServices.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/controllers</a> UsersController.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/services</a> SpecialtiesServices.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.36% </span>
+                <span class="strong">83.63% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>42/47</span>
+                <span class='fraction'>46/55</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/7</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.36% </span>
+                <span class="strong">83.63% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>42/47</span>
+                <span class='fraction'>46/55</span>
             </div>
         
             
@@ -110,7 +110,15 @@
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -125,6 +133,22 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -137,8 +161,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -151,59 +173,61 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { NextFunction, Request, Response } from 'express'
-import { UsersServices } from '../services/UsersServices'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { SpecialtiesRepository } from '../repositories/SpecialtiesRepository'
 &nbsp;
-class UsersController {
-	private usersServices: UsersServices
+&nbsp;
+class SpecialtiesServices {
+	private specialtiesRepository: SpecialtiesRepository
 	constructor() {
-		this.usersServices = new UsersServices()
+		this.specialtiesRepository = new SpecialtiesRepository()
 	}
+	async create(name: string) {
+		const findSpecialty = await this.specialtiesRepository.findSpecialtyByName(
+			name
+		)
 &nbsp;
-	async store(request: Request, response: Response, next: NextFunction) : Promise&lt;void&gt;  {
-		//criar usuario
-		const { name, email, password } = request.body
-&nbsp;
-		try {
-			const result = await this.usersServices.create({ name, email, password })
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >			response.status(201).json(result)</span></span>
-		} catch (error) {
-			next(error)
-			response.status(401)
+		if (findSpecialty) {
+			throw new Error('Specialty already exists')
 		}
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span>
+<span class="cstat-no" title="statement not covered" >		const duration = new Date('2029-02-01T00:30:00.000Z')</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >		const create = await this.specialtiesRepository.create(name, duration)</span>
+<span class="cstat-no" title="statement not covered" >		return create</span>
+<span class="cstat-no" title="statement not covered" >	}</span>
+&nbsp;
+	async index() {
+		const result = await this.specialtiesRepository.getAll()
+		return result
 	}
-	async auth(request: Request, response: Response, next: NextFunction) : Promise&lt;void&gt;  {
-		const { email, password } = request.body
-		try {
-			const result = await this.usersServices.auth(email, password)
-			response.status(200).json(result)
-		} <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >			next(error)</span>
-<span class="cstat-no" title="statement not covered" >		}</span>
-	}
-	async update(request: Request, response: Response, next: NextFunction) : Promise&lt;void&gt; {
-		const { name, oldPasswork, newPassword } = request.body
-		const { user_id } = request
-		try {
-			const result = await this.usersServices.update({
-				name,
-				oldPasswork,
-				newPassword,
-				user_id,
-			})
-			response.status(200).json(result)
-		} <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >			next(error)</span>
-<span class="cstat-no" title="statement not covered" >		}</span>
-	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	async findSpecialty(id: string) {</span>
+<span class="cstat-no" title="statement not covered" >		const result = await this.specialtiesRepository.find(id)</span>
+<span class="cstat-no" title="statement not covered" >		return result</span>
+<span class="cstat-no" title="statement not covered" >	}</span>
+	// async update({ name, oldPasswork, newPassword, user_id }: IUpdate) {
+	// 	let password
+	// 	if (oldPasswork &amp;&amp; newPassword) {
+	// 		const findUserById = await this.usersRepository.findUserById(user_id)
+	// 		if (!findUserById) {
+	// 			throw new Error('User not found')
+	// 		}
+	// 		const passwordMatch = compare(oldPasswork, findUserById.password)
+	// 		if (!passwordMatch) {
+	// 			throw new Error('Password invalid')
+	// 		}
+&nbsp;
+	// 		password = await hash(newPassword, 10)
+&nbsp;
+	// 		await this.usersRepository.updatePassword(name, password, user_id)
+	// 	}
+&nbsp;
+	// 	return {
+	// 		message: 'Specialties updated successfully',
+	// 	}
+	// }
 }
-export { UsersController }
+export { SpecialtiesServices }
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

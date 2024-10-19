@@ -1,7 +1,5 @@
 
 import request from 'supertest'
-
-import express, { Application } from 'express'
 import { app } from '../server'
 
 describe('User Test', ()=>{
@@ -54,10 +52,10 @@ describe('User Test', ()=>{
 
 		const response = await request(app)
 			.put('/users/')
-			.set('Authorization', `Bearer ${token}`) // Certifique-se de incluir um espaço aqui
+			.set('Authorization', `Bearer ${token}`)
 			.send(user);
 
-		expect(response.status).toBe(200);
+		  expect(response.status).toBe(200);
 	});
 
 })
