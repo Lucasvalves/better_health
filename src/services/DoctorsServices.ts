@@ -14,6 +14,7 @@ class DoctorsServices {
 	async create({ name, crm, specialties_id, user_id }: ICreate) {
 		const findDoctor = await this.doctorsRepository.findByCrm(crm)
 		const findSpecialty = await this.specialtiesRepository.find(specialties_id)
+		console.log(name, crm, specialties_id, user_id );
 
 		if (!findSpecialty ) {
 			throw new Error("This specialty doesn't exists")

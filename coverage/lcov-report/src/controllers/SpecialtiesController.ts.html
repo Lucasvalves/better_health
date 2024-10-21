@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.77% </span>
+                <span class="strong">49.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>45/61</span>
+                <span class='fraction'>30/61</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.77% </span>
+                <span class="strong">49.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>45/61</span>
+                <span class='fraction'>30/61</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -130,29 +130,29 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -194,26 +194,26 @@ class SpecialtiesController {
 		this.specialtiesServices = new SpecialtiesServices()
 	}
 &nbsp;
-	async store(request: Request, response: Response, next: NextFunction): Promise&lt;void&gt; {
-		//criar usuario
-		const { name } = request.body
-		console.log('Received name:', name);
-&nbsp;
-		try {
-			const result = await this.specialtiesServices.create(name)
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >			response.status(201).json(result)</span></span>
-		} catch (error) {
-			next(error)
-		}
-	}
-	async index(request: Request, response: Response, next: NextFunction) : Promise&lt;void&gt; {
-		try {
-			const result = await this.specialtiesServices.index()
-			response.status(200).json(result)
-		} <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
+<span class="fstat-no" title="function not covered" >	async store(request: Request, response: Response, next: NextFunction): Promise&lt;void&gt; {</span>
+<span class="cstat-no" title="statement not covered" >		//criar usuario</span>
+<span class="cstat-no" title="statement not covered" >		const { name } = request.body</span>
+<span class="cstat-no" title="statement not covered" >		console.log('Received name:', name);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >		try {</span>
+<span class="cstat-no" title="statement not covered" >			const result = await this.specialtiesServices.create(name)</span>
+<span class="cstat-no" title="statement not covered" >			response.status(201).json(result)</span>
+<span class="cstat-no" title="statement not covered" >		} catch (error) {</span>
 <span class="cstat-no" title="statement not covered" >			next(error)</span>
 <span class="cstat-no" title="statement not covered" >		}</span>
-	}
+<span class="cstat-no" title="statement not covered" >	}</span>
+<span class="fstat-no" title="function not covered" >	async index(request: Request, response: Response, next: NextFunction) : Promise&lt;void&gt; {</span>
+<span class="cstat-no" title="statement not covered" >		try {</span>
+<span class="cstat-no" title="statement not covered" >			const result = await this.specialtiesServices.index()</span>
+<span class="cstat-no" title="statement not covered" >			response.status(200).json(result)</span>
+<span class="cstat-no" title="statement not covered" >		} catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >			next(error)</span>
+<span class="cstat-no" title="statement not covered" >		}</span>
+<span class="cstat-no" title="statement not covered" >	}</span>
 <span class="fstat-no" title="function not covered" >	async findSpecialty(</span>
 <span class="cstat-no" title="statement not covered" >		request: Request,</span>
 <span class="cstat-no" title="statement not covered" >		response: Response,</span>
@@ -253,7 +253,7 @@ export { SpecialtiesController }
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-10-18T22:31:40.313Z
+                at 2024-10-21T17:45:49.263Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

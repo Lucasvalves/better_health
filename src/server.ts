@@ -16,14 +16,14 @@ app.use(express.urlencoded({ extended: true }));
 const usersRoutes = new UsersRoutes().getRoutes();
 // const patientsRoutes = new PatientsRoutes().getRoutes();
 const specialtiesRoutes = new SpecialtiesRoutes().getRoutes();
-// const doctorsRoutes = new DoctorsRoutes().getRoutes();
+const doctorsRoutes = new DoctorsRoutes().getRoutes();
 // const timesRoutes = new TimesRoutes().getRoutes();
 // const appointmentsRoutes = new AppointmentsRoutes().getRoutes();
 
 app.use('/users', usersRoutes);
 // app.use('/patients', patientsRoutes);
 app.use('/specialties', specialtiesRoutes);
-// app.use('/doctors', doctorsRoutes);
+app.use('/doctors', doctorsRoutes);
 // app.use('/times', timesRoutes);
 // app.use('/appointments', appointmentsRoutes);
 

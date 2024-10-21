@@ -7,11 +7,12 @@ class DoctorsController {
 	constructor() {
 		this.doctorsServices = new DoctorsServices()
 	}
-	async store(request: Request, response: Response, next: NextFunction) {
+	async store(request: Request, response: Response, next: NextFunction):Promise<void> {
 		const { name, crm, specialties_id } = request.body
 		const { user_id } = request
 
 		try {
+
 			const result = await this.doctorsServices.create({
 				name,
 				crm,
@@ -19,19 +20,19 @@ class DoctorsController {
 				user_id,
 			})
 
-			return response.status(201).json(result)
+			response.status(201).json(result)
 		} catch (error) {
 			next(error)
 		}
 	}
 
-	async index(request: Request, response: Response, next: NextFunction) {
+	async index(request: Request, response: Response, next: NextFunction):Promise<void> {
 		const { user_id } = request
 
 		try {
 			const result = await this.doctorsServices.index(user_id)
 
-			return response.status(201).json(result)
+			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}
@@ -47,7 +48,7 @@ class DoctorsController {
 
 		try {
 			const result = await this.doctorsServices.findDoctorsById(id)
-			return response.json(result)
+			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}
@@ -56,23 +57,23 @@ class DoctorsController {
 		request: Request,
 		response: Response,
 		next: NextFunction
-	) {
+	):Promise<void> {
 		const { crm } = request.params
 
 		try {
 			const result = await this.doctorsServices.findDoctorsByCrm(crm)
-			return response.json(result)
+			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}
 	}
-	async delete(request: Request, response: Response, next: NextFunction) {
+	async delete(request: Request, response: Response, next: NextFunction):Promise<void> {
 		const { id } = request.params
 
 		try {
 			const result = await this.doctorsServices.delete(id)
 
-			return response.json(result)
+			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}
