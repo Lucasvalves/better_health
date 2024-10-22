@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.7% </span>
+                <span class="strong">17.7% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>41/96</span>
+                <span class='fraction'>17/96</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">14.28% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/7</span>
+                <span class='fraction'>1/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.7% </span>
+                <span class="strong">17.7% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>41/96</span>
+                <span class='fraction'>17/96</span>
             </div>
         
             
@@ -202,22 +202,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -225,16 +209,32 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -297,23 +297,23 @@ class PatientsServices {
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >		return result</span>
 <span class="cstat-no" title="statement not covered" >	}</span>
-	async update({ id, name, cpf, phone }: IUpdate) {
-		const findPhone = await this.patientsRepository.findByPhone(id, phone)
-&nbsp;
-		const findPatientsById = await this.patientsRepository.findPatient(id)
-&nbsp;
-		//verificando se o novo CPF informado é diferente do cadastrado do paciente
-		if (findPatientsById?.cpf != cpf) {
-			const findByPatient = await this.patientsRepository.findByCpf(cpf)
-			const findPhone = await this.patientsRepository.findByPhone(id, phone)
-&nbsp;
-			//verificando se esse CPF informado não pertence a outro paciente
-			if (findByPatient) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="fstat-no" title="function not covered" >	async update({ id, name, cpf, phone }: IUpdate) {</span>
+<span class="cstat-no" title="statement not covered" >		const findPhone = await this.patientsRepository.findByPhone(id, phone)</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >		const findPatientsById = await this.patientsRepository.findPatient(id)</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >		//verificando se o novo CPF informado é diferente do cadastrado do paciente</span>
+<span class="cstat-no" title="statement not covered" >		if (findPatientsById?.cpf != cpf) {</span>
+<span class="cstat-no" title="statement not covered" >			const findByPatient = await this.patientsRepository.findByCpf(cpf)</span>
+<span class="cstat-no" title="statement not covered" >			const findPhone = await this.patientsRepository.findByPhone(id, phone)</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >			//verificando se esse CPF informado não pertence a outro paciente</span>
+<span class="cstat-no" title="statement not covered" >			if (findByPatient) {</span>
 <span class="cstat-no" title="statement not covered" >				throw new Error('This CPF was registered for another patient')</span>
 <span class="cstat-no" title="statement not covered" >			}</span>
-			/*Verificando se o telefone é o mesmo do já cadastrado se for
-			atualiza só os outros dados*/
-			if (findPhone) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >			/*Verificando se o telefone é o mesmo do já cadastrado se for</span>
+<span class="cstat-no" title="statement not covered" >			atualiza só os outros dados*/</span>
+<span class="cstat-no" title="statement not covered" >			if (findPhone) {</span>
 <span class="cstat-no" title="statement not covered" >				const result = await this.patientsRepository.updateCpfAndName(</span>
 <span class="cstat-no" title="statement not covered" >					id,</span>
 <span class="cstat-no" title="statement not covered" >					name,</span>
@@ -321,17 +321,17 @@ class PatientsServices {
 <span class="cstat-no" title="statement not covered" >				)</span>
 <span class="cstat-no" title="statement not covered" >				return result</span>
 <span class="cstat-no" title="statement not covered" >			}</span>
-			//Atualizando todos os dados
-			const result = await this.patientsRepository.updateAllData({
-				id,
-				name,
-				cpf,
-				phone,
-			})
-&nbsp;
-			return result
-		}
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span>
+<span class="cstat-no" title="statement not covered" >			//Atualizando todos os dados</span>
+<span class="cstat-no" title="statement not covered" >			const result = await this.patientsRepository.updateAllData({</span>
+<span class="cstat-no" title="statement not covered" >				id,</span>
+<span class="cstat-no" title="statement not covered" >				name,</span>
+<span class="cstat-no" title="statement not covered" >				cpf,</span>
+<span class="cstat-no" title="statement not covered" >				phone,</span>
+<span class="cstat-no" title="statement not covered" >			})</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >			return result</span>
+<span class="cstat-no" title="statement not covered" >		}</span>
+<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >		//Verificando se o telefone é o mesmo do já cadastrado</span>
 <span class="cstat-no" title="statement not covered" >		if (findPhone) throw new Error('Phone number is the same')</span>
 <span class="cstat-no" title="statement not covered" ></span>
@@ -358,7 +358,7 @@ export { PatientsServices }
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-10-21T19:04:03.612Z
+                at 2024-10-22T13:36:04.292Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

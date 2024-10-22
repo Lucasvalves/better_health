@@ -24,16 +24,17 @@ class TimesRoutes {
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.timesController.find.bind(this.timesController)
 		)
+		this.router.get(
+			'/:specialties',
+			this.authMiddleware.auth.bind(this.authMiddleware),
+			this.timesController.findBySpecialties.bind(this.timesController)
+		)
 		this.router.delete(
 			'/:id',
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.timesController.delete.bind(this.timesController)
 		)
-		this.router.get(
-			'/specialties',
-			this.authMiddleware.auth.bind(this.authMiddleware),
-			this.timesController.findBySpecialties.bind(this.timesController)
-		)
+
 		return this.router
 	}
 }

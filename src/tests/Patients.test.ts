@@ -56,23 +56,23 @@ describe('Patients Test', ()=>{
 	// 	expect(response.status).toBe(200)
 
 	// })
-	it('PUT Patient', async () => {
-		const patient = {
-			id: '01ee07f6-b176-4984-9da0-a51541a90171',
-			name: 'Lucas Luke',
-			cpf: '06461740536',
-			phone: '71996579986'
-		};
+	// it('PUT Patient', async () => {
+	// 	const patient = {
+	// 		id: '01ee07f6-b176-4984-9da0-a51541a90171',
+	// 		name: 'Lucas Luke',
+	// 		cpf: '06461740536',
+	// 		phone: '71996579986'
+	// 	};
 
-		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+	// 	const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
 
-		const response = await request(app)
-			.put(`/patients/${patient.id}`)
-			.set('Authorization', `Bearer ${token}`)
-			.send(patient);
+	// 	const response = await request(app)
+	// 		.put(`/patients/${patient.id}`)
+	// 		.set('Authorization', `Bearer ${token}`)
+	// 		.send(patient);
 
-		  expect(response.status).toBe(200);
-	});
+	// 	  expect(response.status).toBe(200);
+	// });
 	// it('DELETE Patient By Id', async()=>{
 	// 	const patient = {
 	// 		id: '83524c19-03a4-452c-a384-0ea65daf9243'

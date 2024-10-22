@@ -29,14 +29,11 @@
 // 	})
 
 // 	it('GET Doctor By Id', async()=>{
-// 		const doctor = {
-// 			id: '456987cc-8592-4690-a9f0-b126c30de48f'
-// 		}
 
 // 		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
 
 // 		const response =  await request(app)
-// 		.get(`/doctors/${doctor.id}`)
+// 		.get(`/doctors/`)
 // 		.set('Authorization', `Bearer ${token}`)
 
 // 		expect(response.status).toBe(200)

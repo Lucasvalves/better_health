@@ -11,7 +11,7 @@ class AppointmentsController {
 	constructor() {
 		this.appointmentsServices = new AppointmentsServices()
 	}
-	async store(request: Request, response: Response, next: NextFunction) {
+	async store(request: Request, response: Response, next: NextFunction):Promise<void> {
 		const { patients_id, specialties_id, doctors_id, date } = request.body
 
 		//verificar se existe horario disponivel
@@ -23,17 +23,17 @@ class AppointmentsController {
 				doctors_id,
 				date,
 			})
-			return response.json(result)
+			response.status(201).json(result)
 		} catch (error) {
 			next(error)
 		}
 	}
-	async index(request: Request, response: Response, next: NextFunction) {
+	async index(request: Request, response: Response, next: NextFunction):Promise<void> {
 		const { range, specialties_id }: { range: IRange; specialties_id: string } = request.body;
 
 		try {
 			const result = await this.appointmentsServices.index({range, specialties_id})
-			return response.json(result)
+			response.status(200).json(result)
 
 		} catch (error) {
 			next(error)
@@ -43,7 +43,7 @@ class AppointmentsController {
 		request: Request,
 		response: Response,
 		next: NextFunction
-	) {
+	):Promise<void> {
 		const { date, specialties_id } = request.body
 		try {
 			const result = await this.appointmentsServices.availableDays({
@@ -51,7 +51,7 @@ class AppointmentsController {
 				specialties_id,
 			})
 
-			return response.json(result)
+			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}

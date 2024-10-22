@@ -28,6 +28,7 @@ class TimesServices {
 		})
 
 		return result
+
 	}
 	async find() {
 		const result = await this.timesRepository.allTimes()

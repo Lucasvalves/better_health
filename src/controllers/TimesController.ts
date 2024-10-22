@@ -7,7 +7,7 @@ class TimesController {
 	constructor() {
 		this.timesServices = new TimesServices()
 	}
-	async store(request: Request, reponse: Response, next: NextFunction) {
+	async store(request: Request, response: Response, next: NextFunction):Promise<void> {
 		const { days, startHour, endHour,specialties_id, doctors_id } =
 			request.body
 
@@ -20,43 +20,42 @@ class TimesController {
 				doctors_id,
 
 			})
-			return reponse.json(result)
+			response.status(201).json(result)
 		} catch (error) {
 			next(error)
 		}
 	}
-	async find(request: Request, reponse: Response, next: NextFunction){
-    const {} = request.body
+	async find(request: Request, response: Response, next: NextFunction):Promise<void>{
 
 		try {
 			const result = await this.timesServices.find()
 
-			return reponse.json(result)
+			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}
 
 	}
-	async findBySpecialties(request: Request, response: Response, next: NextFunction){
-		const {specialties_id} = request.body
+	async findBySpecialties(request: Request, response: Response, next: NextFunction):Promise<void>{
+		const {specialties_id} = request.params
 
 		try {
 			const result = await this.timesServices.findBySpecialties(specialties_id)
 
-			return response.json(result)
+			response.status(200).json(result)
 
 		} catch (error) {
 			next(error)
 		}
 	}
-	async delete(request: Request, response: Response, next: NextFunction){
+	async delete(request: Request, response: Response, next: NextFunction):Promise<void>{
 
 			const {id} = request.params
 
 			try {
 				const result = await this.timesServices.delete(id)
 
-				return response.json(result)
+				response.status(200).json(result)
 
 			} catch (error) {
 				next(error)
