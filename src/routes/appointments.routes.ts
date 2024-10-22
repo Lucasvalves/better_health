@@ -34,3 +34,4 @@ class AppointmentsRoutes {
 	}
 }
 export { AppointmentsRoutes }
+

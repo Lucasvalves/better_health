@@ -1,7 +1,7 @@
 
-// import  request  from "supertest";
-// import { app } from "../server";
-// describe('Doctors Test', ()=>{
+import  request  from "supertest";
+import { app } from "../server";
+describe('Doctors Test', ()=>{
 // 	it('/POST Doctors', async()=>{
 // 		const doctor = {
 // 			name: 'Gabriela Almeida',
@@ -28,17 +28,17 @@
 // 		expect(response.status).toBe(200)
 // 	})
 
-// 	it('GET Doctor By Id', async()=>{
+	// it('GET Doctor By Id', async()=>{
 
-// 		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+	// 	const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+	// 	const doctor_id = '6b4423bb-c816-4dd6-92f5-3a770bd7dea3'
+	// 	const response =  await request(app)
+	// 	.get(`/doctors/${doctor_id}`)
+	// 	.set('Authorization', `Bearer ${token}`)
 
-// 		const response =  await request(app)
-// 		.get(`/doctors/`)
-// 		.set('Authorization', `Bearer ${token}`)
+	// 	expect(response.status).toBe(200)
 
-// 		expect(response.status).toBe(200)
-
-// 	})
+	// })
 
 // 	it('GET Doctor By CRM', async()=>{
 // 		const doctor = {
@@ -69,4 +69,4 @@
 // 		expect(response.status).toBe(200)
 
 // 	})
-// })
+})

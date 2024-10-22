@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.88% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>38/68</span>
+                <span class='fraction'>34/68</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">25% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">55.88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>38/68</span>
+                <span class='fraction'>34/68</span>
             </div>
         
             
@@ -158,6 +158,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -166,22 +176,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -225,31 +225,31 @@ class TimesRepository {
 <span class="cstat-no" title="statement not covered" >		})</span>
 <span class="cstat-no" title="statement not covered" >		return result</span>
 <span class="cstat-no" title="statement not covered" >	}</span>
-<span class="fstat-no" title="function not covered" >	async allTimes() {</span>
-<span class="cstat-no" title="statement not covered" >		const result = await prisma.times.findMany({</span>
-<span class="cstat-no" title="statement not covered" >			include: {</span>
-<span class="cstat-no" title="statement not covered" >				Doctors: true, // Include user data in the returned object</span>
-<span class="cstat-no" title="statement not covered" >				Specialties: true,</span>
-<span class="cstat-no" title="statement not covered" >			},</span>
-<span class="cstat-no" title="statement not covered" >		})</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >		return result</span>
-<span class="cstat-no" title="statement not covered" >	}</span>
-	async findBySpecialties(specialties_id: string) {
+	async allTimes() {
 		const result = await prisma.times.findMany({
-			where: {
-				specialties_id,
+			include: {
+				Doctors: true, // Include user data in the returned object
+				Specialties: true,
 			},
 		})
 &nbsp;
 		return result
 	}
-	async delete(id: string) {
-		const result = await prisma.times.delete({
-			where: { id },
-		})
-		return result
-	}
+<span class="fstat-no" title="function not covered" >	async findBySpecialties(specialties_id: string) {</span>
+<span class="cstat-no" title="statement not covered" >		const result = await prisma.times.findMany({</span>
+<span class="cstat-no" title="statement not covered" >			where: {</span>
+<span class="cstat-no" title="statement not covered" >				specialties_id,</span>
+<span class="cstat-no" title="statement not covered" >			},</span>
+<span class="cstat-no" title="statement not covered" >		})</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >		return result</span>
+<span class="cstat-no" title="statement not covered" >	}</span>
+<span class="fstat-no" title="function not covered" >	async delete(id: string) {</span>
+<span class="cstat-no" title="statement not covered" >		const result = await prisma.times.delete({</span>
+<span class="cstat-no" title="statement not covered" >			where: { id },</span>
+<span class="cstat-no" title="statement not covered" >		})</span>
+<span class="cstat-no" title="statement not covered" >		return result</span>
+<span class="cstat-no" title="statement not covered" >	}</span>
 	// async findByDoctors(doctors_id: string) {
 	// 	const result = await prisma.times.findMany({
 	// 		where: {
@@ -274,7 +274,7 @@ export { TimesRepository }
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-10-22T13:36:04.292Z
+                at 2024-10-22T14:30:54.236Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
