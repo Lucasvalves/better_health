@@ -29,12 +29,11 @@ class UsersController {
 		}
 	}
 	async update(request: Request, response: Response, next: NextFunction) : Promise<void> {
-		const { name, oldPasswork, newPassword } = request.body
+		const { oldPassword, newPassword } = request.body
 		const { user_id } = request
 		try {
 			const result = await this.usersServices.update({
-				name,
-				oldPasswork,
+				oldPassword,
 				newPassword,
 				user_id,
 			})

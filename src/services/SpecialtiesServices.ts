@@ -27,8 +27,13 @@ class SpecialtiesServices {
 	}
 
 	async findSpecialty(id: string) {
-		const result = await this.specialtiesRepository.find(id)
-		return result
+		const findSpecialty = await this.specialtiesRepository.find(id)
+
+		if(!findSpecialty){
+			throw new Error('Specialty not found')
+		}
+		
+		return findSpecialty
 	}
 	// async update({ name, oldPasswork, newPassword, user_id }: IUpdate) {
 	// 	let password

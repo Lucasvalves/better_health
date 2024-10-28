@@ -28,13 +28,12 @@ class UsersRepository {
 		})
 		return result
 	}
-	async updatePassword(name: string, newPassword: string, user_id: string) {
+	async updatePassword(newPassword: string, user_id: string) {
 		const result = await prisma.users.update({
 			where: {
 				id: user_id,
 			},
 			data: {
-				name,
 				password: newPassword,
 			},
 		})

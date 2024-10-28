@@ -24,22 +24,27 @@ class UsersServices {
 		})
 		return create
 	}
-	async update({ name, oldPasswork, newPassword, user_id }: IUpdate) {
-		let password
-		if (oldPasswork && newPassword) {
-			const findUserById = await this.usersRepository.findUserById(user_id)
-			if (!findUserById) {
-				throw new Error('User not found')
-			}
-			const passwordMatch = compare(oldPasswork, findUserById.password)
-			if (!passwordMatch) {
-				throw new Error('Password invalid')
-			}
+	async update({ oldPassword, newPassword, user_id }: IUpdate) {
 
-			password = await hash(newPassword, 10)
-
-			await this.usersRepository.updatePassword(name, password, user_id)
+		if (!oldPassword || !newPassword) {
+			throw new Error('Old password and new password are required');
 		}
+
+		const findUserById = await this.usersRepository.findUserById(user_id)
+		console.log(findUserById);
+
+		if (!findUserById) {
+			throw new Error('User not found')
+		}
+		const passwordMatch = await compare(oldPassword, findUserById.password)
+
+		if (!passwordMatch) {
+			throw new Error('Invalid old password')
+		}
+
+		const hashedPassword = await hash(newPassword, 10)
+
+		await this.usersRepository.updatePassword(hashedPassword, user_id)
 
 		return {
 			message: 'User updated successfully',

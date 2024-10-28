@@ -37,6 +37,13 @@ class TimesServices {
 	}
 	async findBySpecialties(specialties_id:string) {
 		const result = await this.timesRepository.findBySpecialties(specialties_id)
+
+		if(result.length === 0){
+			throw new Error ("specialties_id doesn't exists")
+		}
+
+		console.log(result);
+
 		return result
 
 	}

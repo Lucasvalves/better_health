@@ -37,7 +37,7 @@ class TimesController {
 
 	}
 	async findBySpecialties(request: Request, response: Response, next: NextFunction):Promise<void>{
-		const {specialties_id} = request.params
+		const {specialties_id} = request.body
 
 		try {
 			const result = await this.timesServices.findBySpecialties(specialties_id)
@@ -50,17 +50,18 @@ class TimesController {
 	}
 	async delete(request: Request, response: Response, next: NextFunction):Promise<void>{
 
-			const {id} = request.params
+		const {id} = request.params
 
-			try {
-				const result = await this.timesServices.delete(id)
+		try {
+			const result = await this.timesServices.delete(id)
 
-				response.status(200).json(result)
+			response.status(200).json(result)
 
-			} catch (error) {
-				next(error)
-			}
+		} catch (error) {
+			next(error)
+		}
 	}
 }
 export { TimesController }
+
 

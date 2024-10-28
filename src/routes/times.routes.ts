@@ -25,7 +25,7 @@ class TimesRoutes {
 			this.timesController.find.bind(this.timesController)
 		)
 		this.router.get(
-			'/:specialties',
+			'/specialties',
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.timesController.findBySpecialties.bind(this.timesController)
 		)

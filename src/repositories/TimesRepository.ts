@@ -40,7 +40,7 @@ class TimesRepository {
 				specialties_id,
 			},
 		})
-
+		
 		return result
 	}
 	async delete(id: string) {

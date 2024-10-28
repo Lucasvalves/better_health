@@ -10,8 +10,7 @@ class SpecialtiesController {
 	async store(request: Request, response: Response, next: NextFunction): Promise<void> {
 		//criar usuario
 		const { name } = request.body
-		console.log('Received name:', name);
-
+		
 		try {
 			const result = await this.specialtiesServices.create(name)
 			response.status(201).json(result)

@@ -3,89 +3,165 @@ import { app } from "../server";
 
 
 describe('Patients Test', ()=>{
-	// it('/POST Patients', async()=>{
-	// 	const patient = {
-	// 		name: 'Antonio Alves',
-	// 		cpf: '64747735534',
-	// 		phone: '71981072201'
-	// 	}
-	// 	const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+	it('/POST Patients', async()=>{
+		const patient = {
+			name: 'Antonio Alves',
+			cpf: '64747735534',
+			phone: '71981072201'
+		}
+		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
 
-	// 	const response = await request(app)
-	// 	.post('/patients/')
-	// 	.set('Authorization', `Bearer ${token}`)
-	// 	.send(patient)
+		const response = await request(app)
+		.post('/patients/')
+		.set('Authorization', `Bearer ${token}`)
+		.send(patient)
 
-	// 	expect(response.status).toBe(201)
-	// })
-	// it('GET Patient By Id', async()=>{
-	// 	const patient = {
-	// 		id: '6e60edea-b70e-4abc-b2a4-5557046954f3'
-	// 	}
+		expect(response.status).toBe(201)
+	})
 
-	// 	const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+	it('/POST Patients. Token Unauthorized', async()=>{
+		const patient = {
+			name: 'Antonio Alves',
+			cpf: '64747735534',
+			phone: '71981072201'
+		}
+		const token = 'testeeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
 
-	// 	const response =  await request(app)
-	// 	.get(`/patients/${patient.id}`)
-	// 	.set('Authorization', `Bearer ${token}`)
+		const response = await request(app)
+		.post('/patients/')
+		.set('Authorization', `Bearer ${token}`)
+		.send(patient)
 
-	// 	expect(response.status).toBe(200)
+		expect(response.status).toBe(401)
+	})
+	it('GET Patient By Id', async()=>{
+		const patient = {
+			id: '6e60edea-b70e-4abc-b2a4-5557046954f3'
+		}
 
-	// })
+		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
 
-	// it('/GET All Patients', async()=>{
-	// 	const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+		const response =  await request(app)
+		.get(`/patients/${patient.id}`)
+		.set('Authorization', `Bearer ${token}`)
 
-	// 	const response = await request(app)
-	// 	.get('/patients/')
-	// 	.set('Authorization', `Bearer ${token}`)
+		expect(response.status).toBe(200)
 
-	// 	expect(response.status).toBe(200)
-	// })
-	// it('GET Patient By CPF', async()=>{
-	// 	const patient = {
-	// 		cpf: '06461740538'
-	// 	}
+	})
+	it('GET Patient. Patient Not Found', async()=>{
+		const patient = {
+			id: '6e60edea-b70e-4abc-b2a4-5557046954f37'
+		}
 
-	// 	const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
 
-	// 	const response =  await request(app)
-	// 	.get(`/patients/cpf/${patient.cpf}`)
-	// 	.set('Authorization', `Bearer ${token}`)
+		const response =  await request(app)
+		.get(`/patients/${patient.id}`)
+		.set('Authorization', `Bearer ${token}`)
 
-	// 	expect(response.status).toBe(200)
+		expect(response.status).toBe(400)
 
-	// })
-	// it('PUT Patient', async () => {
-	// 	const patient = {
-	// 		id: '01ee07f6-b176-4984-9da0-a51541a90171',
-	// 		name: 'Lucas Luke',
-	// 		cpf: '06461740536',
-	// 		phone: '71996579986'
-	// 	};
+	})
 
-	// 	const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+	it('/GET All Patients. Token Unauthorized', async()=>{
+		const token = 'testeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
 
-	// 	const response = await request(app)
-	// 		.put(`/patients/${patient.id}`)
-	// 		.set('Authorization', `Bearer ${token}`)
-	// 		.send(patient);
+		const response = await request(app)
+		.get('/patients/')
+		.set('Authorization', `Bearer ${token}`)
 
-	// 	  expect(response.status).toBe(200);
-	// });
-	// it('DELETE Patient By Id', async()=>{
-	// 	const patient = {
-	// 		id: '83524c19-03a4-452c-a384-0ea65daf9243'
-	// 	}
+		expect(response.status).toBe(401)
+	})
 
-	// 	const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+	it('GET Patient By CPF', async()=>{
+		const patient = {
+			cpf: '06461740534'
+		}
 
-	// 	const response =  await request(app)
-	// 	.delete(`/patients/${patient.id}`)
-	// 	.set('Authorization', `Bearer ${token}`)
+		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
 
-	// 	expect(response.status).toBe(200)
+		const response =  await request(app)
+		.get(`/patients/cpf/${patient.cpf}`)
+		.set('Authorization', `Bearer ${token}`)
 
-	// })
+		expect(response.status).toBe(200)
+
+	})
+	it('GET Patient. CPF Invalid', async()=>{
+		const patient = {
+			cpf: '06461740539'
+		}
+
+		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+
+		const response =  await request(app)
+		.get(`/patients/cpf/${patient.cpf}`)
+		.set('Authorization', `Bearer ${token}`)
+
+		expect(response.status).toBe(400)
+
+	})
+	it('PUT Patient', async () => {
+		const patient = {
+			id: '01ee07f6-b176-4984-9da0-a51541a90171',
+			name: 'Lucas Luke',
+			cpf: '06461740536',
+			phone: '71996579986'
+		};
+
+		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+
+		const response = await request(app)
+			.put(`/patients/${patient.id}`)
+			.set('Authorization', `Bearer ${token}`)
+			.send(patient);
+
+		  expect(response.status).toBe(200);
+	});
+	it('PUT Patient. Patient Not Found', async () => {
+		const patient = {
+			id: '01ee07f6-b176-4984-9da0-a51541a901719',
+			name: 'Lucas Luke',
+			cpf: '06461740536',
+			phone: '71996579986'
+		};
+
+		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+
+		const response = await request(app)
+			.put(`/patients/${patient.id}`)
+			.set('Authorization', `Bearer ${token}`)
+			.send(patient);
+
+		  expect(response.status).toBe(400);
+	});
+	it('DELETE Patient By Id', async()=>{
+		const patient = {
+			id: '83524c19-03a4-452c-a384-0ea65daf9243'
+		}
+
+		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+
+		const response =  await request(app)
+		.delete(`/patients/${patient.id}`)
+		.set('Authorization', `Bearer ${token}`)
+
+		expect(response.status).toBe(200)
+
+	})
+	it('DELETE Patient. Patient Not Found', async()=>{
+		const patient = {
+			id: '83524c19-03a4-452c-a384-0ea65daf924387'
+		}
+
+		const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzdmVsb3NvYWx2ZXNAb3V0bG9vay5jb20iLCJpYXQiOjE3MjkwOTA3NjgsImV4cCI6MTc2MDYyNjc2OCwic3ViIjoiNDY2OGQzNjctYzQ2Ni00Y2JjLTljMTYtNmVlM2UwMDMxYmY3In0.4iJ7gEtd4llYl95BzXL1UYkr1khvdamObKTfO-y4bm0';
+
+		const response =  await request(app)
+		.delete(`/patients/${patient.id}`)
+		.set('Authorization', `Bearer ${token}`)
+
+		expect(response.status).toBe(400)
+
+	})
 
 })

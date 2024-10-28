@@ -28,6 +28,8 @@ class PatientsServices {
 	}
 	async findPatientsById(id: string) {
 		const result = await this.patientsRepository.findPatient(id)
+		console.log(result);
+
 
 		if (!result) throw new Error("User doens't exists")
 

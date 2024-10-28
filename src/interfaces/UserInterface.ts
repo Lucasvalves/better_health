@@ -4,8 +4,7 @@ export interface ICreate {
 	password: string
 }
 export interface IUpdate {
-	name: string
-	oldPasswork: string
+	oldPassword: string
 	newPassword: string
 	user_id: string
 }
