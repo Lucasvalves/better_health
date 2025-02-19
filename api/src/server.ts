@@ -6,7 +6,6 @@ import { DoctorsRoutes } from './routes/doctors.routes';
 import { TimesRoutes } from './routes/times.routes';
 import { AppointmentsRoutes } from './routes/appointments.routes';
 import { SpecialtiesRoutes } from './routes/specialties.routes';
-
 const app: Application = express();
 
 app.use(cors());
@@ -19,6 +18,7 @@ const specialtiesRoutes = new SpecialtiesRoutes().getRoutes();
 const doctorsRoutes = new DoctorsRoutes().getRoutes();
 const timesRoutes = new TimesRoutes().getRoutes();
 const appointmentsRoutes = new AppointmentsRoutes().getRoutes();
+
 
 app.use('/users', usersRoutes);
 app.use('/patients', patientsRoutes);

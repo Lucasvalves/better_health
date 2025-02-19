@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { UsersController } from '../controllers/UsersController'
 import { AuthMiddleware } from '../middlewares/AuthMiddleware'
+import { upload } from '../config/multer'
 
 class UsersRoutes {
 	private router: Router
@@ -20,6 +21,7 @@ class UsersRoutes {
 		)
 		this.router.put(
 			'/',
+			upload.single('avatar_url'),
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.usersController.update.bind(this.usersController)
 		)

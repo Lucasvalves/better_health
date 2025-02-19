@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
 import { UsersServices } from '../services/UsersServices'
-
 class UsersController {
 	private usersServices: UsersServices
 	constructor() {
@@ -31,11 +30,13 @@ class UsersController {
 	async update(request: Request, response: Response, next: NextFunction) : Promise<void> {
 		const { oldPassword, newPassword } = request.body
 		const { user_id } = request
+
 		try {
 			const result = await this.usersServices.update({
-				oldPassword,
-				newPassword,
-				user_id,
+        oldPassword,
+        newPassword,
+				avatar_url: request.file,
+        user_id,
 			})
 			response.status(200).json(result)
 		} catch (error) {
