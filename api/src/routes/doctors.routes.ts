@@ -13,6 +13,65 @@ class DoctorsRoutes {
 	}
 
 	getRoutes(): Router {
+					/**
+	 * @swagger
+	 * /doctors:
+	 *   post:
+	 *     summary: Create doctors
+	 *     description: Create doctors
+	 *     tags:
+	 *      - Doctors
+	 *     parameters:
+	 *       - in: body
+	 *         name: name
+	 *         schema:
+	 *          type: string
+	 *       - in: body
+	 *         name: cpf
+	 *         schema:
+	 *          type: string
+	 *       - in: body
+	 *         name: phone
+	 *         schema:
+	 *          type: string
+	 *     requestBody:
+	 *       content:
+	 *         application/json:    # Request body contents
+	 *           schema:
+	 *             type: object
+	 *             properties:
+	 *               name:
+	 *                 type: string
+	 *               crm:
+	 *                 type: string
+	 *               specialties_id:
+	 *                 type: string
+	 *             example:
+	 *               name: "Luana Silva"
+	 *               crm: "9098"
+	 *               specialties_id: "5"
+	 *     responses:
+	 *       201:
+	 *         description: OK
+	 *         content:
+	 *          aplication/json:
+	 *           schema:
+	 *           type: object
+	 *           properties:
+	 *            id
+	 *             type:string
+	 *            name
+	 *             type:string
+	 *            crm
+	 *             type:string
+	 *            specialties_id
+	 *             type:string
+	 *       400:
+	 *         description: "Bad Request"
+	 *       401:
+	 *         description: "Unauthorized"
+	 */
+
 		this.router.post(
 			'/',
 			this.authMiddleware.auth.bind(this.authMiddleware),

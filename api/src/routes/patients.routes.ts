@@ -13,6 +13,65 @@ class PatientsRoutes {
 		this.authMiddleware = new AuthMiddleware()
 	}
 	getRoutes(): Router {
+			/**
+	 * @swagger
+	 * /patients:
+	 *   post:
+	 *     summary: Create patients
+	 *     description: Create patients
+	 *     tags:
+	 *      - Patients
+	 *     parameters:
+	 *       - in: body
+	 *         name: name
+	 *         schema:
+	 *          type: string
+	 *       - in: body
+	 *         name: cpf
+	 *         schema:
+	 *          type: string
+	 *       - in: body
+	 *         name: phone
+	 *         schema:
+	 *          type: string
+	 *     requestBody:
+	 *       content:
+	 *         application/json:    # Request body contents
+	 *           schema:
+	 *             type: object
+	 *             properties:
+	 *               name:
+	 *                 type: string
+	 *               email:
+	 *                 type: string
+	 *               password:
+	 *                 type: string
+	 *             example:
+	 *               name: "Luana Silva"
+	 *               cpf: "06861740537"
+	 *               phone: "7197579988"
+	 *     responses:
+	 *       201:
+	 *         description: OK
+	 *         content:
+	 *          aplication/json:
+	 *           schema:
+	 *           type: object
+	 *           properties:
+	 *            id
+	 *             type:string
+	 *            name
+	 *             type:string
+	 *            cpf
+	 *             type:string
+	 *            phone
+	 *             type:string
+	 *       400:
+	 *         description: "Bad Request"
+	 *       401:
+	 *         description: "Unauthorized"
+	 */
+
 		this.router.post(
 			'/',
 			this.authMiddleware.auth.bind(this.authMiddleware),
