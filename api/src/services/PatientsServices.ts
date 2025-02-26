@@ -31,7 +31,7 @@ class PatientsServices {
 		console.log(result);
 
 
-		if (!result) throw new Error("User doens't exists")
+		if (!result) throw new Error("Patient doens't exists")
 
 		return result
 	}
