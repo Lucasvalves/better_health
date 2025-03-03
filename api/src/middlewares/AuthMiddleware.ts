@@ -29,7 +29,7 @@ class AuthMiddleware {
       next();
     } catch (error) {
       response.status(401).json({
-        code: 'token.expired',
+        code: 'token missing or invalid',
         message: 'Token expired.',
       });
     }

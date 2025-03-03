@@ -2,6 +2,8 @@ import { compare, hash } from 'bcrypt'
 import { ICreate, IUpdate } from '../interfaces/UserInterface'
 import { UsersRepository } from '../repositories/UsersRepository'
 import { sign } from 'jsonwebtoken'
+import { s3 } from '../config/aws'
+import { v4 as uuid } from "uuid"
 
 class UsersServices {
 	private usersRepository: UsersRepository
@@ -24,33 +26,43 @@ class UsersServices {
 		})
 		return create
 	}
-	async update({ oldPassword, newPassword, user_id }: IUpdate) {
+	async update({
+    oldPassword,
+    newPassword,
+    avatar_url,
+    user_id,
+  }: IUpdate) {
+    let password;
+    if (oldPassword && newPassword) {
+      const findUserById = await this.usersRepository.findUserById(user_id);
+      if (!findUserById) {
+        throw new Error('User not found');
+      }
+      const passwordMatch = compare(oldPassword, findUserById.password);
 
-		if (!oldPassword || !newPassword) {
-			throw new Error('Old password and new password are required');
-		}
+      if (!passwordMatch) {
+        throw new Error('Password invalid.');
+      }
+      password = await hash(newPassword, 10);
 
-		const findUserById = await this.usersRepository.findUserById(user_id)
-		console.log(findUserById);
+      await this.usersRepository.updatePassword(newPassword, user_id);
+    }
+    if (avatar_url) {
+      const uploadImage = avatar_url?.buffer;
+      const uploadS3 = await s3
+        .upload({
+          Bucket: 'better-health',
+          Key: `${uuid()}-${avatar_url?.originalname}`,
+          Body: uploadImage,
+        })
+        .promise();
 
-		if (!findUserById) {
-			throw new Error('User not found')
-		}
-		const passwordMatch = await compare(oldPassword, findUserById.password)
-
-		if (!passwordMatch) {
-			throw new Error('Invalid old password')
-		}
-
-		const hashedPassword = await hash(newPassword, 10)
-
-		await this.usersRepository.updatePassword(hashedPassword, user_id)
-
-		return {
-			message: 'User updated successfully',
-		}
-	}
-
+      await this.usersRepository.update( uploadS3.Location, user_id);
+    }
+    return {
+      message: 'User updated successfully',
+    };
+  }
 	async auth(email: string, password: string) {
 		const findUser = await this.usersRepository.findUserByEmail(email)
 		if (!findUser) {

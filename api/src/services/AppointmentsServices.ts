@@ -19,7 +19,7 @@ import {
 	startOfDay,
 	getHours,
 } from 'date-fns'
-import { breakTimeRange, addMinutesToDate, splitByvalue, chunk } from '../util'
+import { breakTimeRange, addMinutesToDate, splitByvalue, chunk } from '../utils/util'
 import { PatientsRepository } from '../repositories/PatientsRepository'
 
 class AppointmentsServices {

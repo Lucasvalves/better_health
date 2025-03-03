@@ -6,12 +6,18 @@ import { DoctorsRoutes } from './routes/doctors.routes';
 import { TimesRoutes } from './routes/times.routes';
 import { AppointmentsRoutes } from './routes/appointments.routes';
 import { SpecialtiesRoutes } from './routes/specialties.routes';
+import swaggerUi from 'swagger-ui-express'
+import { SwaggerSpec } from './utils/swagger';
+
 
 const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(SwaggerSpec))
+
 
 const usersRoutes = new UsersRoutes().getRoutes();
 const patientsRoutes = new PatientsRoutes().getRoutes();
