@@ -13,6 +13,7 @@ class PatientsRoutes {
 		this.authMiddleware = new AuthMiddleware()
 	}
 	getRoutes(): Router {
+
 	 /**
 	 * @swagger
 	 * /patients:
@@ -71,7 +72,6 @@ class PatientsRoutes {
 	 *       401:
 	 *         description: "Unauthorized"
 	 */
-
 		this.router.post(
 			'/',
 			this.authMiddleware.auth.bind(this.authMiddleware),
@@ -139,6 +139,7 @@ class PatientsRoutes {
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.patientsController.findPatientsById.bind(this.patientsController)
 		)
+
 	 /**
 	 * @swagger
 	 * /patients/cpf/{cpf}:
@@ -223,6 +224,7 @@ class PatientsRoutes {
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.patientsController.update.bind(this.patientsController)
 		)
+
 	/**
 	 * @swagger
 	 * /patients/{id}:
