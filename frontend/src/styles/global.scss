@@ -3,6 +3,21 @@
   --foreground: #171717;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@mixin bgImage($url) {
+  background-image: url(#{$url});
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vw;
+}
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
