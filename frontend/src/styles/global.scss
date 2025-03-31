@@ -1,6 +1,7 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-color: #2C5084;
+  --secondary-color: #FFFFFF;
+  --border-radius-input: 12px;
 }
 
 * {
@@ -8,15 +9,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-@mixin bgImage($url) {
-  background-image: url(#{$url});
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 100vw;
-  height: 100vw;
-}
-
 
 @media (prefers-color-scheme: dark) {
   :root {
