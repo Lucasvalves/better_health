@@ -2,14 +2,14 @@
 import { useState } from 'react'
 import style from './page.module.scss'
 import {BsEye, BsEyeSlash } from "react-icons/bs";
-import { Condition } from '../Condition';
+import { Condition } from '../../Condition';
 
 type Props = {
   placeholder:string
   type:string
   IconLeft?: React.ElementType
 }
-export default function Input({placeholder,type, IconLeft}:Props){
+export default function AuthInput({placeholder,type, IconLeft}:Props){
 
   const [showPassword, setShowPassword] =  useState(false)
 

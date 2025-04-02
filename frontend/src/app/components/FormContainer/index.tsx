@@ -1,12 +1,13 @@
 "use client";
 import Image from 'next/image';
 import Button from '../Button';
-import Input from '../Input';
+import Input from '../Inputs/AuthInput';
 import style from './page.module.scss'
 import Form from 'next/form'
 import { BsKey } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
 import Link from 'next/link';
+import { ROUTES } from '@/app/paths';
 
 type Props = {
   pageTitle: string
@@ -31,10 +32,10 @@ export default function FormContainer({ pageTitle, title }: Props) {
       </Form>
       <p className={style.links}>
         <span>
-        Esqueceu sua senha?  <Link href='/forgot'> Recuperar</Link>
+        Esqueceu sua senha?  <Link href={ROUTES.FORGOT}> Recuperar</Link>
         </span>
         <span>
-          Ainda não tem conta?  <Link href='/register'>Cadastre-se</Link>
+          Ainda não tem conta?  <Link href={ROUTES.REGISTER}>Cadastre-se</Link>
         </span>
       </p>
     </div>

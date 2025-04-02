@@ -1,10 +1,10 @@
+
 .page {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-sora);
+  background: white;
+  color: var(--primary-color);
+  font-family: var(--font-poppins);
   .formWrapper{
     z-index: 1;
     position: absolute;

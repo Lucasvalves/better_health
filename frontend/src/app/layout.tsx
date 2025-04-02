@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
-import { Sora } from "next/font/google"; 
+import { Sora, Poppins } from "next/font/google"; 
 import "../styles/global.scss";
 
+// Configuração da Sora
 const sora = Sora({
-  variable: "--font-sora",  
-  subsets: ["latin"],       
+  variable: "--font-sora",
+  subsets: ["latin"],
+});
+
+// Configuração da Poppins
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // Peso(s) desejados
 });
 
 export const metadata: Metadata = {
@@ -18,8 +26,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <link rel="shortcut icon" type="imagex/png" href="./logo-bg-blue.png"></link>
-      <body className={`${sora.variable}`}> {/* Aplica a fonte Sora */}
+      <link rel="shortcut icon" type="imagex/png" href="./logo-bg-blue.png" />
+      <body className={`${sora.variable} ${poppins.variable} font-sans`}>
         {children}
       </body>
     </html>
