@@ -3,11 +3,9 @@
   height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
   .formWrapper{
-    margin-right: 12.5rem;
     z-index: 1;
     position: absolute;
   }
-
 }
