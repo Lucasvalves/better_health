@@ -6,7 +6,9 @@
   flex-direction: column;
   align-items: center;
   color: var(--primary-color);
-  background: white;
+  background-color: var(--secondary-color);
+  font-family: var(--font-poppins);
+  position: relative;
   .container{
     width: 71.5%;
     display: flex;
@@ -15,12 +17,86 @@
     height: 100%;
     margin-top: 40px;
     .wrapperLeft{
-      width: 50%;
-      //background: rgba(137, 43, 226, 0.089);
+      width: 40%;
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      gap: 30;
+      .specialtiesSelect{
+        padding: 12px;
+        width: 35%;
+        color: var(--primary-color);
+
+        select{
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232C5084' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+          background-repeat: no-repeat;
+          background-position: right center;
+          background-size: 16px;
+          background-color: var(--secondary-color);
+          color: var(--primary-color);
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+          border-radius: var(--border-radius-input);
+          width: 100%;
+          padding: 12px;
+          border: none;
+          cursor: pointer;
+          appearance: none;
+          outline: none;
+          font-size: 1rem;
+          margin: -7px -0px 0 -11px;
+
+          option:nth-child(odd) {
+            background-color: #F4F4F4;
+          }
+          option:last-child {
+            border-bottom-left-radius: var(--border-radius-input);
+            border-bottom-right-radius: var(--border-radius-input);
+          }
+        }
+      }
+    }
+    .wrapperCenter{
+      width: 20%;
+      height: 70%;
+      display: flex;
+      align-items: end;
+      justify-content: center;
     }
     .wrapperRight{
-      width: 50%;
-      background: rgba(226, 80, 43, 0.089);
+      width: 40%;
+      font-weight: 500;
+      label{
+        margin-bottom: 3px;
+      }
+
+      .calendar {
+        background-color: #E05263;
+        height: 400px;
+        max-height: 400px;
+        width: fit-content;
+        padding: 1rem 2.5rem;
+        border-radius: 10px;
+        color: var(--white);
+        box-shadow: 4px 8px 4px rgb(0, 0, 0, 0.3);
+      }
+
+      .day:not(.disabled) {
+        background-color: var(--secondary-color);
+        width: 40px;
+        height: 40px;
+        color: var(--black);
+        margin: .15rem;
+        border-radius: 5px;
+      }
+
+      // .day.disabled {
+      //  background-color: var(--gray200) !important;
+      // }
+
+      .selected {
+        color: var(--secondary-color) !important;
+        background-color: var(--blue) !important;
+      }
     }
   }
 }

@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Button from '../Button';
 import Input from '../Inputs/AuthInput';
-import style from './page.module.scss'
+import styles from './page.module.scss'
 import Form from 'next/form'
 import { BsKey } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
@@ -17,8 +17,8 @@ type Props = {
 export default function FormContainer({ pageTitle, title }: Props) {
 
   return (
-    <div className={style.container}>
-      <div className={style.pageTitle}>
+    <div className={styles.container}>
+      <div className={styles.pageTitle}>
         <span>
           <h3>{pageTitle}</h3>
         </span>
@@ -28,9 +28,9 @@ export default function FormContainer({ pageTitle, title }: Props) {
       <Form action="/search">
         <Input IconLeft={MdOutlineEmail} type="email" placeholder="Email" />
         <Input  IconLeft={BsKey} type="password" placeholder="Senha" />
-        <Button type="submit">Entrar</Button>
+        <Button type="submit" label="Entrar"/>
       </Form>
-      <p className={style.links}>
+      <p className={styles.links}>
         <span>
         Esqueceu sua senha?  <Link href={ROUTES.FORGOT}> Recuperar</Link>
         </span>
