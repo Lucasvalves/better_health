@@ -27,8 +27,8 @@ export default function EditProfile(){
       <PageLayout userName={"Eduarda Freitas"} route={ROUTES.APPOINTMENTS} />
       <section className={styles.container}>
         <div className={styles.wrapperLeft}>
-            <AppInput label="Insira o nome  do paciente" placeholder="ex: joetracker@gmail.com" type="text"/>
-            <AppInput label="Insira CPF do paciente" placeholder="ex: 12345678910" type="text"/>
+            <AppInput label="Insira o nome  do paciente" placeholder="joetracker@gmail.com" type="text"/>
+            <AppInput label="Insira CPF do paciente" placeholder="12345678910" type="text"/>
             <div>
               <label htmlFor="specialties-select">Selecione uma especialidade</label>
               <div className={styles.specialtiesSelect}>

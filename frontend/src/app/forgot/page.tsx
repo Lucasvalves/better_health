@@ -9,8 +9,7 @@ export default function  forgotPage(){
     <div className={styles.page}>
       <BackgroundImage src="/bg-forgot.png"/>
       <div className={styles.formWrapper}>
-        <FormContainer pageTitle='Recuperar Senha' title='Solicitar redefinição!' labelButton="Confirmar" route={ROUTES.FORGOT}/>
-         {/* Solicitar redefinição de senha */}
+        <FormContainer pageTitle='Recuperar' title='Solicitar redefinição!' labelButton="Confirmar" route={ROUTES.FORGOT}/>
       </div>
     </div>
   )

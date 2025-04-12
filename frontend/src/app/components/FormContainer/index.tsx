@@ -23,18 +23,20 @@ export default function FormContainer({ pageTitle, title, labelButton , route}: 
     <div className={styles.container}>
       <div className={styles.pageTitle}>
         <span>
-          <h3>{pageTitle}</h3>
+          <h1>{pageTitle}</h1>
         </span>
         <Image alt='' src='/logo-bg-blue.png' width={100} height={100} />
       </div>
-      <p >{title}</p>
+      <h2>{title}</h2>
       <Form action="/search">
         <Condition when={route === ROUTES.HOME}>
           <Input IconLeft={MdOutlineEmail} type="email" placeholder="Email" />
           <Input  IconLeft={BsKey} type="password" placeholder="Senha" />
         </Condition>
         <Condition when={route === ROUTES.FORGOT}>
-          <Input IconLeft={MdOutlineEmail} type="email" placeholder="Insira seu email" />
+          <span className={styles.inputForgot}>
+            <Input  IconLeft={MdOutlineEmail} type="email" placeholder="Insira seu email" />
+          </span>
         </Condition>
         <Condition when={route === ROUTES.REGISTER}>
           <Input IconLeft={MdOutlineEmail} type="email" placeholder="Insira seu nome" />
@@ -53,9 +55,16 @@ export default function FormContainer({ pageTitle, title, labelButton , route}: 
           </span>
         </Condition>
         <Condition when={route !== ROUTES.HOME}>
-          <span>
-          {/* Já tem cadastro?*/}  <Link href={ROUTES.HOME}>Voltar à Página Inicial</Link> 
-          </span>
+          <Condition when={route !== ROUTES.FORGOT}>
+            <span>
+              Já tem cadastro? <Link href={ROUTES.HOME}>Voltar à Página Inicial</Link>  
+            </span>
+          </Condition>
+          <Condition when={route === ROUTES.FORGOT}>
+            <span>
+              Deseja cancelar?  <Link href={ROUTES.HOME}>Voltar à Página Inicial</Link>  
+            </span>
+          </Condition>
         </Condition>
       </p>
     </div>

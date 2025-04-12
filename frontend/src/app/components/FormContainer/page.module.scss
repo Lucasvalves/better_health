@@ -2,11 +2,11 @@
   //background-color: #d9d9d981;
   background-color: #c9c9c948;
   width: 480px;
-  height: 455px;
+  height: 430px;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  gap: 30;
+  gap: 20;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   .pageTitle{
     width: 100%;
@@ -23,8 +23,8 @@
       justify-content: center;
       align-items: center;
 
-      h3{
-        font-size: 35px;
+      h1{
+        font-size: var(--font-size-h1);
         font-weight: normal;
         color: var(--secondary-color);
       }
@@ -36,13 +36,14 @@
     }
   }
 
-  p{
+  h2{
     text-align: center;
-    font-size: 32px;
+    font-size: 1.75rem;
     font-weight: 300;
     bottom: 30px;
     white-space: nowrap;
     color: var(--primary-color);
+    margin-top: 10px;
   }
 
   form{
@@ -52,17 +53,22 @@
     justify-content: center;
     gap: 10;
     align-items: center;
+    .inputForgot{
+      width: 100%;
+      margin: 20px 0 20px 0;
+      display: flex;
+      justify-content: center;
+    }
   }
   .links{
     top: 30px;
     margin: auto;
     display: flex;
     flex-direction: column;
-    font-size: 1rem;
+    font-size: .9rem;
     gap:4;
     width: 75%;
     align-items: baseline;
-    margin-top: 5px;
     color: var(--secondary-color);
     a{
       font-weight: 800;

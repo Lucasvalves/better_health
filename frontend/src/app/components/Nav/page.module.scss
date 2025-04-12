@@ -3,7 +3,7 @@
   width: 60%;
   display: flex;
   justify-content: space-evenly;
-  font-size: 17px;
+  font-size: var(--font-size-body);
   a:hover{
     transition: color 0.5s ease-in-out;
     opacity: .8;

@@ -20,7 +20,7 @@ export const PageLayout = ({ title, userName, children, route }: PageLayoutProps
         </Condition>
         <Condition when={route === ROUTES.APPOINTMENTS}>
         <p className={styles.title}>Bem Vinda, <span> {userName}!</span></p>
-          <p>inicie uma  marcação!</p>
+        <p>inicie uma  marcação!</p>
         </Condition>
         {children}
       </div>

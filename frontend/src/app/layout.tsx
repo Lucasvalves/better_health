@@ -16,7 +16,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Better health",
+  title: "Better Health",
 };
 
 export default function RootLayout({

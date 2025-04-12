@@ -21,7 +21,7 @@ export default function EditProfile(){
               </div>
             </label>
             <AppInput label="Nome" placeholder="Luiza Gomes" className={styles.containerInput}/>
-            <AppInput label="Email" placeholder="luizagomes.t@gmail.com" className={styles.containerInput}/>
+            <AppInput label="Email" placeholder="luizagomes@gmail.com" className={styles.containerInput}/>
             <AppInput label="Nova senha" placeholder="******" type="password" className={styles.containerInput}/>
             <AppInput label="Confirmar senha" placeholder="******" type="password" className={styles.containerInput}/>
             <ButtonGroup rightButtonLabel="Cancelar" leftButtonLabel="Editar" />

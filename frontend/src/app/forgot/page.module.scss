@@ -8,5 +8,8 @@
   .formWrapper{
     z-index: 1;
     position: absolute;
+    >div{
+      height: 400px;
+    }
   }
 }
