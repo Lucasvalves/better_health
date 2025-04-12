@@ -1,5 +1,6 @@
 import BackgroundImage from "../components/BackgroundImage";
 import FormContainer from "../components/FormContainer";
+import { ROUTES } from "../paths";
 import styles from "./page.module.scss";
 
 
@@ -8,7 +9,7 @@ export default function  forgotPage(){
     <div className={styles.page}>
       <BackgroundImage src="/bg-forgot.png"/>
       <div className={styles.formWrapper}>
-        <FormContainer pageTitle='Recuperar Senha' title='Esqueceu sua senha?!' />
+        <FormContainer pageTitle='Recuperar Senha' title='Solicitar redefinição!' labelButton="Confirmar" route={ROUTES.FORGOT}/>
          {/* Solicitar redefinição de senha */}
       </div>
     </div>

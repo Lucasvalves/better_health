@@ -8,13 +8,16 @@ import { BsKey } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
 import Link from 'next/link';
 import { ROUTES } from '@/app/paths';
+import { Condition } from '../Condition';
 
 type Props = {
   pageTitle: string
   title: string
+  labelButton: string
+  route: string
 }
 
-export default function FormContainer({ pageTitle, title }: Props) {
+export default function FormContainer({ pageTitle, title, labelButton , route}: Props) {
 
   return (
     <div className={styles.container}>
@@ -26,17 +29,34 @@ export default function FormContainer({ pageTitle, title }: Props) {
       </div>
       <p >{title}</p>
       <Form action="/search">
-        <Input IconLeft={MdOutlineEmail} type="email" placeholder="Email" />
-        <Input  IconLeft={BsKey} type="password" placeholder="Senha" />
-        <Button type="submit" label="Entrar"/>
+        <Condition when={route === ROUTES.HOME}>
+          <Input IconLeft={MdOutlineEmail} type="email" placeholder="Email" />
+          <Input  IconLeft={BsKey} type="password" placeholder="Senha" />
+        </Condition>
+        <Condition when={route === ROUTES.FORGOT}>
+          <Input IconLeft={MdOutlineEmail} type="email" placeholder="Insira seu email" />
+        </Condition>
+        <Condition when={route === ROUTES.REGISTER}>
+          <Input IconLeft={MdOutlineEmail} type="email" placeholder="Insira seu nome" />
+          <Input IconLeft={MdOutlineEmail} type="email" placeholder="Insira seu email" />
+          <Input  IconLeft={BsKey} type="password" placeholder="Insira uma senha" />
+        </Condition>
+        <Button type="submit" label={labelButton}/>
       </Form>
       <p className={styles.links}>
-        <span>
-        Esqueceu sua senha?  <Link href={ROUTES.FORGOT}> Recuperar</Link>
-        </span>
-        <span>
-          Ainda não tem conta?  <Link href={ROUTES.REGISTER}>Cadastre-se</Link>
-        </span>
+        <Condition when={route === ROUTES.HOME}>
+          <span>
+          Esqueceu sua senha?  <Link href={ROUTES.FORGOT}> Recuperar</Link>
+          </span>
+          <span>
+            Ainda não tem conta?  <Link href={ROUTES.REGISTER}>Cadastre-se</Link>
+          </span>
+        </Condition>
+        <Condition when={route !== ROUTES.HOME}>
+          <span>
+          {/* Já tem cadastro?*/}  <Link href={ROUTES.HOME}>Voltar à Página Inicial</Link> 
+          </span>
+        </Condition>
       </p>
     </div>
   )
