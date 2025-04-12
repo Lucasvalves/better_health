@@ -5,6 +5,7 @@
   --font-color-gray: #605B5B
   --font-sora: "Sora", sans-serif;
   --font-poppins: "Poppins", sans-serif;
+  --font-color-gray: #1c1b1fbb;
   --gray-50: #DDDFEB;
   --gray-100: #97909050;
   --gray200: #535653;
@@ -13,7 +14,7 @@
   --black: #272B30;
   --blue: #001489;
 }
-
+//color: var(--font-color-gray);
 * {
   margin: 0;
   padding: 0;
