@@ -10,7 +10,7 @@ import { DayPicker } from "react-day-picker";
 import 'react-day-picker/dist/style.css';
 import { ptBR } from 'date-fns/locale';
 
-export default function Appointments(){
+export default function Schedule(){
   const [selected, setSelected] = useState<Date>();
   const isWeekend = (date: Date) => {
     const day = date.getDay();
@@ -24,27 +24,16 @@ export default function Appointments(){
 
   return(
     <div className={styles.page}>
-      <PageLayout userName={"Eduarda Freitas"} route={ROUTES.APPOINTMENTS} />
+      <PageLayout route={ROUTES.SCHEDULE} title="Montar Agenda" />
       <section className={styles.container}>
         <div className={styles.wrapperLeft}>
-            <AppInput label="Insira o nome  do paciente" placeholder="joetracker@gmail.com" type="text"/>
-            <AppInput label="Insira CPF do paciente" placeholder="12345678910" type="text"/>
-            <div>
-              <label htmlFor="specialties-select">Selecione uma especialidade</label>
-              <div className={styles.specialtiesSelect}>
-                <select id="specialties-select" name="specialties">
-                  <option disabled selected hidden>Selecione...</option>
-                  <option value="dermatologista">Dermatologista</option>
-                  <option value="urologista">Urologista</option>
-                  <option value="cardiologista">Cardiologista</option>
-                  <option value="clinicoGeral">Clínico Geral</option>
-                  <option value="angiologista">Angiologista</option>
-                </select>
-              </div>
-            </div>
+            <AppInput label="Insira o nome  do médico" placeholder="Maiara Silva Costa" type="text"/>
+            <AppInput label="Insira CRM do médico" placeholder="25267" type="text"/>
+            <AppInput label="Especialidade do médico" placeholder="Clinica Geral" type="text"/>
+            <AppInput label="Quantidade de vagas" placeholder="5" type="number"/>
           </div>
           <div className={styles.wrapperCenter}>
-            <ButtonGroup rightButtonLabel="Cancelar" leftButtonLabel="Agendar"/>
+            <ButtonGroup rightButtonLabel="Cancelar" leftButtonLabel="Confirmar"/>
           </div>
           <div className={styles.wrapperRight}>
             <label htmlFor="specialties-select">Selecione o horário</label>

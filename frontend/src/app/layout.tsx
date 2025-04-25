@@ -25,11 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <link rel="shortcut icon" type="imagex/png" href="./logo-bg-blue.png" />
-      <body className={`${sora.variable} ${poppins.variable} font-sans`}>
-        {children}
-      </body>
+    <html lang="en" className={`${sora.variable} ${poppins.variable}`}>
+      <head>
+        <link rel="shortcut icon" type="imagex/png" href="/logo-bg-blue.png" />
+      </head>
+      <body className="font-sans">{children}</body>
     </html>
   );
 }
