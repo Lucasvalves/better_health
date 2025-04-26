@@ -1,0 +1,61 @@
+
+.page {
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  color: var(--primary-color);
+  font-family: var(--font-poppins);
+  .formWrapper{
+    form{
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 50%;
+      position: relative; 
+      .itemsCenter{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        .avatarWrapper {
+          display: inline-block;
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          overflow: hidden;
+          cursor: pointer;
+          margin: auto;
+          border: solid 1px var(--primary-color);
+          .avatarImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            color: var(--primary-color);
+          }
+          .fileInput {
+            display: none;
+          }
+          .editIcon {
+            position: absolute;
+            top: 16%;
+            right: 43%;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            padding: 5px 5px 0 9px;
+          }
+        }
+        .inputContainer{
+          border: solid 1px var(--primary-color);
+          width: 100%;
+          box-shadow: none !important;
+          border-radius: 20px;
+        }
+        .file, .inputContainer{
+          border: solid 1px var(--primary-color);
+        }
+      }
+    }
+  }
+}
