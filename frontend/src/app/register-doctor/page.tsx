@@ -11,9 +11,9 @@ export default function RegisterPatient(){
         <div className={styles.formWrapper}>
           <Form action="">
             <div className={styles.itemsCenter}>
-            <AppInput label="Nome" placeholder="Amanda Teixeira" className={styles.containerInput}/>
-            <AppInput label="CRM" placeholder="1234" className={styles.containerInput}/>
-            <AppInput label="Especialidade" placeholder="Oftamologista" className={styles.containerInput}/>
+            <AppInput label="Nome" placeholder="Amanda Teixeira" className={styles.inputContainer}/>
+            <AppInput label="CRM" placeholder="1234" className={styles.inputContainer}/>
+            <AppInput label="Especialidade" placeholder="Oftamologista" className={styles.inputContainer}/>
             <ButtonGroup rightButtonLabel="Cancelar" leftButtonLabel="Salvar" />
           </div>
           </Form>

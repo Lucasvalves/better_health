@@ -20,10 +20,10 @@ export default function EditProfile(){
                 <MdOutlineEdit size='20'/>
               </div>
             </label>
-            <AppInput label="Nome" placeholder="Luiza Gomes" className={styles.containerInput}/>
-            <AppInput label="Email" placeholder="luizagomes@gmail.com" className={styles.containerInput}/>
-            <AppInput label="Nova senha" placeholder="******" type="password" className={styles.containerInput}/>
-            <AppInput label="Confirmar senha" placeholder="******" type="password" className={styles.containerInput}/>
+            <AppInput label="Nome" placeholder="Luiza Gomes" className={styles.inputContainer}/>
+            <AppInput label="Email" placeholder="luizagomes@gmail.com" className={styles.inputContainer}/>
+            <AppInput label="Nova senha" placeholder="******" type="password" className={styles.inputContainer}/>
+            <AppInput label="Confirmar senha" placeholder="******" type="password" className={styles.inputContainer}/>
             <ButtonGroup rightButtonLabel="Cancelar" leftButtonLabel="Editar" />
           </div>
           </Form>

@@ -11,7 +11,7 @@ export default function RegisterPatient(){
         <div className={styles.formWrapper}>
           <Form action="">
             <div className={styles.itemsCenter}>
-            <AppInput label="Nome" placeholder="Oftamologista" className={styles.containerInput}/>
+            <AppInput label="Nome" placeholder="Oftamologista" className={styles.inputContainer}/>
             <ButtonGroup rightButtonLabel="Cancelar" leftButtonLabel="Salvar" />
           </div>
           </Form>
