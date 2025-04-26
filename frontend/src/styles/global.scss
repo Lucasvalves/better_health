@@ -1,6 +1,27 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-color: #2C5084;
+  --secondary-color: #FFFFFF;
+  --border-radius-input: 12px;
+  --font-sora: "Sora", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+  --font-color-gray: #1c1b1fbb;
+  --gray-50: #F6F6F6;
+  //--font-color-gray: #605B5B
+  --gray-100: #ccc;
+  // --gray200: #535653;
+  // --gray-300: #7C838B;
+  --white: #fff;
+  --black: #272B30;
+  --blue: #001489;
+  --font-size-h1: 2.25rem;
+  --font-size-h2: 1.75rem;
+  --font-size-h3: 1.5rem;
+  --font-size-body: 1rem;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: dark) {

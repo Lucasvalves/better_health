@@ -1,0 +1,32 @@
+.container{
+  width: 300px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 15;
+  justify-content: center;
+  margin: 0 auto;
+
+  button{
+    padding: 10px 0px;
+    width: 100px;
+    border-radius: 15px;
+    font-weight: 800;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+      transition: color 0.5s ease-in-out;
+    }
+  }
+  button:first-child{
+    border: solid 1px var(--primary-color);
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+  }
+  button:last-child{
+    background-color: var(--primary-color);
+    color:  var(--secondary-color);
+    border: none;
+  }
+}

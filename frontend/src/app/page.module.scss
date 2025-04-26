@@ -1,0 +1,14 @@
+.page {
+  font-family: var(--font-sora);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  .formWrapper{
+    margin-right: 12.5rem;
+    z-index: 1;
+    position: absolute;
+  }
+
+}
