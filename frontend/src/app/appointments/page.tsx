@@ -9,6 +9,7 @@ import styles from './page.module.scss'
 import { DayPicker } from "react-day-picker";
 import 'react-day-picker/dist/style.css';
 import { ptBR } from 'date-fns/locale';
+import { format } from 'date-fns'
 
 export default function Appointments(){
   const [selected, setSelected] = useState<Date>();
@@ -16,8 +17,7 @@ export default function Appointments(){
     const day = date.getDay();
     return day === 0 || day === 6;
   };
-
-  const isWeeDay = (date: Date) => {
+  const isWeekDay = (date: Date) => {
     const day = date.getDay();
     return day !== 0 && day !== 6;
   };
@@ -33,7 +33,7 @@ export default function Appointments(){
               <label htmlFor="specialties-select">Selecione uma especialidade</label>
               <div className={styles.specialtiesSelect}>
                 <select id="specialties-select" name="specialties">
-                  <option disabled selected hidden>Selecione...</option>
+                  {/* <option disabled selected hidden>Selecione...</option> */}
                   <option value="dermatologista">Dermatologista</option>
                   <option value="urologista">Urologista</option>
                   <option value="cardiologista">Cardiologista</option>
@@ -49,28 +49,31 @@ export default function Appointments(){
           <div className={styles.wrapperRight}>
             <label htmlFor="specialties-select">Selecione o horário</label>
             <div className={styles.picker}>
-            <DayPicker
-              animate
-              mode="single"
-              selected={selected}
-              onSelect={setSelected}
-              locale={ptBR}
-              fromMonth={new Date()}
-              className={styles.calendar}
-              modifiers={{ available: isWeeDay }}
-              classNames={{
-                day: styles.day,
-              }}
-              modifiersClassNames={{
-                selected: styles.selected,
-              }}
-              disabled={isWeekend}
-              footer={
-                selected ? `Selected: ${selected.toLocaleDateString()}` : "Pick a day."
-              }
-            />
+              <DayPicker
+                mode="single"
+                selected={selected}
+                onSelect={setSelected}
+                locale={ptBR}
+                fromMonth={new Date()}
+                className={styles.calendar}
+                modifiers={{
+                 available: isWeekDay,
+                  today: new Date(), 
+                }}
+                classNames={{
+                  day: styles.day,
+                  selected: styles.selected,
+                  today: styles.today, 
+                }}
+                disabled={isWeekend}
+                footer={
+                  <p style={{ textAlign: "center", marginTop: "1rem" }}>
+                   {selected ? `Selecionado: ${format(selected, "dd/MM/yyyy", { locale: ptBR })}` : "Hoje"}
+                  </p>
+                }
+              />
             </div>
-        </div>
+          </div>
       </section>
     </div>
   )

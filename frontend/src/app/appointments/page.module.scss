@@ -68,33 +68,58 @@
       label{
         margin-bottom: 3px;
       }
-      .calendar {
-        background-color: #E05263;
-        height: 400px;
-        max-height: 400px;
-        width: fit-content;
-        padding: 1rem 2.5rem;
-        border-radius: 10px;
-        color: var(--white);
+      .picker {
+        background-color: #E05263; 
+        padding: 1rem;
+        border-radius: 15px;
         box-shadow: 4px 8px 4px rgb(0, 0, 0, 0.3);
-      }
+        color: var(--secondary-color); 
+        font-family: 'Arial', sans-serif;
 
-      .day:not(.disabled) {
-        background-color: var(--secondary-color);
-        width: 40px;
-        height: 40px;
-        color: var(--black);
-        margin: .15rem;
-        border-radius: 5px;
-      }
+        .rdp-head {
+          font-weight: 100;
+          margin-bottom: 0.5rem;
+          color: red;
+        }
 
-      // .day.disabled {
-      //  background-color: var(--gray200) !important;
-      // }
+        .rdp-weekday {
+          color: #666;
+          font-size: 0.9rem;
+          background-color: #f0f0f0 !important; 
+        }
 
-      .selected {
-        color: var(--secondary-color) !important;
-        background-color: var(--blue) !important;
+        // Dias normais
+        .day {
+          // width: 20px;
+          // height: 20px;
+          margin: 0.1rem;
+          border-radius: 5px; 
+          background-color: var(--secondary-color); 
+          color: var(--black);
+          transition: background-color 0.2s;
+
+          &:hover:not(.disabled, .selected) {
+            color: var(--black);
+            margin: .15rem;
+            border-radius: 5px;
+          }
+        }
+        // Dia selecionado
+        .selected {
+          background-color: var(--blue) !important; 
+          color: var(--secondary-color) !important;
+        }
+
+        .today {
+          background-color: var(--gray-300);
+          color: var(--secondary-color) !important;
+        }
+
+        // Dias desabilitados (fim de semana)
+        .disabled {
+          color: red !important;
+          background-color: blue !important;
+        }
       }
     }
   }
