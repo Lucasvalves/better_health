@@ -1,7 +1,7 @@
-
-.container{
-  margin-bottom: 20px;  
+.container {
+  margin-bottom: 20px;
   font-size: var(--font-size-body);
+
   .inputContainer {
     margin-top: 3px;
     display: flex;
@@ -12,6 +12,7 @@
     padding: 12px;
     width: 75%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
     input {
       flex: 1;
       border: none;
@@ -20,20 +21,30 @@
       font-size: var(--font-size-body);
       font-size: 1rem;
       color: var(--primary-color);
+
       &::placeholder {
-        color: #ccc;
+        color: #8A87AC;
         font-style: italic;
         font-size: 14px;
       }
+
+      &[type='number']::-webkit-outer-spin-button,
+      &[type='number']::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
     }
+
     .icon {
       color: var(--font-color-gray);
     }
+
     .iconRight {
       font-size: var(--font-size-body);
       color: var(--font-color-gray);
       cursor: pointer;
     }
+
     .iconButton {
       background: none;
       border: none;
@@ -47,4 +58,3 @@
     }
   }
 }
-  
