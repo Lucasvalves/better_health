@@ -153,24 +153,24 @@
         }
       }
       
-      /* Estiliza a barra de rolagem dentro de wrapperBottom */
+
      &::-webkit-scrollbar {
-        width: 8px; /* largura da barra */
+        width: 8px; 
         height: 100px;
       }
       
       &::-webkit-scrollbar-track {
-        background: #f0f0f0; /* cor de fundo da barra */
+        background: #f0f0f0;
         border-radius: 8px;
       }
       
       &::-webkit-scrollbar-thumb {
-        background: #2c5184be; /* cor do "dedo" da barra */
+        background: #2c5184be; 
         border-radius: 8px;
       }
       
       &::-webkit-scrollbar-thumb:hover {
-        background: #2C5084; /* cor ao passar o mouse */
+        background: #2C5084; 
       }
     }
   }
