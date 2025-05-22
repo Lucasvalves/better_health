@@ -4,8 +4,6 @@ import { WiTime9 } from "react-icons/wi";
 import styles from './page.module.scss'
 import { ButtonGroup } from "../ButtonGroup";
 
-  
-
 export const PoupUp = () =>(
   <div className={styles.container}>
     <span className={styles.title}><strong>Editar Horário</strong> <button title="Fechar"><MdClose size={20}/></button></span>
@@ -15,7 +13,7 @@ export const PoupUp = () =>(
         <label htmlFor="">Indique a nova data:</label>
         <div className={styles.inputWrapper}>
         <label className={styles.label}>
-          <span className={styles.icon}><IoIosCalendar/></span>
+          <span className={styles.icon}><IoIosCalendar/></span> 
           <input
             title="Data"
             type="date"

@@ -7,7 +7,7 @@ type Props = {
 };
 export const ButtonGroup = ({ rightButtonLabel, leftButtonLabel }: Props) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.containerButton}>
       <Button type="submit" label={rightButtonLabel} hasClassName={true}/>
       <Button type="submit" label={leftButtonLabel} hasClassName={true}/>
     </div>
