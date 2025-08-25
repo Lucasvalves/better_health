@@ -1,7 +1,7 @@
-import BackgroundImage from "../components/BackgroundImage";
-import FormContainer from "../components/FormContainer";
-import { ROUTES } from "../paths";
+import { enumsRoutes } from "@/shared/enums/enumsRoutes";
 import styles from "./page.module.scss";
+import BackgroundImage from "@/presentation/components/BackgroundImage";
+import FormContainer from "@/presentation/components/FormContainer";
 
 
 export default function  forgotPage(){
@@ -9,7 +9,7 @@ export default function  forgotPage(){
     <div className={styles.page}>
       <BackgroundImage src="/bg-forgot.png"/>
       <div className={styles.formWrapper}>
-        <FormContainer pageTitle='Recuperar' title='Solicitar redefinição!' labelButton="Confirmar" route={ROUTES.FORGOT}/>
+        <FormContainer pageTitle='Recuperar' title='Solicitar redefinição!' labelButton="Confirmar" route={enumsRoutes.FORGOT}/>
       </div>
     </div>
   )

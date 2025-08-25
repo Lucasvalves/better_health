@@ -2,6 +2,7 @@
 import Link from "next/link";
 import styles from "./not-found.module.scss";
 import { BsArrowLeft } from "react-icons/bs";
+import { enumsRoutes } from "@/shared/enums/enumsRoutes";
 
 export default function NotFound() {
   return (
@@ -11,7 +12,7 @@ export default function NotFound() {
       <p className={styles.description}>
         Oops! A página que você está procurando não existe ou foi movida.
       </p>
-      <Link href="/" className={styles.homeLink}>
+      <Link href={enumsRoutes.HOME}className={styles.homeLink}>
         <BsArrowLeft className={styles.icon} /> Voltar para a página inicial
       </Link>
     </div>

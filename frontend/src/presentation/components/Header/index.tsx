@@ -2,7 +2,7 @@ import Link from "next/link";
 import styles from "./page.module.scss"
 import { RiMenu3Fill } from 'react-icons/ri';
 import { Nav } from "../Nav";
-import { ROUTES } from "@/app/paths";
+import { enumsRoutes } from "@/shared/enums/enumsRoutes";
 
 export default function Header(){
  return (
@@ -10,7 +10,7 @@ export default function Header(){
       <section className={styles.wrapper}>
         <div>
           <div className={styles.containerMenu}>
-            <Link href={ROUTES.APPOINTMENTS} >
+            <Link href={enumsRoutes.APPOINTMENTS} >
               <div className={styles.logo}/>
             </Link>
             <Nav />

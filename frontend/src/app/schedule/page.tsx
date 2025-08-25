@@ -1,35 +1,21 @@
 "use client"
 
 import { useState } from "react";
-import { ButtonGroup } from "../components/ButtonGroup";
-import AppInput from "../components/Inputs/AppInput";
-import { PageLayout } from "../components/PageLayout";
-import { ROUTES } from "../paths";
 import styles from './page.module.scss'
 import { DayPicker } from "react-day-picker";
-import 'react-day-picker/dist/style.css';
 import { ptBR } from 'date-fns/locale';
-
+import { isPastDate, isWeekDay, isWeekend} from "@/shared/utils/helpers/calendarDate";
+import { enumsRoutes } from "@/shared/enums/enumsRoutes";
+import { PageLayout } from "@/presentation/components/PageLayout";
+import AppInput from "@/presentation/components/Inputs/AppInput";
+import { ButtonGroup } from "@/presentation/components/ButtonGroup";
 export default function Schedule() {
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
 
-  const isWeekend = (date: Date) => {
-    const day = date.getDay();
-    return day === 0 || day === 6;
-  };
-  const isWeekDay = (date: Date) => {
-    const day = date.getDay();
-    return day !== 0 && day !== 6;
-  };
-  const isPastDate = (date: Date) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Remove a parte de horas para comparar apenas datas
-    return date < today;
-  };
 
   return (
     <div className={styles.page}>
-      <PageLayout route={ROUTES.SCHEDULE} title="Montar Agenda" />
+      <PageLayout route={enumsRoutes.SCHEDULE} title="Montar Agenda" />
       <section className={styles.container}>
         <div className={styles.wrapperLeft}>
           <AppInput label="Insira o nome  do médico" placeholder="Maiara Silva Costa" type="text" />

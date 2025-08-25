@@ -1,7 +1,8 @@
+import BackgroundImage from "@/presentation/components/BackgroundImage";
 import styles from "./page.module.scss";
-import BackgroundImage from './components/BackgroundImage'
-import FormContainer from "./components/FormContainer";
-import { ROUTES } from "./paths";
+import { enumsRoutes } from "@/shared/enums/enumsRoutes";
+import FormContainer from "@/presentation/components/FormContainer";
+
 
 
 export default function Home() {
@@ -9,7 +10,7 @@ export default function Home() {
     <div className={styles.page}>
       <BackgroundImage src="/bg-login.png"/>
       <div className={styles.formWrapper}>
-        <FormContainer pageTitle='Login'  title="Olá! Seja Bem Vindo!" labelButton="Entrar" route={ROUTES.HOME}/>
+        <FormContainer pageTitle='Login'  title="Olá! Seja Bem Vindo!" labelButton="Entrar" route={enumsRoutes.HOME}/>
       </div>
     </div>
   );

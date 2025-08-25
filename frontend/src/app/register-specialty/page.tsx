@@ -1,8 +1,8 @@
 import Form from "next/form";
-import { ButtonGroup } from "../components/ButtonGroup";
-import AppInput from "../components/Inputs/AppInput";
-import { PageLayout } from "../components/PageLayout";
 import styles from './page.module.scss'
+import { PageLayout } from "@/presentation/components/PageLayout";
+import AppInput from "@/presentation/components/Inputs/AppInput";
+import { ButtonGroup } from "@/presentation/components/ButtonGroup";
 
 export default function RegisterPatient(){
   return(

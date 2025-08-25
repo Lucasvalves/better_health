@@ -1,17 +1,18 @@
 "use client"
-import AppInput from "../components/Inputs/AppInput";
-import { PageLayout } from "../components/PageLayout";
-import { ROUTES } from "../paths";
+import { enumsRoutes } from "@/shared/enums/enumsRoutes";
+
 import styles from './page.module.scss'
 import 'react-day-picker/dist/style.css';
 import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { PageLayout } from "@/presentation/components/PageLayout";
+import AppInput from "@/presentation/components/Inputs/AppInput";
 
 export default function SearchAppointments() {
 
   return (
     <div className={styles.page}>
-      <PageLayout userName={"Eduarda Freitas"} route={ROUTES.APPOINTMENTS} />
+      <PageLayout userName={"Eduarda Freitas"} route={enumsRoutes.APPOINTMENTS} />
       <section className={styles.container}>
         <div className={styles.wrapperTop}>
           <AppInput label="Insira CPF do paciente" placeholder="12345678910" type="text" />

@@ -7,8 +7,9 @@ import Form from 'next/form'
 import { BsKey } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
 import Link from 'next/link';
-import { ROUTES } from '@/app/paths';
+
 import { Condition } from '../Condition';
+import { enumsRoutes } from '@/shared/enums/enumsRoutes';
 
 type Props = {
   pageTitle: string
@@ -29,16 +30,16 @@ export default function FormContainer({ pageTitle, title, labelButton , route}: 
       </div>
       <h2>{title}</h2>
       <Form action="/search">
-        <Condition when={route === ROUTES.HOME}>
+        <Condition when={route === enumsRoutes.HOME}>
           <Input IconLeft={MdOutlineEmail} type="email" placeholder="Email" />
           <Input  IconLeft={BsKey} type="password" placeholder="Senha" />
         </Condition>
-        <Condition when={route === ROUTES.FORGOT}>
+        <Condition when={route === enumsRoutes.FORGOT}>
           <span className={styles.inputForgot}>
             <Input  IconLeft={MdOutlineEmail} type="email" placeholder="Insira seu email" />
           </span>
         </Condition>
-        <Condition when={route === ROUTES.REGISTER}>
+        <Condition when={route === enumsRoutes.REGISTER}>
           <Input IconLeft={MdOutlineEmail} type="email" placeholder="Insira seu nome" />
           <Input IconLeft={MdOutlineEmail} type="email" placeholder="Insira seu email" />
           <Input  IconLeft={BsKey} type="password" placeholder="Insira uma senha" />
@@ -46,23 +47,23 @@ export default function FormContainer({ pageTitle, title, labelButton , route}: 
         <Button type="submit" label={labelButton}/>
       </Form>
       <p className={styles.links}>
-        <Condition when={route === ROUTES.HOME}>
+        <Condition when={route === enumsRoutes.HOME}>
           <span>
-          Esqueceu sua senha?  <Link href={ROUTES.FORGOT}> Recuperar</Link>
+          Esqueceu sua senha?  <Link href={enumsRoutes.FORGOT}> Recuperar</Link>
           </span>
           <span>
-            Ainda não tem conta?  <Link href={ROUTES.REGISTER}>Cadastre-se</Link>
+            Ainda não tem conta?  <Link href={enumsRoutes.REGISTER}>Cadastre-se</Link>
           </span>
         </Condition>
-        <Condition when={route !== ROUTES.HOME}>
-          <Condition when={route !== ROUTES.FORGOT}>
+        <Condition when={route !== enumsRoutes.HOME}>
+          <Condition when={route !== enumsRoutes.FORGOT}>
             <span>
-              Já tem cadastro? <Link href={ROUTES.HOME}>Voltar à Página Inicial</Link>  
+              Já tem cadastro? <Link href={enumsRoutes.HOME}>Voltar à Página Inicial</Link>  
             </span>
           </Condition>
-          <Condition when={route === ROUTES.FORGOT}>
+          <Condition when={route === enumsRoutes.FORGOT}>
             <span>
-              Deseja cancelar?  <Link href={ROUTES.HOME}>Voltar à Página Inicial</Link>  
+              Deseja cancelar?  <Link href={enumsRoutes.HOME}>Voltar à Página Inicial</Link>  
             </span>
           </Condition>
         </Condition>
