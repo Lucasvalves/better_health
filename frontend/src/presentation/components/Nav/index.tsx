@@ -9,7 +9,7 @@ export const Nav = () => {
         <ItemNavegation to={enumsRoutes.SEARCH_APPOINTMENTS}>Buscar Agendamentos</ItemNavegation>
         <ItemNavegation to={enumsRoutes.SCHEDULE}>Montar Agenda</ItemNavegation>
         <ItemNavegation to={enumsRoutes.PROFILE}>Editar Perfil</ItemNavegation>
-        <ItemNavegation to={enumsRoutes.HOME}>Sair</ItemNavegation>
+        <ItemNavegation to={enumsRoutes.AUTHENTICATION}>Sair</ItemNavegation>
     </div>
   );
 };

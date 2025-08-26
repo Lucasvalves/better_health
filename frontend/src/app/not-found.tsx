@@ -12,7 +12,7 @@ export default function NotFound() {
       <p className={styles.description}>
         Oops! A página que você está procurando não existe ou foi movida.
       </p>
-      <Link href={enumsRoutes.HOME}className={styles.homeLink}>
+      <Link href={enumsRoutes.AUTHENTICATION}className={styles.homeLink}>
         <BsArrowLeft className={styles.icon} /> Voltar para a página inicial
       </Link>
     </div>
