@@ -22,7 +22,7 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate: createUser, data, isSuccess:isSuccessCreateUser} = useMutation<User, Error, CreateUserBody>({
+  const { mutate: createUser, data, isSuccess:isSuccessCreateUser, isPending} = useMutation<User, Error, CreateUserBody>({
     mutationFn: (data:CreateUserBody) => createUserService.exec(data),
   });
   console.log("🚀 ~ useAuthenticationModel ~ data:", data)
@@ -64,6 +64,7 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
     name,
     email,
     password,
+    isPending
 
   };
 };

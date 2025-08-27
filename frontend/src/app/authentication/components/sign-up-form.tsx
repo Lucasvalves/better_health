@@ -11,13 +11,14 @@ interface ILoginForm {
   name: string;
   email: string;
   password: string;
+  isLoading?: boolean;
 }
 
 export default function SignUpForm({
   setName,
   setEmail,
   setPassword,
-  name, email, password
+  name, email, password, isLoading
 }: ILoginForm) {
   return (
     <>
@@ -31,7 +32,7 @@ export default function SignUpForm({
         value={email}
       />
       <Input IconLeft={BsKey} type="password" placeholder="Insira uma senha" onChange={(e) => setPassword(e.target.value)} value={password}/>
-      <Button type="submit" label="Confirmar" />
+      <Button type="submit" label="Confirmar" disabled={ name === "" || email === "" || password === ""} isLoading={isLoading} />
     </>
   );
 }

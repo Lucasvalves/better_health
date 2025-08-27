@@ -24,6 +24,7 @@ export const AuthenticationView = (
     name,
     email,
     password,
+    isPending,
   } = methods;
 
   return (
@@ -59,6 +60,7 @@ export const AuthenticationView = (
                   name={name}
                   email={email}
                   password={password}
+                  isLoading={isPending}
                   />
               </Condition>
             </Form>
