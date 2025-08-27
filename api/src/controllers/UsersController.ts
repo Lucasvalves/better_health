@@ -6,14 +6,19 @@ class UsersController {
 		this.usersServices = new UsersServices()
 	}
 
-	async store(request: Request, response: Response, next: NextFunction) : Promise<void>  {
+	async store(request: Request, response: Response, next: NextFunction) : Promise<Response | undefined>  {
 		//criar usuario
 		const { name, email, password } = request.body
 
 		try {
 			const result = await this.usersServices.create({ name, email, password })
 			response.status(201).json(result)
-		} catch (error) {
+		} catch (error:any) {
+			if (error.code === 'P2002') {
+				return response.status(400).json({ message: 'E-mail já cadastrado.' });
+			}
+
+			//return response.status(4001).json({ message: 'Erro ao criar usuário.' });
 			next(error)
 			response.status(401)
 		}

@@ -7,9 +7,13 @@ import {
   CreateUserServiceContract,
 } from "@/data/user-service/create-user-service";
 import { enqueueSnackbar } from "notistack";
+import { AxiosError } from "axios";
 
 export type UserServiceRegistry = {
   createUserService: CreateUserServiceContract;
+};
+type ApiError = {
+   message?: string;
 };
 
 export const useAuthenticationModel = (props: UserServiceRegistry) => {
@@ -22,10 +26,23 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate: createUser, data, isSuccess:isSuccessCreateUser, isPending} = useMutation<User, Error, CreateUserBody>({
-    mutationFn: (data:CreateUserBody) => createUserService.exec(data),
+
+  const { mutate: createUser, data, isPending } =
+  useMutation<User, AxiosError<ApiError>, CreateUserBody>({
+    mutationFn: (data: CreateUserBody) => {
+    return createUserService.exec(data);
+},
+    onError: (err) => {
+      const message = err.response?.data?.message || 'Erro ao criar usuário.';
+      enqueueSnackbar(message, { variant: 'error' });
+
+    },
+    onSuccess: () => {
+      enqueueSnackbar('Usuário criado com sucesso!', { variant: 'success' });
+    },
   });
   console.log("🚀 ~ useAuthenticationModel ~ data:", data)
+
 
 
   const handleForms = () => {
@@ -44,11 +61,6 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
     setName('')
     setEmail('')
     setPassword('')
-    console.log("🚀 ~ handleCreateUser ~ isSuccessCreateUser:", isSuccessCreateUser)
-    if(isSuccessCreateUser){
-      enqueueSnackbar('Usuário criado com sucesso!', { variant: 'success' })
-    }
-
   }
 
   return {

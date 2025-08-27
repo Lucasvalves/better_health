@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 import { IHttpClient, HttpRequest} from "../contratcs/http-contratcs";
 
 export class HttpClient implements IHttpClient {
@@ -23,10 +23,7 @@ export class HttpClient implements IHttpClient {
 
             return data.data;
         } catch (err) {
-            const error = err as AxiosError;
-            const status = error.response?.status || 500;
-            const message = error.response?.data || error.message;
-			throw new Error(`Request failed with status ${status}: ${message}`)
+			throw err
 
         }
     }
