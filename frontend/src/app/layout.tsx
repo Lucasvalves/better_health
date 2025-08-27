@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Sora, Poppins } from "next/font/google"; 
+import { Sora, Poppins } from "next/font/google";
 import "../styles/global.scss";
+import { ReactQueryProvider } from "@/presentation/providers/react-query";
+import { CustomSnackbarProvider } from "@/presentation/providers/custom-snackbar-provider";
 
-// Configuração da Sora
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
 });
 
-// Configuração da Poppins
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], // Peso(s) desejados
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -29,7 +29,9 @@ export default function RootLayout({
       <head>
         <link rel="shortcut icon" type="imagex/png" href="/logo-bg-blue.png" />
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        <CustomSnackbarProvider><ReactQueryProvider>{children}</ReactQueryProvider></CustomSnackbarProvider>
+      </body>
     </html>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import style from './page.module.scss'
 import {BsEye, BsEyeSlash } from "react-icons/bs";
 import { Condition } from '../../Condition';
@@ -8,8 +8,10 @@ type Props = {
   placeholder:string
   type:string
   IconLeft?: React.ElementType
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  value?: string
 }
-export default function AuthInput({placeholder,type, IconLeft}:Props){
+export default function AuthInput({placeholder,type, IconLeft, onChange, value}:Props){
 
   const [showPassword, setShowPassword] =  useState(false)
 
@@ -23,7 +25,7 @@ export default function AuthInput({placeholder,type, IconLeft}:Props){
         <IconLeft className={style.icon} aria-hidden="true"/>} 
          <input
           type={type === "password" ? (showPassword ? "text" : "password") : type}
-          placeholder={placeholder}/>
+          placeholder={placeholder} onChange={onChange} value={value}/>
         <Condition when={type === "password"}>
           <button title={showPassword ? "Ocultar senha" : "Mostrar senha"} type='button' className={style.iconButton} onClick={handleTogglePassword}>
             <Condition when={showPassword}> 
