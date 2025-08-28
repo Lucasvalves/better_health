@@ -9,7 +9,6 @@ import { SpecialtiesRoutes } from './routes/specialties.routes';
 import swaggerUi from 'swagger-ui-express'
 import { SwaggerSpec } from './utils/swagger';
 
-
 const app: Application = express();
 
 app.use(cors());
@@ -17,7 +16,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/v1/docs', swaggerUi.serve, swaggerUi.setup(SwaggerSpec))
-
 
 const usersRoutes = new UsersRoutes().getRoutes();
 const patientsRoutes = new PatientsRoutes().getRoutes();
@@ -33,7 +31,6 @@ app.use('/doctors', doctorsRoutes);
 app.use('/times', timesRoutes);
 app.use('/appointments', appointmentsRoutes);
 
-
 const errorHandler: express.ErrorRequestHandler = (err:Error, req:Request, res:any, next: NextFunction) => {
   const statusCode = err instanceof Error ? 400 : 500;
   const message = err instanceof Error ? err.message : 'Internal Server Error';
@@ -44,7 +41,10 @@ const errorHandler: express.ErrorRequestHandler = (err:Error, req:Request, res:a
 };
 
 app.use(errorHandler);
+
+const port = process.env.PORT || 3333
+app.listen(port, () => console.log('Server is running'));
+
 export { app };
 
-app.listen(3333, () => console.log('Server is running'));
 
