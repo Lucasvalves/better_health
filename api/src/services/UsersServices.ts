@@ -11,11 +11,6 @@ class UsersServices {
 		this.usersRepository = new UsersRepository()
 	}
 	async create({ name, email, password }: ICreate) {
-		const findUser = await this.usersRepository.findUserByEmail(email)
-
-		if (findUser) {
-			throw new Error('User Exists')
-		}
 
 		const hashPassword = await hash(password, 10)
 

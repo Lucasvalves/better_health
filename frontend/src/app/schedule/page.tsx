@@ -1,44 +1,48 @@
-"use client"
+'use client'
 
-import { useState } from "react";
-import { ButtonGroup } from "../components/ButtonGroup";
-import AppInput from "../components/Inputs/AppInput";
-import { PageLayout } from "../components/PageLayout";
-import { ROUTES } from "../paths";
+import { useState } from 'react'
 import styles from './page.module.scss'
-import { DayPicker } from "react-day-picker";
-import 'react-day-picker/dist/style.css';
-import { ptBR } from 'date-fns/locale';
-
+import { DayPicker } from 'react-day-picker'
+import { ptBR } from 'date-fns/locale'
+import {
+  isPastDate,
+  isWeekDay,
+  isWeekend
+} from '@/shared/utils/helpers/calendarDate'
+import { enumsRoutes } from '@/shared/enums/enumsRoutes'
+import { PageLayout } from '@/presentation/components/PageLayout'
+import AppInput from '@/presentation/components/Inputs/AppInput'
+import { ButtonGroup } from '@/presentation/components/ButtonGroup'
 export default function Schedule() {
-  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
-
-  const isWeekend = (date: Date) => {
-    const day = date.getDay();
-    return day === 0 || day === 6;
-  };
-  const isWeekDay = (date: Date) => {
-    const day = date.getDay();
-    return day !== 0 && day !== 6;
-  };
-  const isPastDate = (date: Date) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Remove a parte de horas para comparar apenas datas
-    return date < today;
-  };
+  const [selectedDates, setSelectedDates] = useState<Date[]>([])
 
   return (
     <div className={styles.page}>
-      <PageLayout route={ROUTES.SCHEDULE} title="Montar Agenda" />
+      <PageLayout route={enumsRoutes.SCHEDULE} title="Montar Agenda" />
       <section className={styles.container}>
         <div className={styles.wrapperLeft}>
-          <AppInput label="Insira o nome  do médico" placeholder="Maiara Silva Costa" type="text" />
-          <AppInput label="Insira CRM do médico" placeholder="25267" type="text" />
-          <AppInput label="Especialidade do médico" placeholder="Clinica Geral" type="text" />
+          <AppInput
+            label="Insira o nome  do médico"
+            placeholder="Maiara Silva Costa"
+            type="text"
+          />
+          <AppInput
+            label="Insira CRM do médico"
+            placeholder="25267"
+            type="text"
+          />
+          <AppInput
+            label="Especialidade do médico"
+            placeholder="Clinica Geral"
+            type="text"
+          />
           <AppInput label="Quantidade de vagas" placeholder="5" type="number" />
         </div>
         <div className={styles.wrapperCenter}>
-          <ButtonGroup rightButtonLabel="Cancelar" leftButtonLabel="Confirmar" />
+          <ButtonGroup
+            rightButtonLabel="Cancelar"
+            leftButtonLabel="Confirmar"
+          />
         </div>
         <div className={styles.wrapperRight}>
           <label htmlFor="specialties-select">Selecione a data</label>
@@ -46,19 +50,19 @@ export default function Schedule() {
             <DayPicker
               mode="multiple"
               required={true}
-              selected={selectedDates} 
+              selected={selectedDates}
               onSelect={setSelectedDates}
               locale={ptBR}
               fromMonth={new Date()}
               className={styles.calendar}
               modifiers={{
                 available: isWeekDay,
-                today: new Date(),
+                today: new Date()
               }}
               classNames={{
                 day: styles.day,
                 selected: styles.selected,
-                today: styles.today,
+                today: styles.today
               }}
               disabled={(date) => isPastDate(date) || isWeekend(date)}
             />
@@ -68,4 +72,3 @@ export default function Schedule() {
     </div>
   )
 }
-

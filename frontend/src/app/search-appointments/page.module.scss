@@ -54,35 +54,34 @@
           border-top-left-radius: 20px;
           border-top-right-radius: 20px;
           border-radius: 30px;
-          width: 100%;  
-    
+          width: 100%;
+
           tr {
             display: grid;
-            grid-template-columns: 90px 1.6fr 1.6fr .9fr;
+            grid-template-columns: 90px 1.6fr 1.6fr 0.9fr;
             width: 98%;
             margin: 0 auto;
-            
-          th {
-            padding: 12px;
-            font-weight: 400;
-            color: var(--primary-color);
 
-            &:first-child {
-              margin-left: 10px;
-            }
-            &:nth-child(2) {
-              margin-left: 10px;
-            }
-            &:last-child {
-              text-align: left;
+            th {
+              padding: 12px;
+              font-weight: 400;
+              color: var(--primary-color);
+
+              &:first-child {
+                margin-left: 10px;
+              }
+              &:nth-child(2) {
+                margin-left: 10px;
+              }
+              &:last-child {
+                text-align: left;
+              }
             }
           }
-          }
-
         }
 
         tbody {
-          font-size: .9rem;
+          font-size: 0.9rem;
           font-weight: 400;
           width: 100%;
           overflow-y: auto;
@@ -90,7 +89,7 @@
 
           .linha {
             display: grid;
-            grid-template-columns: 90px 1.6fr 1.6fr .9fr;
+            grid-template-columns: 90px 1.6fr 1.6fr 0.9fr;
             background-color: #fff;
             border-radius: 20px;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
@@ -108,15 +107,15 @@
               font-size: 1.25rem;
               font-weight: 600;
             }
-  
+
             .specialty {
               margin: auto;
             }
-            
+
             .doctor {
               margin: auto;
             }
-  
+
             .crm {
               display: flex;
               flex-direction: row;
@@ -125,21 +124,20 @@
               .crmNumber {
                 width: 58%;
               }
-  
+
               .actions {
                 display: flex;
                 gap: 8px;
                 width: 30%;
                 justify-content: right;
 
-  
                 .edit {
                   color: #1a4dd6;
                   background: none;
                   border: none;
                   cursor: pointer;
                 }
-  
+
                 .delete {
                   color: #e63946;
                   background: none;
@@ -149,28 +147,26 @@
               }
             }
           }
-
         }
       }
-      
 
-     &::-webkit-scrollbar {
-        width: 8px; 
+      &::-webkit-scrollbar {
+        width: 8px;
         height: 100px;
       }
-      
+
       &::-webkit-scrollbar-track {
         background: #f0f0f0;
         border-radius: 8px;
       }
-      
+
       &::-webkit-scrollbar-thumb {
-        background: #2c5184be; 
+        background: #2c5184be;
         border-radius: 8px;
       }
-      
+
       &::-webkit-scrollbar-thumb:hover {
-        background: #2C5084; 
+        background: #2c5084;
       }
     }
   }

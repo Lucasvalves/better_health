@@ -48,7 +48,7 @@
           margin: -7px -0px 0 -11px;
 
           option:nth-child(odd) {
-            background-color: #F4F4F4;
+            background-color: #f4f4f4;
           }
 
           option:last-child {
@@ -132,27 +132,27 @@
               margin: 12px 0 0 12px;
               padding: 0;
               height: 80%;
-              overflow-y: auto; 
-              min-height: 0; 
+              overflow-y: auto;
+              min-height: 0;
               align-content: flex-start;
 
               &::-webkit-scrollbar {
-                width: 8px; 
+                width: 8px;
                 height: 100px;
               }
-              
+
               &::-webkit-scrollbar-track {
                 background: #f0f0f0;
                 border-radius: 8px;
               }
-              
+
               &::-webkit-scrollbar-thumb {
-                background: #2c5184be; 
+                background: #2c5184be;
                 border-radius: 8px;
               }
-              
+
               &::-webkit-scrollbar-thumb:hover {
-                background: #2C5084; 
+                background: #2c5084;
               }
 
               li {
@@ -160,11 +160,12 @@
                 border-radius: 5px;
                 color: var(--primary-color);
                 cursor: pointer;
-                flex-basis: calc(33.33% - 8px); 
-                overflow-y: auto; 
+                flex-basis: calc(33.33% - 8px);
+                overflow-y: auto;
                 min-height: 0;
-                height: 20px; 
+                height: 20px;
                 font-weight: normal;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.007);
 
                 &:hover {
                   background-color: #2c518410;
@@ -191,7 +192,7 @@
         p {
           margin-bottom: 10px;
           text-align: center;
-          margin-top: 1rem
+          margin-top: 1rem;
         }
       }
     }
