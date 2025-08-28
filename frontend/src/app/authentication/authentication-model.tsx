@@ -31,7 +31,6 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
 
   const {
     mutate: createUser,
-    data,
     isPending
   } = useMutation<User, AxiosError<ApiError>, CreateUserBody>({
     mutationFn: (data: CreateUserBody) => {
@@ -45,7 +44,6 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
       enqueueSnackbar('Usuário criado com sucesso!', { variant: 'success' })
     }
   })
-  console.log('🚀 ~ useAuthenticationModel ~ data:', data)
 
   const handleForms = () => {
     if (!signUpForm) {
@@ -61,7 +59,10 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
     e.preventDefault()
     createUser({ name: createUserPayload.name, email: createUserPayload.email, password: createUserPayload.password })
     setCreateUserPayload({ name: '', email: '', password: '' })
+    setSignUpForm(false)
+    setShowLoginForm(true)
   }
+
 
   return {
     showLoginForm,

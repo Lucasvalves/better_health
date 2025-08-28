@@ -10,9 +10,9 @@ interface ILoginForm {
   setName: (e: string) => void
   setEmail: (e: string) => void
   setPassword: (e: string) => void
-  name: string
-  email: string
-  password: string
+  name: string | undefined
+  email: string | undefined
+  password: string | undefined
   isLoading?: boolean
 }
 
