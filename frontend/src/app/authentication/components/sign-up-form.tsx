@@ -60,7 +60,6 @@ export default function SignUpForm({
 
   return (
     <>
-      {/* title='Insira seus dados!' labelButton="Confirmar" /> */}
       <Input
         IconLeft={FaRegUser}
         type="text"

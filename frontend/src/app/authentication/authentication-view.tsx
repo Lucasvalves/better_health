@@ -42,7 +42,9 @@ export const AuthenticationView = (
               Criar conta
             </button>
           </div>
-          <h2 className={styles.title}>Olá! Seja Bem Vindo!</h2>
+          <h2 className={styles.title}>
+            {showLoginForm ? 'Olá! Seja Bem Vindo!' : 'Insira seus dados!'}
+          </h2>
           <div className={styles.formArea}>
             <Form action="/search" onSubmit={handleCreateUser}>
               <Condition when={showLoginForm}>
