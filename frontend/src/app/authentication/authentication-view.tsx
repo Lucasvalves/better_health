@@ -18,12 +18,8 @@ export const AuthenticationView = (
     signUpForm,
     handleForms,
     handleCreateUser,
-    setName,
-    setEmail,
-    setPassword,
-    name,
-    email,
-    password,
+    setCreateUserPayload,
+    createUserPayload,
     isPending
   } = methods
 
@@ -54,12 +50,18 @@ export const AuthenticationView = (
               </Condition>
               <Condition when={signUpForm}>
                 <SignUpForm
-                  setName={setName}
-                  setEmail={setEmail}
-                  setPassword={setPassword}
-                  name={name}
-                  email={email}
-                  password={password}
+                  setName={(name: string) =>
+                    setCreateUserPayload((prev) => ({ ...prev, name }))
+                  }
+                  setEmail={(email: string) =>
+                    setCreateUserPayload((prev) => ({ ...prev, email }))
+                  }
+                  setPassword={(password: string) =>
+                    setCreateUserPayload((prev) => ({ ...prev, password }))
+                  }
+                  name={createUserPayload.name}
+                  email={createUserPayload.email}
+                  password={createUserPayload.password}
                   isLoading={isPending}
                 />
               </Condition>

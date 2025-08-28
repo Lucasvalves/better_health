@@ -22,9 +22,12 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
   const [showLoginForm, setShowLoginForm] = useState(true)
   const [signUpForm, setSignUpForm] = useState(false)
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [createUserPayload, setCreateUserPayload] = useState<User>({
+    name:'',
+    email: '',
+    password: ''
+  })
+
 
   const {
     mutate: createUser,
@@ -56,10 +59,8 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
   }
   const handleCreateUser = (e: FormEvent) => {
     e.preventDefault()
-    createUser({ name: name, email: email, password: password })
-    setName('')
-    setEmail('')
-    setPassword('')
+    createUser({ name: createUserPayload.name, email: createUserPayload.email, password: createUserPayload.password })
+    setCreateUserPayload({ name: '', email: '', password: '' })
   }
 
   return {
@@ -69,12 +70,8 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
     setSignUpForm,
     handleForms,
     handleCreateUser,
-    setName,
-    setEmail,
-    setPassword,
-    name,
-    email,
-    password,
+    setCreateUserPayload,
+    createUserPayload,
     isPending
   }
 }
