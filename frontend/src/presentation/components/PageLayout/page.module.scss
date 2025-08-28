@@ -1,4 +1,4 @@
-.container{
+.container {
   color: var(--primary-color);
   background-color: var(--secondary-color);
   font-family: var(--font-poppins);
@@ -8,22 +8,21 @@
   justify-content: space-between;
   font-size: 17px;
   gap: 1rem;
-  .wrapper{
+  .wrapper {
     width: 100%;
     margin-top: 160px;
     display: flex;
     justify-content: center;
-    > div{
+    > div {
       width: 71.5%;
-      .title{
+      .title {
         font-size: var(--font-size-h2);
         margin-bottom: 1rem;
         font-weight: 400;
-        >span{
+        > span {
           font-weight: 600;
         }
       }
     }
   }
 }
-

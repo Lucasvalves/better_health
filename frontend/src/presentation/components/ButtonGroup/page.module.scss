@@ -1,4 +1,4 @@
-.containerButton{
+.containerButton {
   width: 300px;
   display: flex;
   flex-direction: row;
@@ -6,7 +6,7 @@
   justify-content: center;
   margin: 0 auto;
 
-  button{
+  button {
     padding: 10px 0px;
     width: 100px;
     border-radius: 15px;
@@ -18,14 +18,14 @@
       transition: color 0.5s ease-in-out;
     }
   }
-  button:first-child{
+  button:first-child {
     border: solid 1px var(--primary-color);
     background-color: var(--secondary-color);
     color: var(--primary-color);
   }
-  button:last-child{
+  button:last-child {
     background-color: var(--primary-color);
-    color:  var(--secondary-color);
+    color: var(--secondary-color);
     border: none;
   }
 }

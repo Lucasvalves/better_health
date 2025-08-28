@@ -1,8 +1,5 @@
-import EditProfileViewModel from "./edit-profile-view-model";
+import EditProfileViewModel from './edit-profile-view-model'
 
-export default function EditProfile(){
-  return(
-    <EditProfileViewModel/>
-  )
+export default function EditProfile() {
+  return <EditProfileViewModel />
 }
-

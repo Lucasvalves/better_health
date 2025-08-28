@@ -48,7 +48,7 @@
           margin: -7px -0px 0 -11px;
 
           option:nth-child(odd) {
-            background-color: #F4F4F4;
+            background-color: #f4f4f4;
           }
 
           option:last-child {
@@ -82,9 +82,9 @@
         color: var(--font-color-gray);
         font-family: 'Arial', sans-serif;
         width: fit-content;
-        
-        .calendar{
-          width: 100% !important; 
+
+        .calendar {
+          width: 100% !important;
           margin: 20px;
           text-align: center;
         }
@@ -153,7 +153,7 @@
             }
 
             &::-webkit-scrollbar-thumb:hover {
-              background: #2C5084;
+              background: #2c5084;
             }
 
             li {

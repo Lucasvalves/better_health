@@ -1,14 +1,14 @@
-"use client";
+'use client'
 
-import BackgroundImage from "@/presentation/components/BackgroundImage";
-import styles from "./page.module.scss";
-import Form from "next/form";
-import { Condition } from "@/presentation/components/Condition";
-import SignUpForm from "./components/sign-up-form";
-import LoginForm from "./components/login-form";
-import { enumsRoutes } from "@/shared/enums/enumsRoutes";
-import Link from "next/link";
-import { useAuthenticationModel } from "./authentication-model";
+import BackgroundImage from '@/presentation/components/BackgroundImage'
+import styles from './page.module.scss'
+import Form from 'next/form'
+import { Condition } from '@/presentation/components/Condition'
+import SignUpForm from './components/sign-up-form'
+import LoginForm from './components/login-form'
+import { enumsRoutes } from '@/shared/enums/enumsRoutes'
+import Link from 'next/link'
+import { useAuthenticationModel } from './authentication-model'
 
 export const AuthenticationView = (
   methods: ReturnType<typeof useAuthenticationModel>
@@ -24,8 +24,8 @@ export const AuthenticationView = (
     name,
     email,
     password,
-    isPending,
-  } = methods;
+    isPending
+  } = methods
 
   return (
     <div className={styles.page}>
@@ -35,13 +35,13 @@ export const AuthenticationView = (
           <div className={styles.formOptions}>
             <button
               onClick={handleForms}
-              className={showLoginForm === true ? "" : styles.seletedButton}
+              className={showLoginForm === true ? '' : styles.seletedButton}
             >
               Login
             </button>
             <button
               onClick={handleForms}
-              className={signUpForm === true ? "" : styles.seletedButton}
+              className={signUpForm === true ? '' : styles.seletedButton}
             >
               Criar conta
             </button>
@@ -50,10 +50,10 @@ export const AuthenticationView = (
           <div className={styles.formArea}>
             <Form action="/search" onSubmit={handleCreateUser}>
               <Condition when={showLoginForm}>
-                <LoginForm  />
+                <LoginForm />
               </Condition>
               <Condition when={signUpForm}>
-                <SignUpForm 
+                <SignUpForm
                   setName={setName}
                   setEmail={setEmail}
                   setPassword={setPassword}
@@ -61,18 +61,18 @@ export const AuthenticationView = (
                   email={email}
                   password={password}
                   isLoading={isPending}
-                  />
+                />
               </Condition>
             </Form>
           </div>
           <p className={styles.links}>
             <span>
-              Esqueceu sua senha?{" "}
+              Esqueceu sua senha?{' '}
               <Link href={enumsRoutes.FORGOT}>Recuperar</Link>
             </span>
           </p>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

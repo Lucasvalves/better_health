@@ -1,12 +1,12 @@
 'use client'
 
-import { SnackbarProvider } from "notistack";
-import { ReactNode } from "react";
+import { SnackbarProvider } from 'notistack'
+import { ReactNode } from 'react'
 
 type Props = {
-    children: ReactNode
+  children: ReactNode
 }
 
-export const CustomSnackbarProvider = ({ children }:Props) => {
-  return <SnackbarProvider>{children}</SnackbarProvider>;
-};
+export const CustomSnackbarProvider = ({ children }: Props) => {
+  return <SnackbarProvider>{children}</SnackbarProvider>
+}

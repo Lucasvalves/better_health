@@ -10,7 +10,7 @@
     z-index: 1;
     position: absolute;
 
-    >div {
+    > div {
       height: 400px;
     }
 
@@ -31,7 +31,6 @@
         display: flex;
         color: var(--primary-color);
 
-
         span {
           border-bottom: 1px solid var(--primary-color);
           width: 60%;
@@ -42,7 +41,6 @@
           h1 {
             font-size: var(--font-size-h2);
             font-weight: normal;
-
           }
         }
 
@@ -77,7 +75,6 @@
           text-align: left;
         }
       }
-
     }
 
     .formArea {
@@ -104,12 +101,10 @@
       color: var(--secondary-color);
       margin-bottom: 20px;
 
-
       a {
         font-weight: 800;
-        text-decoration: underline
+        text-decoration: underline;
       }
     }
   }
-
 }

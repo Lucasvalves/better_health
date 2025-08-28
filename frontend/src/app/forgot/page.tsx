@@ -1,11 +1,11 @@
-"use client";
-import styles from "./page.module.scss";
-import BackgroundImage from "@/presentation/components/BackgroundImage";
-import { ForgotPasswordForm } from "./components/ForgotPasswordForm";
-import Form from "next/form";
-import Image from "next/image";
-import Link from "next/link";
-import { enumsRoutes } from "@/shared/enums/enumsRoutes";
+'use client'
+import styles from './page.module.scss'
+import BackgroundImage from '@/presentation/components/BackgroundImage'
+import { ForgotPasswordForm } from './components/ForgotPasswordForm'
+import Form from 'next/form'
+import Image from 'next/image'
+import Link from 'next/link'
+import { enumsRoutes } from '@/shared/enums/enumsRoutes'
 
 export default function forgotPage() {
   return (
@@ -21,8 +21,9 @@ export default function forgotPage() {
           </div>
           <h2 className={styles.title}> Solicite redefinição!</h2>
           <div className={styles.descripiton}>
-            <p >
-              Informe um email e enviaremos um link para recuperação da sua senha.
+            <p>
+              Informe um email e enviaremos um link para recuperação da sua
+              senha.
             </p>
           </div>
           <div className={styles.formArea}>
@@ -32,7 +33,7 @@ export default function forgotPage() {
           </div>
           <p className={styles.links}>
             <span>
-              Deseja cancelar?{" "}
+              Deseja cancelar?{' '}
               <Link href={enumsRoutes.AUTHENTICATION}>
                 Voltar à Página Inicial
               </Link>
@@ -41,5 +42,5 @@ export default function forgotPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

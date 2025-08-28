@@ -6,6 +6,6 @@ export enum enumsRoutes {
   PROFILE = '/edit-profile',
   REGISTER_SPECIALTY = '/register-specialty',
   REGISTER_DOCTOR = '/register-doctor',
-  REGISTER_PATIENT ='/register-patient',
-  FORGOT = '/forgot',
-};
+  REGISTER_PATIENT = '/register-patient',
+  FORGOT = '/forgot'
+}

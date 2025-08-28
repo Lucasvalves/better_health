@@ -1,26 +1,30 @@
 import style from './page.module.scss'
-import Loading from '../Loading';
+import Loading from '../Loading'
 
 type Props = {
-  type?: 'submit';
-  label: string;
-  hasClassName?: boolean;
-  isLoading?: boolean;
-  disabled?: boolean;
+  type?: 'submit'
+  label: string
+  hasClassName?: boolean
+  isLoading?: boolean
+  disabled?: boolean
 }
 
-export default function Button({label, type, hasClassName, isLoading, disabled}: Props){
-  console.log("🚀 ~ disabled:", disabled)
-  return(
-    <button 
-      className={hasClassName? '' : style.button} 
+export default function Button({
+  label,
+  type,
+  hasClassName,
+  isLoading,
+  disabled
+}: Props) {
+  console.log('🚀 ~ disabled:', disabled)
+  return (
+    <button
+      className={hasClassName ? '' : style.button}
       type={type}
       disabled={disabled || isLoading}
     >
-      {label} 
-       {isLoading && ( 
-        <Loading />
-      )}
+      {label}
+      {isLoading && <Loading />}
     </button>
   )
 }

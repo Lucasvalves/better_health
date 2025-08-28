@@ -1,8 +1,5 @@
-import { AppointmentsViewModel } from "./appointments-view-model";
+import { AppointmentsViewModel } from './appointments-view-model'
 
 export default function Appointments() {
-  return (
-    <AppointmentsViewModel />
-  )
+  return <AppointmentsViewModel />
 }
-

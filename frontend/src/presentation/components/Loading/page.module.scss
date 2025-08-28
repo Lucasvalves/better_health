@@ -1,15 +1,15 @@
 .spinner {
-    animation: spin 1s linear infinite;
-    font-weight: 600;
-    margin-left: 10px;
+  animation: spin 1s linear infinite;
+  font-weight: 600;
+  margin-left: 10px;
 }
 
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
 
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }

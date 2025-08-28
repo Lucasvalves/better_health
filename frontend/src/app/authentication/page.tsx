@@ -1,9 +1,5 @@
-import {AuthenticationViewModel} from "./authentication-view-model";
-
+import { AuthenticationViewModel } from './authentication-view-model'
 
 export default function Home() {
-
-  return (
-    <AuthenticationViewModel/>
-  );
+  return <AuthenticationViewModel />
 }

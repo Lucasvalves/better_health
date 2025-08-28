@@ -5,11 +5,11 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-sora);
-  .formWrapper{
+  .formWrapper {
     z-index: 1;
     position: absolute;
 
-    .container{
+    .container {
       //background-color: #d9d9d981;
       background-color: #c9c9c948;
       width: 480px;
@@ -18,8 +18,8 @@
       display: flex;
       flex-direction: column;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    
-      .formOptions{
+
+      .formOptions {
         width: 100%;
         height: 70px;
         display: flex;
@@ -28,32 +28,29 @@
         justify-content: space-between;
         border-bottom: 1px solid var(--primary-color);
 
-          .seletedButton{
-            background-color: transparent;
-            color: var(--primary-color);
-          }
-    
-          button{
-            width: 50%;
-            background-color: var(--primary-color);
-            border: none;
-            font-size: var(--font-size-h2);
-            font-weight: normal;
-            color: var(--secondary-color);
-            cursor: pointer;
+        .seletedButton {
+          background-color: transparent;
+          color: var(--primary-color);
+        }
 
-            &:first-child{
-              border-top-left-radius: 20px;
-    
-            }
-            &:last-child{
-              border-top-right-radius: 20px;
-    
-            }
+        button {
+          width: 50%;
+          background-color: var(--primary-color);
+          border: none;
+          font-size: var(--font-size-h2);
+          font-weight: normal;
+          color: var(--secondary-color);
+          cursor: pointer;
 
+          &:first-child {
+            border-top-left-radius: 20px;
           }
+          &:last-child {
+            border-top-right-radius: 20px;
+          }
+        }
       }
-    
+
       .title {
         text-align: center;
         font-size: 1.75rem;
@@ -62,9 +59,9 @@
         margin-top: 20px;
         margin-bottom: 10px;
       }
-    
+
       .formArea {
-        flex: 1; 
+        flex: 1;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -76,14 +73,14 @@
           align-items: center;
         }
       }
-    
+
       .links {
         margin-top: 10px;
         text-align: center;
         font-size: 0.9rem;
         color: var(--secondary-color);
         margin-bottom: 20px;
-    
+
         a {
           font-weight: 800;
           text-decoration: underline;
@@ -92,4 +89,3 @@
     }
   }
 }
-

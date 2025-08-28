@@ -1,5 +1,4 @@
-
-.container{
+.container {
   background-color: var(--primary-color);
   top: 0;
   left: 0;
@@ -28,9 +27,9 @@
     align-items: center;
     justify-content: space-between;
     margin: 0 auto;
-    a{
+    a {
       .logo {
-        background-image: url("/logo-teste.png");
+        background-image: url('/logo-teste.png');
         background-size: contain;
         background-repeat: no-repeat;
         width: 480px;

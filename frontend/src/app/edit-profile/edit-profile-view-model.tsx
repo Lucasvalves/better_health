@@ -1,12 +1,8 @@
+'use client'
+import useEditProfileModel from './edit-profile-model'
+import EditProfileView from './edit-profile-view'
 
-"use client"
-import useEditProfileModel from "./edit-profile-model";
-import EditProfileView from "./edit-profile-view";
-
-export default function EditProfileViewModel(){
+export default function EditProfileViewModel() {
   const methods = useEditProfileModel()
-  return( 
-    <EditProfileView {...methods} />
-  )
+  return <EditProfileView {...methods} />
 }
-

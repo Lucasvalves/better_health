@@ -1,28 +1,28 @@
-import type { Metadata } from "next";
-import { Sora, Poppins } from "next/font/google";
-import "../styles/global.scss";
-import { ReactQueryProvider } from "@/presentation/providers/react-query";
-import { CustomSnackbarProvider } from "@/presentation/providers/custom-snackbar-provider";
+import type { Metadata } from 'next'
+import { Sora, Poppins } from 'next/font/google'
+import '../styles/global.scss'
+import { ReactQueryProvider } from '@/presentation/providers/react-query'
+import { CustomSnackbarProvider } from '@/presentation/providers/custom-snackbar-provider'
 
 const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-});
+  variable: '--font-sora',
+  subsets: ['latin']
+})
 
 const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+  variable: '--font-poppins',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700']
+})
 
 export const metadata: Metadata = {
-  title: "Better Health",
-};
+  title: 'Better Health'
+}
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" className={`${sora.variable} ${poppins.variable}`}>
@@ -30,8 +30,10 @@ export default function RootLayout({
         <link rel="shortcut icon" type="imagex/png" href="/logo-bg-blue.png" />
       </head>
       <body className="font-sans">
-        <CustomSnackbarProvider><ReactQueryProvider>{children}</ReactQueryProvider></CustomSnackbarProvider>
+        <CustomSnackbarProvider>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </CustomSnackbarProvider>
       </body>
     </html>
-  );
+  )
 }
