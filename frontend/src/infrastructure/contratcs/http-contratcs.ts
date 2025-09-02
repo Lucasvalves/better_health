@@ -11,6 +11,7 @@ export type HttpRequest<TBody = unknown> = {
   body?: TBody
   headers?: Record<string, number | string>
   params?: Record<string, number | string>
+  url?: string
 }
 
 export interface IHttpClient {
