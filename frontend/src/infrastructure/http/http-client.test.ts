@@ -89,7 +89,7 @@ describe('HttpClient - Create User', () => {
     const spy = jest.spyOn(axios, 'request').mockResolvedValueOnce({ data: mockResponse })
 
     const originalEnv = process.env.NEXT_PUBLIC_API_BETTER_HEALTH_URL
-    process.env.NEXT_PUBLIC_API_BETTER_HEALTH_URL = 'https://api.example.com'
+    process.env.NEXT_PUBLIC_API_BETTER_HEALTH_URL = 'http://localhost:8080'
 
     const request: HttpRequest = {
       endpoint: '/health',
@@ -104,13 +104,31 @@ describe('HttpClient - Create User', () => {
       method: HttpMethod.GET,
       headers: { Accept: 'application/json' },
       data: undefined,
-      url: 'https://api.example.com/health',
+      url: 'http://localhost:8080/health',
       params: undefined,
     })
 
     process.env.NEXT_PUBLIC_API_BETTER_HEALTH_URL = originalEnv
   })
+  it('should use empty string as base url when neither url nor env var is provided', async () => {
+    delete process.env.NEXT_PUBLIC_API_BETTER_HEALTH_URL;
 
+    const mockResponse = { success: true };
+    jest.spyOn(axios, 'request').mockResolvedValueOnce({ data: mockResponse });
+
+    const request = {
+      endpoint: '/users',
+      method: HttpMethod.GET,
+      headers: { 'Content-Type': 'application/json' }
+    };
+
+    const result = await httpClient.sendRequest<typeof mockResponse>(request);
+
+    expect(result).toEqual(mockResponse);
+    expect(axios.request).toHaveBeenCalledWith(
+      expect.objectContaining({ url: '/users' })
+    );
+  });
   it('should send GET request with query params and no body', async () => {
     const mockResponse = { items: [1, 2, 3] }
     jest.spyOn(axios, 'request').mockResolvedValueOnce({ data: mockResponse })
@@ -119,7 +137,7 @@ describe('HttpClient - Create User', () => {
       endpoint: '/items',
       method: HttpMethod.GET,
       params: { page: 2, pageSize: 10 },
-      url: 'http://localhost:3000',
+      url: 'http://localhost:8080',
     }
 
     const result = await httpClient.sendRequest<typeof mockResponse>(request)
@@ -130,7 +148,7 @@ describe('HttpClient - Create User', () => {
       headers: undefined,
       data: undefined,
       params: { page: 2, pageSize: 10 },
-      url: 'http://localhost:3000/items'
+      url: 'http://localhost:8080/items'
     })
   })
 
@@ -141,7 +159,7 @@ describe('HttpClient - Create User', () => {
     const request: HttpRequest = {
       endpoint: '/unreachable',
       method: HttpMethod.GET,
-      url: 'http://localhost:3000',
+      url: 'http://localhost:8080',
     }
 
     await expect(httpClient.sendRequest<unknown>(request)).rejects.toThrow('Network Error')
@@ -150,7 +168,7 @@ describe('HttpClient - Create User', () => {
       method: HttpMethod.GET,
       headers: undefined,
       data: undefined,
-      url: 'http://localhost:3000/unreachable',
+      url: 'http://localhost:8080/unreachable',
       params: undefined,
     })
   })
@@ -164,7 +182,7 @@ describe('HttpClient - Create User', () => {
       method: HttpMethod.PUT,
       body: { name: 'New Name' },
       headers: { 'Content-Type': 'application/json' },
-      url: 'https://api.test',
+      url: 'http://localhost:8080',
     }
 
     const result = await httpClient.sendRequest<typeof mockResponse, typeof request.body>(request)
@@ -174,7 +192,7 @@ describe('HttpClient - Create User', () => {
       method: HttpMethod.PUT,
       headers: { 'Content-Type': 'application/json' },
       data: { name: 'New Name' },
-      url: 'https://api.test/users/123',
+      url: 'http://localhost:8080/users/123',
       params: undefined,
     })
   })
@@ -187,7 +205,7 @@ describe('HttpClient - Create User', () => {
       endpoint: '/users/123',
       method: HttpMethod.DELETE,
       params: { hard: 1 },
-      url: 'https://api.test',
+      url: 'http://localhost:8080',
     }
 
     const result = await httpClient.sendRequest<typeof mockResponse>(request)
@@ -197,7 +215,7 @@ describe('HttpClient - Create User', () => {
       method: HttpMethod.DELETE,
       headers: undefined,
       data: undefined,
-      url: 'https://api.test/users/123',
+      url: 'http://localhost:8080/users/123',
       params: { hard: 1 },
     })
   })

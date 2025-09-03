@@ -13,8 +13,8 @@ export class HttpClient implements IHttpClient {
   ): Promise<TResponse> {
     const { endpoint, method, body, headers, params, url } = props
 
+    const baseUrl = url ?? process.env.NEXT_PUBLIC_API_BETTER_HEALTH_URL ?? ''
     try {
-      const baseUrl = url ?? process.env.NEXT_PUBLIC_API_BETTER_HEALTH_URL ?? ''
       const data = await this.api.request<TResponse>({
         method,
         headers,
