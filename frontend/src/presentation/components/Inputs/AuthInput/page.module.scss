@@ -36,3 +36,12 @@
     transition: color 0.2s ease-in-out;
   }
 }
+
+.inputError {
+  border-bottom: 2px solid #e03a3a;
+}
+
+.errorText {
+  color: #e03a3a;
+  font-size: 12px;
+}

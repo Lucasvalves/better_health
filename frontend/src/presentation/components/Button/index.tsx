@@ -16,7 +16,6 @@ export default function Button({
   isLoading,
   disabled
 }: Props) {
-  console.log('🚀 ~ disabled:', disabled)
   return (
     <button
       className={hasClassName ? '' : style.button}

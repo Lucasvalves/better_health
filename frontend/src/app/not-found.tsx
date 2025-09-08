@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import styles from './not-found.module.scss'
+import styles from './page.module.scss'
 import { BsArrowLeft } from 'react-icons/bs'
 import { enumsRoutes } from '@/shared/enums/enumsRoutes'
 
