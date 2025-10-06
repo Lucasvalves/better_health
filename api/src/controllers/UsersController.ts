@@ -6,24 +6,31 @@ class UsersController {
 		this.usersServices = new UsersServices()
 	}
 
-	async store(request: Request, response: Response, next: NextFunction) : Promise<Response | undefined>  {
-		//criar usuario
+	async store(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void | undefined> {
 		const { name, email, password } = request.body
 
 		try {
 			const result = await this.usersServices.create({ name, email, password })
 			response.status(201).json(result)
-		} catch (error:any) {
+		} catch (error: any) {
 			if (error.code === 'P2002') {
-				return response.status(400).json({ message: 'E-mail já cadastrado.' });
+				response.status(400).json({ message: 'E-mail já cadastrado.' })
+				return
 			}
 
-			//return response.status(4001).json({ message: 'Erro ao criar usuário.' });
 			next(error)
 			response.status(401)
 		}
 	}
-	async auth(request: Request, response: Response, next: NextFunction) : Promise<void>  {
+	async auth(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void> {
 		const { email, password } = request.body
 		try {
 			const result = await this.usersServices.auth(email, password)
@@ -32,16 +39,20 @@ class UsersController {
 			next(error)
 		}
 	}
-	async update(request: Request, response: Response, next: NextFunction) : Promise<void> {
+	async update(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void> {
 		const { oldPassword, newPassword } = request.body
 		const { user_id } = request
 
 		try {
 			const result = await this.usersServices.update({
-        oldPassword,
-        newPassword,
+				oldPassword,
+				newPassword,
 				avatar_url: request.file,
-        user_id,
+				user_id,
 			})
 			response.status(200).json(result)
 		} catch (error) {
