@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 
-import { TimesServices } from '../services/TimesServices'
 import { AppointmentsServices } from '../services/AppointmentsServices'
 import {
-	IFilter,
 	IRange
 } from '../interfaces/AppointmentsInterface'
 class AppointmentsController {

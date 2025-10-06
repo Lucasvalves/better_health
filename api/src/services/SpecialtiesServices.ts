@@ -1,6 +1,5 @@
 import { SpecialtiesRepository } from '../repositories/SpecialtiesRepository'
 
-
 class SpecialtiesServices {
 	private specialtiesRepository: SpecialtiesRepository
 	constructor() {
@@ -29,32 +28,11 @@ class SpecialtiesServices {
 	async findSpecialty(id: string) {
 		const findSpecialty = await this.specialtiesRepository.find(id)
 
-		if(!findSpecialty){
+		if (!findSpecialty) {
 			throw new Error('Specialty not found')
 		}
-		
+
 		return findSpecialty
 	}
-	// async update({ name, oldPasswork, newPassword, user_id }: IUpdate) {
-	// 	let password
-	// 	if (oldPasswork && newPassword) {
-	// 		const findUserById = await this.usersRepository.findUserById(user_id)
-	// 		if (!findUserById) {
-	// 			throw new Error('User not found')
-	// 		}
-	// 		const passwordMatch = compare(oldPasswork, findUserById.password)
-	// 		if (!passwordMatch) {
-	// 			throw new Error('Password invalid')
-	// 		}
-
-	// 		password = await hash(newPassword, 10)
-
-	// 		await this.usersRepository.updatePassword(name, password, user_id)
-	// 	}
-
-	// 	return {
-	// 		message: 'Specialties updated successfully',
-	// 	}
-	// }
 }
 export { SpecialtiesServices }

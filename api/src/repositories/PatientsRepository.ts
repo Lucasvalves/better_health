@@ -4,7 +4,6 @@ import { ICreate, IUpdate } from '../interfaces/PatientsInterface'
 class PatientsRepository {
 	async create({ name, cpf, user_id, phone }: ICreate) {
 		//create patient
-		//console.log(user_id)
 		const result = await prisma.patients.create({
 			data: {
 				name,

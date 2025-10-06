@@ -6,7 +6,11 @@ class PatientsController {
 	constructor() {
 		this.patientsServices = new PatientsServices()
 	}
-	async store(request: Request, response: Response, next: NextFunction):Promise<void> {
+	async store(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void> {
 		const { name, cpf, phone } = request.body
 		const { user_id } = request
 
@@ -23,8 +27,11 @@ class PatientsController {
 		}
 	}
 
-	async index(request: Request, response: Response, next: NextFunction):Promise<void> {
-
+	async index(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void> {
 		try {
 			const result = await this.patientsServices.index()
 			response.status(200).json(result)
@@ -36,7 +43,7 @@ class PatientsController {
 		request: Request,
 		response: Response,
 		next: NextFunction
-	):Promise<void> {
+	): Promise<void> {
 		const { id } = request.params
 
 		try {
@@ -50,7 +57,7 @@ class PatientsController {
 		request: Request,
 		response: Response,
 		next: NextFunction
-	):Promise<void> {
+	): Promise<void> {
 		const { cpf } = request.params
 
 		try {
@@ -60,31 +67,41 @@ class PatientsController {
 			next(error)
 		}
 	}
-	async update(request: Request, response: Response, next: NextFunction):Promise<void> {
+	async update(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void> {
 		const { name, cpf, phone } = request.body
-		const {id} =  request.params
+		const { id } = request.params
 
 		try {
-			const result = await this.patientsServices.update({id, name, cpf, phone})
+			const result = await this.patientsServices.update({
+				id,
+				name,
+				cpf,
+				phone,
+			})
 
 			response.status(200).json(result)
 		} catch (error) {
 			next(error)
 		}
 	}
-	async delete(request: Request, response: Response, next: NextFunction):Promise<void>{
-
-		const {id} = request.params
+	async delete(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void> {
+		const { id } = request.params
 
 		try {
 			const result = await this.patientsServices.delete(id)
 
 			response.status(200).json(result)
-
 		} catch (error) {
 			next(error)
 		}
-
 	}
 }
 

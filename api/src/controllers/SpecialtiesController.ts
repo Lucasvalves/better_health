@@ -8,7 +8,6 @@ class SpecialtiesController {
 	}
 
 	async store(request: Request, response: Response, next: NextFunction): Promise<void> {
-		//criar usuario
 		const { name } = request.body
 
 		try {
@@ -40,21 +39,5 @@ class SpecialtiesController {
 			next(error)
 		}
 	}
-
-	// async update(request: Request, response: Response, next: NextFunction) {
-	// 	const { name, oldPasswork, newPassword } = request.body
-	// 	const { user_id } = request
-	// 	try {
-	// 		const result = await this.usersServices.update({
-	// 			name,
-	// 			oldPasswork,
-	// 			newPassword,
-	// 			user_id,
-	// 		})
-	// 		return response.status(200).json(result)
-	// 	} catch (error) {
-	// 		next(error)
-	// 	}
-	//}
 }
 export { SpecialtiesController }

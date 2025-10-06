@@ -10,12 +10,11 @@ export interface IUpdate {
 	avatar_url?: FileUpload
 }
 
-
 interface FileUpload {
-  fieldName?: string;
-  originalname: string;
-  encoding: string;
-  mimetype: string;
-  buffer: Buffer;
-  size: number;
+	fieldName?: string
+	originalname: string
+	encoding: string
+	mimetype: string
+	buffer: Buffer
+	size: number
 }
