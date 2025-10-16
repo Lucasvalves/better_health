@@ -2,7 +2,7 @@
 import { useAuthenticationModel } from './authentication-model'
 import { AuthenticationView } from './authentication-view'
 import { HttpClient } from '@/infrastructure/http/http-client'
-import { CreateUserService } from '@/data/user-service/create-user-service'
+import { CreateUserService } from '@/data/user-service/create-user-service/create-user-service'
 
 export const AuthenticationViewModel = () => {
   const httpClient = HttpClient.create()

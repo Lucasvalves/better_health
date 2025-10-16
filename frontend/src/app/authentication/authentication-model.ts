@@ -5,7 +5,7 @@ import { User } from '@/domain/models/user'
 import {
   CreateUserBody,
   CreateUserServiceContract
-} from '@/data/user-service/create-user-service'
+} from '@/data/user-service/create-user-service/create-user-service'
 import { enqueueSnackbar } from 'notistack'
 import { AxiosError } from 'axios'
 
@@ -23,16 +23,16 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
   const [signUpForm, setSignUpForm] = useState(false)
 
   const [createUserPayload, setCreateUserPayload] = useState<User>({
-    name:'',
+    name: '',
     email: '',
     password: ''
   })
 
-
-  const {
-    mutate: createUser,
-    isPending
-  } = useMutation<User, AxiosError<ApiError>, CreateUserBody>({
+  const { mutate: createUser, isPending } = useMutation<
+    User,
+    AxiosError<ApiError>,
+    CreateUserBody
+  >({
     mutationFn: (data: CreateUserBody) => {
       return createUserService.exec(data)
     },
@@ -57,12 +57,15 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
   }
   const handleCreateUser = (e: FormEvent) => {
     e.preventDefault()
-    createUser({ name: createUserPayload.name, email: createUserPayload.email, password: createUserPayload.password })
+    createUser({
+      name: createUserPayload.name,
+      email: createUserPayload.email,
+      password: createUserPayload.password
+    })
     setCreateUserPayload({ name: '', email: '', password: '' })
     setSignUpForm(false)
     setShowLoginForm(true)
   }
-
 
   return {
     showLoginForm,
