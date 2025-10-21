@@ -125,6 +125,11 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
 
     createUser(validation.data)
     setCreateUserPayload({ name: '', email: '', password: '' })
+    setTouched({
+      name: false,
+      email: false,
+      password: false
+    })
   }
 
   const handleCreateLogin = (e: FormEvent) => {
