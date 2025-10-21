@@ -2,7 +2,6 @@
 import styles from './page.module.scss'
 import BackgroundImage from '@/presentation/components/BackgroundImage'
 import { ForgotPasswordForm } from './components/ForgotPasswordForm'
-import Form from 'next/form'
 import Image from 'next/image'
 import Link from 'next/link'
 import { enumsRoutes } from '@/shared/enums/enumsRoutes'
@@ -10,7 +9,7 @@ import { enumsRoutes } from '@/shared/enums/enumsRoutes'
 export default function forgotPage() {
   return (
     <div className={styles.page}>
-      <BackgroundImage src="/bg-register.png" />
+      <BackgroundImage src="/bg-forgot.png" />
       <div className={styles.formWrapper}>
         <div className={styles.container}>
           <div className={styles.pageTitle}>
@@ -27,9 +26,7 @@ export default function forgotPage() {
             </p>
           </div>
           <div className={styles.formArea}>
-            <Form action="/search">
               <ForgotPasswordForm />
-            </Form>
           </div>
           <p className={styles.links}>
             <span>
