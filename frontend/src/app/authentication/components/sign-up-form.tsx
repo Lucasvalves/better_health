@@ -5,8 +5,6 @@ import { FaRegUser } from 'react-icons/fa'
 import Button from '@/presentation/components/Button'
 import { FormEvent, useMemo, useState } from 'react'
 import { z } from 'zod'
-import Form from 'next/form'
-
 interface SignUpForm {
   setName: (e: string) => void
   setEmail: (e: string) => void
@@ -67,7 +65,7 @@ export default function SignUpForm({
   const hasErrors = Boolean(errors.name || errors.email || errors.password)
 
   return (
-    <Form action="/search" onSubmit={handleCreateUser}>
+    <form onSubmit={handleCreateUser}>
       <Input
         IconLeft={FaRegUser}
         type="text"
@@ -101,6 +99,6 @@ export default function SignUpForm({
         disabled={hasErrors || name === '' || email === '' || password === ''}
         isLoading={isLoading}
       />
-    </Form>
+    </form>
   )
 }
