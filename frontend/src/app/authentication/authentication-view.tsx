@@ -8,7 +8,6 @@ import LoginForm from './components/login-form'
 import { enumsRoutes } from '@/shared/enums/enumsRoutes'
 import Link from 'next/link'
 import { useAuthenticationModel } from './authentication-model'
-import Form from 'next/form'
 
 export const AuthenticationView = (
   methods: ReturnType<typeof useAuthenticationModel>
@@ -63,23 +62,22 @@ export const AuthenticationView = (
               />
             </Condition>
             <Condition when={signUpForm}>
-              <Form action="/search" onSubmit={handleCreateUser}>
-                <SignUpForm
-                  setName={(name: string) =>
-                    setCreateUserPayload((prev) => ({ ...prev, name }))
-                  }
-                  setEmail={(email: string) =>
-                    setCreateUserPayload((prev) => ({ ...prev, email }))
-                  }
-                  setPassword={(password: string) =>
-                    setCreateUserPayload((prev) => ({ ...prev, password }))
-                  }
-                  name={createUserPayload.name}
-                  email={createUserPayload.email}
-                  password={createUserPayload.password}
-                  isLoading={isPending}
-                />
-              </Form>
+              <SignUpForm
+                handleCreateUser={handleCreateUser}
+                setName={(name: string) =>
+                  setCreateUserPayload((prev) => ({ ...prev, name }))
+                }
+                setEmail={(email: string) =>
+                  setCreateUserPayload((prev) => ({ ...prev, email }))
+                }
+                setPassword={(password: string) =>
+                  setCreateUserPayload((prev) => ({ ...prev, password }))
+                }
+                name={createUserPayload.name}
+                email={createUserPayload.email}
+                password={createUserPayload.password}
+                isLoading={isPending}
+              />
             </Condition>
           </div>
           <p className={styles.links}>

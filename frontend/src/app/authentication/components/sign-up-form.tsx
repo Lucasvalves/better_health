@@ -3,10 +3,11 @@ import { BsKey } from 'react-icons/bs'
 import { MdOutlineEmail } from 'react-icons/md'
 import { FaRegUser } from 'react-icons/fa'
 import Button from '@/presentation/components/Button'
-import { useMemo, useState } from 'react'
+import { FormEvent, useMemo, useState } from 'react'
 import { z } from 'zod'
+import Form from 'next/form'
 
-interface ILoginForm {
+interface SignUpForm {
   setName: (e: string) => void
   setEmail: (e: string) => void
   setPassword: (e: string) => void
@@ -14,11 +15,15 @@ interface ILoginForm {
   email: string | undefined
   password: string | undefined
   isLoading?: boolean
+  handleCreateUser?: (e: FormEvent) => void
 }
 
 const signUpSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório.').trim(),
-  email: z.string().min(1, 'E-mail é obrigatório.').email('Informe um e-mail válido.'),
+  email: z
+    .string()
+    .min(1, 'E-mail é obrigatório.')
+    .email('Informe um e-mail válido.'),
   password: z
     .string()
     .min(8, 'A senha deve ter ao menos 8 caracteres.')
@@ -36,13 +41,16 @@ export default function SignUpForm({
   name,
   email,
   password,
-  isLoading
-}: ILoginForm) {
-  const [touched, setTouched] = useState<Record<keyof SignUpFormData, boolean>>({
-    name: false,
-    email: false,
-    password: false
-  })
+  isLoading,
+  handleCreateUser
+}: SignUpForm) {
+  const [touched, setTouched] = useState<Record<keyof SignUpFormData, boolean>>(
+    {
+      name: false,
+      email: false,
+      password: false
+    }
+  )
 
   const parsed = useMemo(() => {
     const result = signUpSchema.safeParse({ name, email, password })
@@ -59,7 +67,7 @@ export default function SignUpForm({
   const hasErrors = Boolean(errors.name || errors.email || errors.password)
 
   return (
-    <>
+    <Form action="/search" onSubmit={handleCreateUser}>
       <Input
         IconLeft={FaRegUser}
         type="text"
@@ -93,6 +101,6 @@ export default function SignUpForm({
         disabled={hasErrors || name === '' || email === '' || password === ''}
         isLoading={isLoading}
       />
-    </>
+    </Form>
   )
 }
