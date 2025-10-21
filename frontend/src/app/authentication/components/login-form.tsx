@@ -10,6 +10,7 @@ interface ILoginForm {
   email: string
   setPassword: (e: string) => void
   password: string
+  isLoading: boolean
 }
 
 export default function LoginForm({
@@ -17,7 +18,8 @@ export default function LoginForm({
   setEmail,
   email,
   setPassword,
-  password
+  password,
+  isLoading
 }: ILoginForm) {
   return (
     <form onSubmit={handleCreateLogin}>
@@ -39,6 +41,7 @@ export default function LoginForm({
         type="submit"
         label="Entrar"
         disabled={email === '' || password === ''}
+        isLoading={isLoading}
       />
     </form>
   )

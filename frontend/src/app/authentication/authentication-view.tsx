@@ -19,10 +19,14 @@ export const AuthenticationView = (
     handleCreateUser,
     setCreateUserPayload,
     createUserPayload,
-    isPending,
+    isPendingCreateUser,
+    isPendingLoginUser,
     handleCreateLogin,
     setCreateLoginPayload,
-    createLoginPayload
+    createLoginPayload,
+    fieldErrors,
+    touched,
+    setTouched
   } = methods
 
   return (
@@ -59,11 +63,11 @@ export const AuthenticationView = (
                 }
                 email={createLoginPayload.email}
                 password={createLoginPayload.password}
+                isLoading={isPendingLoginUser}
               />
             </Condition>
             <Condition when={signUpForm}>
               <SignUpForm
-                handleCreateUser={handleCreateUser}
                 setName={(name: string) =>
                   setCreateUserPayload((prev) => ({ ...prev, name }))
                 }
@@ -73,16 +77,20 @@ export const AuthenticationView = (
                 setPassword={(password: string) =>
                   setCreateUserPayload((prev) => ({ ...prev, password }))
                 }
-                name={createUserPayload.name}
-                email={createUserPayload.email}
-                password={createUserPayload.password}
-                isLoading={isPending}
+                name={createUserPayload.name ?? ''}
+                email={createUserPayload.email ?? ''}
+                password={createUserPayload.password ?? ''}
+                handleCreateUser={handleCreateUser}
+                isLoading={isPendingCreateUser}
+                touched={touched}
+                setTouched={setTouched}
+                fieldErrors={fieldErrors}
               />
             </Condition>
           </div>
           <p className={styles.links}>
             <span>
-              Esqueceu sua senha?{' '}
+              Esqueceu sua senha?
               <Link href={enumsRoutes.FORGOT}>Recuperar</Link>
             </span>
           </p>
