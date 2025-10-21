@@ -1,3 +1,4 @@
+import { AuthResponse, AuthUserBody, AuthUserServiceContract } from '@/data/user-service/auth-user/auth-user-service'
 import {
   CreateUserBody,
   CreateUserServiceContract
@@ -9,5 +10,15 @@ export class InMemoryCreateUserService implements CreateUserServiceContract {
     const createdUser: User = { ...body }
 
     return createdUser
+  }
+}
+export class InMemoryAuthUserService implements AuthUserServiceContract{
+  async exec(body: AuthUserBody): Promise<AuthResponse>{
+    const authUser: AuthResponse = {
+      user: body,
+      token: '12345adcde'
+    }
+
+    return authUser
   }
 }
