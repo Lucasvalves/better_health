@@ -2,13 +2,13 @@
 
 import BackgroundImage from '@/presentation/components/BackgroundImage'
 import styles from './page.module.scss'
-import Form from 'next/form'
 import { Condition } from '@/presentation/components/Condition'
 import SignUpForm from './components/sign-up-form'
 import LoginForm from './components/login-form'
 import { enumsRoutes } from '@/shared/enums/enumsRoutes'
 import Link from 'next/link'
 import { useAuthenticationModel } from './authentication-model'
+import Form from 'next/form'
 
 export const AuthenticationView = (
   methods: ReturnType<typeof useAuthenticationModel>
@@ -20,7 +20,10 @@ export const AuthenticationView = (
     handleCreateUser,
     setCreateUserPayload,
     createUserPayload,
-    isPending
+    isPending,
+    handleCreateLogin,
+    setCreateLoginPayload,
+    createLoginPayload
   } = methods
 
   return (
@@ -46,11 +49,21 @@ export const AuthenticationView = (
             {showLoginForm ? 'Olá! Seja Bem Vindo!' : 'Insira seus dados!'}
           </h2>
           <div className={styles.formArea}>
-            <Form action="/search" onSubmit={handleCreateUser}>
-              <Condition when={showLoginForm}>
-                <LoginForm />
-              </Condition>
-              <Condition when={signUpForm}>
+            <Condition when={showLoginForm}>
+              <LoginForm
+                handleCreateLogin={handleCreateLogin}
+                setEmail={(email: string) =>
+                  setCreateLoginPayload((prev) => ({ ...prev, email }))
+                }
+                setPassword={(password: string) =>
+                  setCreateLoginPayload((prev) => ({ ...prev, password }))
+                }
+                email={createLoginPayload.email}
+                password={createLoginPayload.password}
+              />
+            </Condition>
+            <Condition when={signUpForm}>
+              <Form action="/search" onSubmit={handleCreateUser}>
                 <SignUpForm
                   setName={(name: string) =>
                     setCreateUserPayload((prev) => ({ ...prev, name }))
@@ -66,8 +79,8 @@ export const AuthenticationView = (
                   password={createUserPayload.password}
                   isLoading={isPending}
                 />
-              </Condition>
-            </Form>
+              </Form>
+            </Condition>
           </div>
           <p className={styles.links}>
             <span>
