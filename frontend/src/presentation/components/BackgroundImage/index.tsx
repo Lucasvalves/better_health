@@ -8,7 +8,7 @@ type Props = {
 export const BackgroundImage = ({ src }: Props) => {
   return (
     <div className={styles.background}>
-      <Image src={src} alt="" fill className={styles.bgImage} />
+      <Image src={src} alt="" priority fill className={styles.bgImage} />
       <Link href="/">
         <div className={styles.logo} />
       </Link>
