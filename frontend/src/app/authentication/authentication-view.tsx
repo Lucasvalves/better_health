@@ -26,7 +26,10 @@ export const AuthenticationView = (
     createLoginPayload,
     fieldErrors,
     touched,
-    setTouched
+    setTouched,
+    touchedLogin,
+    setTouchedLogin,
+    fieldErrorsLogin
   } = methods
 
   return (
@@ -64,6 +67,9 @@ export const AuthenticationView = (
                 email={createLoginPayload.email}
                 password={createLoginPayload.password}
                 isLoading={isPendingLoginUser}
+                touched={touchedLogin}
+                setTouched={setTouchedLogin}
+                fieldErrors={fieldErrorsLogin}
               />
             </Condition>
             <Condition when={signUpForm}>

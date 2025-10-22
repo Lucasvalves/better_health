@@ -18,7 +18,8 @@ import {
 import {
   loginSchema,
   signUpSchema,
-  SignUpFormData
+  SignUpFormData,
+  LoginFormData
 } from '@/domain/validations/user-validation'
 
 export type UserServiceRegistry = {
@@ -78,8 +79,6 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
       enqueueSnackbar('Login feito com sucesso!', { variant: 'success' })
       if (data.token) {
         router.push('/appointments')
-      } else {
-        enqueueSnackbar('Erro ao autenticar.', { variant: 'error' })
       }
     }
   })
@@ -87,6 +86,15 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
   const handleForms = () => {
     setShowLoginForm(!showLoginForm)
     setSignUpForm(!signUpForm)
+    setTouched({
+      name: false,
+      email: false,
+      password: false
+    })
+    setTouchedLogin({
+      email: false,
+      password: false
+    })
   }
 
   const [touched, setTouched] = useState<Record<keyof SignUpFormData, boolean>>(
@@ -132,6 +140,26 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
     })
   }
 
+  const [touchedLogin, setTouchedLogin] = useState<
+    Record<keyof LoginFormData, boolean>
+  >({
+    email: false,
+    password: false
+  })
+
+  const parsedErrorsLogin = useMemo(() => {
+    const result = loginSchema.safeParse(createLoginPayload)
+    if (!result.success) return result.error.flatten().fieldErrors
+    return {}
+  }, [createLoginPayload])
+
+  const fieldErrorsLogin: Partial<Record<keyof LoginFormData, string>> = {
+    email: touchedLogin.email ? parsedErrorsLogin.email?.[0] : undefined,
+    password: touchedLogin.password
+      ? parsedErrorsLogin.password?.[0]
+      : undefined
+  }
+
   const handleCreateLogin = (e: FormEvent) => {
     e.preventDefault()
 
@@ -145,6 +173,10 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
 
     authUser(validation.data)
     setCreateLoginPayload({ email: '', password: '' })
+    setTouchedLogin({
+      email: false,
+      password: false
+    })
   }
 
   return {
@@ -163,6 +195,9 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
     isPendingLoginUser,
     fieldErrors,
     touched,
-    setTouched
+    setTouched,
+    touchedLogin,
+    setTouchedLogin,
+    fieldErrorsLogin
   }
 }

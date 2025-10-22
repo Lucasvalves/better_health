@@ -28,3 +28,5 @@ export const loginSchema = z.object({
 
 
 export type SignUpFormData = z.infer<typeof signUpSchema>
+export type LoginFormData = z.infer<typeof loginSchema>
+
