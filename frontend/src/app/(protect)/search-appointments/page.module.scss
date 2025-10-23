@@ -9,8 +9,26 @@
   font-family: var(--font-poppins);
   position: relative;
 
+  >div {
+    width: 100%;
+
+    .title {
+      font-size: var(--font-size-h2);
+      margin-bottom: 1rem;
+      font-weight: 400;
+
+      >span {
+        font-weight: 600;
+      }
+    }
+
+    p {
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+  }
+
   .container {
-    width: 71.5%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -24,7 +42,8 @@
       flex-direction: row;
       justify-content: space-between;
       gap: 30px;
-      > div {
+
+      >div {
         width: 50%;
       }
     }
@@ -70,9 +89,11 @@
               &:first-child {
                 margin-left: 10px;
               }
+
               &:nth-child(2) {
                 margin-left: 10px;
               }
+
               &:last-child {
                 text-align: left;
               }
@@ -121,6 +142,7 @@
               flex-direction: row;
               align-items: center;
               justify-content: center;
+
               .crmNumber {
                 width: 58%;
               }
