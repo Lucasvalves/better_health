@@ -11,7 +11,7 @@ interface ILoginForm {
   email: string
   setPassword: (e: string) => void
   password: string
-  isLoading: boolean
+  isLoading?: boolean
   fieldErrors: Partial<Record<keyof LoginFormData, string>>
   touched: Record<keyof LoginFormData, boolean>
   setTouched: React.Dispatch<

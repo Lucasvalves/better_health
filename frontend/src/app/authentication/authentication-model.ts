@@ -11,7 +11,6 @@ import {
   CreateUserServiceContract
 } from '@/data/user-service/create-user-service/create-user-service'
 import {
-  AuthResponse,
   AuthUserBody,
   AuthUserServiceContract
 } from '@/data/user-service/auth-user/auth-user-service'
@@ -48,6 +47,8 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
     password: ''
   })
 
+  const [isPendingLoginUser, setIsPendingLoginUser] = useState(false)
+
   const { mutate: createUser, isPending: isPendingCreateUser } = useMutation<
     User,
     AxiosError<ApiError>,
@@ -64,25 +65,7 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
     }
   })
 
-  const { mutate: authUser, isPending: isPendingLoginUser } = useMutation<
-    AuthResponse,
-    AxiosError<ApiError>,
-    AuthUserBody
-  >({
-    mutationFn: (data) => authUserService.exec(data),
-    onError: (err) => {
-      const message =
-        err.response?.data?.message || 'Erro ao autenticar usuário.'
-      enqueueSnackbar(message, { variant: 'error' })
-    },
-    onSuccess: (data) => {
-      enqueueSnackbar('Login feito com sucesso!', { variant: 'success' })
-      if (data.token) {
-        router.push('/appointments')
-      }
-    }
-  })
-
+  // Switch between Login and SignUp
   const handleForms = () => {
     setShowLoginForm(!showLoginForm)
     setSignUpForm(!signUpForm)
@@ -117,6 +100,7 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
     password: touched.password ? parsedErrors.password?.[0] : undefined
   }
 
+  //Create user
   const handleCreateUser = (e: FormEvent) => {
     e.preventDefault()
 
@@ -160,23 +144,39 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
       : undefined
   }
 
-  const handleCreateLogin = (e: FormEvent) => {
+  // Auth user
+  const handleCreateLogin = async (e: FormEvent) => {
     e.preventDefault()
 
     const validation = loginSchema.safeParse(createLoginPayload)
-
     if (!validation.success) {
-      const message = validation.error.issues[0]?.message || 'Dados inválidos.'
-      enqueueSnackbar(message, { variant: 'warning' })
+      enqueueSnackbar('Dados inválidos.', { variant: 'warning' })
       return
     }
 
-    authUser(validation.data)
-    setCreateLoginPayload({ email: '', password: '' })
-    setTouchedLogin({
-      email: false,
-      password: false
-    })
+    try {
+      setIsPendingLoginUser(true)
+      const response = await authUserService.exec(
+        validation.data as AuthUserBody
+      )
+      
+      await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(response.token)
+      })
+
+      enqueueSnackbar('Login feito com sucesso!', { variant: 'success' })
+      router.push('/appointments')
+    } catch (err) {
+      if (err instanceof Error) {
+        enqueueSnackbar(err.message || 'Erro ao autenticar usuário.', {
+          variant: 'error'
+        })
+      }
+    } finally {
+      setIsPendingLoginUser(false)
+    }
   }
 
   return {
@@ -192,12 +192,12 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
     setCreateLoginPayload,
     createLoginPayload,
     isPendingCreateUser,
-    isPendingLoginUser,
     fieldErrors,
     touched,
     setTouched,
     touchedLogin,
     setTouchedLogin,
-    fieldErrorsLogin
+    fieldErrorsLogin,
+    isPendingLoginUser
   }
 }
