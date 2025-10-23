@@ -9,8 +9,6 @@ import {
   isWeekDay,
   isWeekend
 } from '@/shared/utils/helpers/calendarDate'
-import { enumsRoutes } from '@/shared/enums/enumsRoutes'
-import { PageLayout } from '@/presentation/components/PageLayout'
 import AppInput from '@/presentation/components/Inputs/AppInput'
 import { ButtonGroup } from '@/presentation/components/ButtonGroup'
 export default function Schedule() {
@@ -18,7 +16,9 @@ export default function Schedule() {
 
   return (
     <div className={styles.page}>
-      <PageLayout route={enumsRoutes.SCHEDULE} title="Montar Agenda" />
+      <div>
+        <p className={styles.title}>Montar Agenda</p>
+      </div>
       <section className={styles.container}>
         <div className={styles.wrapperLeft}>
           <AppInput

@@ -1,20 +1,19 @@
 'use client'
-import { enumsRoutes } from '@/shared/enums/enumsRoutes'
-
 import styles from './page.module.scss'
 import 'react-day-picker/dist/style.css'
 import { MdOutlineEdit } from 'react-icons/md'
 import { RiDeleteBin6Line } from 'react-icons/ri'
-import { PageLayout } from '@/presentation/components/PageLayout'
 import AppInput from '@/presentation/components/Inputs/AppInput'
 
 export default function SearchAppointments() {
   return (
     <div className={styles.page}>
-      <PageLayout
-        userName={'Eduarda Freitas'}
-        route={enumsRoutes.APPOINTMENTS}
-      />
+      <div>
+        <p className={styles.title}>
+          Olá, <span> Lucas!</span>
+          <p>Busque um agendamento!</p>
+        </p>
+      </div>
       <section className={styles.container}>
         <div className={styles.wrapperTop}>
           <AppInput

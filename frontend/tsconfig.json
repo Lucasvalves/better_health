@@ -28,7 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/appointments/appointments-model.ts",
-    "src/app/edit-profile/edit-profile-model.ts"
+    "src/app/(protect)/edit-profile/edit-profile-model.ts"
   ],
   "exclude": ["node_modules"]
 }

@@ -4,6 +4,15 @@
   background: white;
   color: var(--primary-color);
   font-family: var(--font-poppins);
+
+  >div:first-child {
+    .title {
+      font-size: var(--font-size-h2);
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+  }
+
   .formWrapper {
     form {
       margin: auto;
@@ -12,10 +21,12 @@
       align-items: center;
       width: 50%;
       position: relative;
+
       .itemsCenter {
         width: 50%;
         display: flex;
         flex-direction: column;
+
         .avatarWrapper {
           display: inline-block;
           width: 120px;
@@ -25,6 +36,7 @@
           cursor: pointer;
           margin: auto;
           border: solid 1px var(--primary-color);
+
           .avatarImage {
             width: 100%;
             height: 100%;
@@ -32,9 +44,11 @@
             border-radius: 50%;
             color: var(--primary-color);
           }
+
           .fileInput {
             display: none;
           }
+
           .editIcon {
             position: absolute;
             top: 16%;
@@ -45,12 +59,14 @@
             padding: 5px 5px 0 9px;
           }
         }
+
         .inputContainer {
           border: solid 1px var(--primary-color);
           width: 100%;
           box-shadow: none !important;
           border-radius: 20px;
         }
+
         .file,
         .inputContainer {
           border: solid 1px var(--primary-color);

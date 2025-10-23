@@ -1,13 +1,11 @@
 'use client'
-import { ButtonGroup } from '../../presentation/components/ButtonGroup'
-import AppInput from '../../presentation/components/Inputs/AppInput'
-import { PageLayout } from '../../presentation/components/PageLayout'
+import { ButtonGroup } from '@/presentation/components/ButtonGroup'
+import AppInput from '@/presentation/components/Inputs/AppInput'
 import styles from './page.module.scss'
 import { DayPicker } from 'react-day-picker'
 import { ptBR } from 'date-fns/locale'
 import { format, isWeekend } from 'date-fns'
 import { isPastDate, isWeekDay } from '@/shared/utils/helpers/calendarDate'
-import { enumsRoutes } from '@/shared/enums/enumsRoutes'
 import { useAppointmentsModel } from './appointments-model'
 
 export default function AppointmentsView(
@@ -18,10 +16,12 @@ export default function AppointmentsView(
 
   return (
     <div className={styles.page}>
-      <PageLayout
-        userName={'Eduarda Freitas'}
-        route={enumsRoutes.APPOINTMENTS}
-      />
+      <div>
+        <p className={styles.title}>
+          Bem Vindo, <span> Lucas!</span>
+          <p>inicie uma marcação!</p>
+        </p>
+      </div>
       <section className={styles.container}>
         <div className={styles.wrapperLeft}>
           <AppInput

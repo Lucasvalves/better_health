@@ -1,4 +1,3 @@
-import { PageLayout } from '@/presentation/components/PageLayout'
 import Form from 'next/form'
 import styles from './page.module.scss'
 import { ButtonGroup } from '@/presentation/components/ButtonGroup'
@@ -7,7 +6,9 @@ import AppInput from '@/presentation/components/Inputs/AppInput'
 export default function RegisterPatient() {
   return (
     <div className={styles.page}>
-      <PageLayout title="Cadastrar Paciente">
+        <div>
+          <p className={styles.title}>Cadastrar Paciente</p>
+        </div>
         <div className={styles.formWrapper}>
           <Form action="">
             <div className={styles.itemsCenter}>
@@ -33,7 +34,6 @@ export default function RegisterPatient() {
             </div>
           </Form>
         </div>
-      </PageLayout>
     </div>
   )
 }
