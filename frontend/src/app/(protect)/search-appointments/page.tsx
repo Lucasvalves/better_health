@@ -4,13 +4,20 @@ import 'react-day-picker/dist/style.css'
 import { MdOutlineEdit } from 'react-icons/md'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import AppInput from '@/presentation/components/Inputs/AppInput'
+import { useEffect, useState } from 'react'
+import Cookies from 'js-cookie'
 
 export default function SearchAppointments() {
+  const [userName, setUserName] = useState<string>('')
+  useEffect(() => {
+    const name = Cookies.get('userName')?.split(' ').slice(0, 2).join(' ')
+    if (name) setUserName(name)
+  }, [])
   return (
     <div className={styles.page}>
       <div>
         <p className={styles.title}>
-          Olá, <span> Lucas!</span>
+          Olá, <span> {userName || 'Usuário'}!</span>
           <p className={styles.desc}>Busque um agendamento!</p>
         </p>
       </div>

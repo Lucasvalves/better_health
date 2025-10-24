@@ -7,6 +7,8 @@ import { ptBR } from 'date-fns/locale'
 import { format, isWeekend } from 'date-fns'
 import { isPastDate, isWeekDay } from '@/shared/utils/helpers/calendarDate'
 import { useAppointmentsModel } from './appointments-model'
+import { useEffect, useState } from 'react'
+import Cookies from 'js-cookie'
 
 export default function AppointmentsView(
   methods: ReturnType<typeof useAppointmentsModel>
@@ -14,11 +16,16 @@ export default function AppointmentsView(
   const { selectedDate, setSelectedDate, selectedTime, setSelectedTime } =
     methods
 
+  const [userName, setUserName] = useState<string>('')
+  useEffect(() => {
+    const name = Cookies.get('userName')?.split(' ').slice(0, 2).join(' ')
+    if (name) setUserName(name)
+  }, [])
   return (
     <div className={styles.page}>
       <div>
         <p className={styles.title}>
-          Bem Vindo, <span> Lucas!</span>
+          Bem Vindo, <span> {userName || 'Usuário'}!</span>
         </p>
         <p className={styles.desc}>Inicie uma marcação!</p>
       </div>
