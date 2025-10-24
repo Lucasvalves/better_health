@@ -11,7 +11,7 @@ export default function SearchAppointments() {
       <div>
         <p className={styles.title}>
           Olá, <span> Lucas!</span>
-          <p>Busque um agendamento!</p>
+          <p className={styles.desc}>Busque um agendamento!</p>
         </p>
       </div>
       <section className={styles.container}>

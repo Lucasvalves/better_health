@@ -19,8 +19,8 @@ export default function AppointmentsView(
       <div>
         <p className={styles.title}>
           Bem Vindo, <span> Lucas!</span>
-          <p>inicie uma marcação!</p>
         </p>
+        <p className={styles.desc}>Inicie uma marcação!</p>
       </div>
       <section className={styles.container}>
         <div className={styles.wrapperLeft}>

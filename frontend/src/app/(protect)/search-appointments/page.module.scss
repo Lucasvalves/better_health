@@ -14,7 +14,6 @@
 
     .title {
       font-size: var(--font-size-h2);
-      margin-bottom: 1rem;
       font-weight: 400;
 
       >span {
@@ -22,7 +21,7 @@
       }
     }
 
-    p {
+    .desc {
       margin-top: 10px;
       font-size: 1.1rem;
     }
