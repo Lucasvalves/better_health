@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 
 export async function POST(req: Request) {
   try {
-    const token = await req.json()
+    const { token, user } = await req.json()
 
     if (!token) {
       return NextResponse.json(
@@ -12,11 +12,18 @@ export async function POST(req: Request) {
       )
     }
 
-    ;(await cookies()).set('token', token, {
+    const cookieStore = await cookies()
+
+    cookieStore.set('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       path: '/',
-      maxAge: 60 * 60 * 24
+      maxAge: 60 * 60 * 24 // 1 dia
+    })
+
+    cookieStore.set('userName', user.name, {
+      httpOnly: false,
+      path: '/'
     })
 
     return NextResponse.json({ ok: true })
@@ -29,4 +36,3 @@ export async function POST(req: Request) {
     }
   }
 }
-  

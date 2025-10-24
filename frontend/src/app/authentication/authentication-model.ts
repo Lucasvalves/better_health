@@ -159,11 +159,11 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
       const response = await authUserService.exec(
         validation.data as AuthUserBody
       )
-      
+
       await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(response.token)
+        body: JSON.stringify(response)
       })
 
       enqueueSnackbar('Login feito com sucesso!', { variant: 'success' })
