@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import styles from './page.module.scss'
 import { RiMenu3Fill } from 'react-icons/ri'
-import { Nav } from '../Nav'
+import { Nav } from './Nav'
 import { enumsRoutes } from '@/shared/enums/enumsRoutes'
 
 export default function Header() {
@@ -16,11 +16,7 @@ export default function Header() {
             <Nav />
           </div>
           <div className={styles.containerMenuMobile}>
-            <RiMenu3Fill
-              size={35}
-              // onClick={() => setMenuIsVisible(true)}
-              className={styles.containerMenuMobile}
-            />
+            <RiMenu3Fill size={35} className={styles.containerMenuMobile} />
           </div>
         </div>
       </section>
