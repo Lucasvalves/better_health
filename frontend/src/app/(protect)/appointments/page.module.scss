@@ -90,10 +90,6 @@
       width: 40%;
       font-weight: 500;
 
-      label {
-        margin-bottom: 3px;
-      }
-
       .pickerContainer {
         background-color: white;
         border-radius: 8px;
@@ -102,15 +98,13 @@
         font-family: 'Arial', sans-serif;
         display: flex;
         flex-direction: column;
+        margin-top: 5px;
 
         .picker {
           padding: 0 1rem;
           display: flex;
 
           .day {
-            width: 36px;
-            height: 36px;
-            margin: 0.1rem;
             border-radius: 50%;
             transition: background-color 0.2s;
 
@@ -182,7 +176,6 @@
                 flex-basis: calc(33.33% - 8px);
                 overflow-y: auto;
                 min-height: 0;
-                height: 20px;
                 font-weight: normal;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.007);
 

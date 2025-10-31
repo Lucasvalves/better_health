@@ -129,8 +129,8 @@ export default function AppointmentsView(
             </div>
             <p>
               {selectedDate
-                ? `Horario: ${format(selectedDate, 'dd/MM/yyyy', { locale: ptBR })} ${selectedTime}`
-                : `Hoje ${selectedTime}`}
+                ? `Horario: ${format(selectedDate, 'dd/MM/yyyy', { locale: ptBR })} às ${selectedTime ? selectedTime : ''}`
+                : `Hoje ${selectedTime ? selectedTime : ''}`}
             </p>
           </div>
         </div>

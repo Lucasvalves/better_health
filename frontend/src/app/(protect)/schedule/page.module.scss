@@ -81,9 +81,6 @@
       width: 40%;
       font-weight: 500;
 
-      label {
-        margin-bottom: 3px;
-      }
 
       .picker {
         background-color: white;
@@ -92,11 +89,13 @@
         color: var(--font-color-gray);
         font-family: 'Arial', sans-serif;
         width: fit-content;
+        margin-top: -15px;
 
         .calendar {
           width: 100% !important;
           margin: 20px;
           text-align: center;
+          padding-bottom: 10px;
         }
 
         .day {
@@ -122,79 +121,6 @@
 
           :hover {
             color: var(--gray-300);
-          }
-        }
-
-        .time {
-          width: 50%;
-          border-left: 1px solid var(--primary-color);
-          text-align: center;
-          font-weight: bold;
-
-          p {
-            margin-top: 13px;
-          }
-
-          ul {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            list-style: none;
-            margin: 12px 0 0 12px;
-            padding: 0;
-            height: 80%;
-            overflow-y: auto;
-            min-height: 0;
-            align-content: flex-start;
-
-            &::-webkit-scrollbar {
-              width: 8px;
-              height: 100px;
-            }
-
-            &::-webkit-scrollbar-track {
-              background: #f0f0f0;
-              border-radius: 8px;
-            }
-
-            &::-webkit-scrollbar-thumb {
-              background: #2c5184be;
-              border-radius: 8px;
-            }
-
-            &::-webkit-scrollbar-thumb:hover {
-              background: #2c5084;
-            }
-
-            li {
-              border: 1px solid var(--primary-color);
-              border-radius: 5px;
-              color: var(--primary-color);
-              cursor: pointer;
-              flex-basis: calc(33.33% - 8px);
-              overflow-y: auto;
-              min-height: 0;
-              height: 20px;
-              font-weight: normal;
-
-              &:hover {
-                background-color: #2c518410;
-                transition: background-color 0.5s;
-              }
-
-              &.selectedTime {
-                background-color: var(--blue);
-                color: white;
-                border-color: var(--blue);
-                font-weight: bold;
-              }
-            }
-          }
-
-          @media (max-width: 768px) {
-            ul {
-              grid-template-columns: repeat(2, 1fr) !important;
-            }
           }
         }
       }
