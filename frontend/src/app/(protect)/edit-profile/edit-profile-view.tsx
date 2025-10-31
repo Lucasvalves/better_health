@@ -27,7 +27,7 @@ export default function EditProfileView(
         <div className={styles.itemsCenter}>
           <label className={styles.avatarWrapper}>
             <Image
-              src={imageUrl || '/default-profile.png'}
+              src={imageUrl || '/user.png'}
               width={100}
               height={100}
               alt="Avatar"
