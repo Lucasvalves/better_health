@@ -1,4 +1,3 @@
-import { HttpClient } from '@/infrastructure/http/http-client'
 import { User } from '@/domain/models/user'
 import {
   HttpMethod,
@@ -18,7 +17,7 @@ export type AuthUserServiceContract = {
 export class AuthUserService implements AuthUserServiceContract {
   private constructor(private readonly HttpClient: IHttpClient) {}
 
-  static auth(HttpClient: HttpClient): AuthUserService {
+  static auth(HttpClient: IHttpClient): AuthUserService {
     return new AuthUserService(HttpClient)
   }
 
