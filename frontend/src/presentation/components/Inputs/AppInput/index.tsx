@@ -2,19 +2,21 @@
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
 import { Condition } from '../../Condition'
 import style from './page.module.scss'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 type Props = {
   placeholder?: string
   type?: string
   label?: string
   className?: string
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 export default function AppInput({
   label,
   placeholder,
   type,
-  className
+  className,
+  onChange
 }: Props) {
   const [showPassword, setShowPassword] = useState(false)
 
@@ -30,6 +32,7 @@ export default function AppInput({
             type === 'password' ? (showPassword ? 'text' : 'password') : type
           }
           placeholder={placeholder}
+          onChange={onChange}
         />
         <Condition when={type === 'password'}>
           <button
