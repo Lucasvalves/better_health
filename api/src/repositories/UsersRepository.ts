@@ -51,14 +51,6 @@ class UsersRepository {
 
 		return result
 	}
-	async findUser(id: string) {
-		const result = await prisma.users.findUnique({
-			where: {
-				id,
-			},
-		})
-		return result
-	}
 }
 
 export { UsersRepository }

@@ -54,13 +54,18 @@ class UsersServices {
 		let password
 		if (oldPassword && newPassword) {
 			const findUserById = await this.usersRepository.findUserById(user_id)
+			console.log('🚀 ~ UsersServices ~ update ~ findUserById:', findUserById)
 			if (!findUserById) {
 				throw new Error('User not found')
 			}
 			if (oldPassword === newPassword) {
 				throw new Error('Both passwords are the same')
 			}
-			const passwordMatch = compare(oldPassword, findUserById.password)
+
+			console.log('OldPassword:', oldPassword)
+			console.log('DB Password:', findUserById.password)
+			const passwordMatch = await compare(oldPassword, findUserById.password)
+			console.log('🚀 ~ UsersServices ~ update ~ passwordMatch:', passwordMatch)
 
 			if (!passwordMatch) {
 				throw new Error('Password invalid.')
@@ -68,13 +73,9 @@ class UsersServices {
 			password = await hash(newPassword, 10)
 
 			const result = await this.usersRepository.updatePassword(
-				newPassword,
+				password,
 				user_id
 			)
-			// return {
-			// 	message: 'User updated successfully',
-			// }
-			console.log('🚀 ~ UsersServices ~ update ~ result newPassword:', result)
 
 			return result
 		}
@@ -92,15 +93,11 @@ class UsersServices {
 				uploadS3.Location,
 				user_id
 			)
-			console.log('🚀 ~ UsersServices ~ update ~ result:', result)
-			// return {
-			// 	message: 'User updated successfully',
-			// }
 			return result
 		}
 	}
 	async findUserById(id: string) {
-		const result = await this.usersRepository.findUser(id)
+		const result = await this.usersRepository.findUserById(id)
 
 		if (!result) throw new Error("User doens't exists")
 
