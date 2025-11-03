@@ -67,10 +67,16 @@ class UsersServices {
 			}
 			password = await hash(newPassword, 10)
 
-			await this.usersRepository.updatePassword(newPassword, user_id)
-			return {
-				message: 'User updated successfully',
-			}
+			const result = await this.usersRepository.updatePassword(
+				newPassword,
+				user_id
+			)
+			// return {
+			// 	message: 'User updated successfully',
+			// }
+			console.log('🚀 ~ UsersServices ~ update ~ result newPassword:', result)
+
+			return result
 		}
 		if (avatar_url) {
 			const uploadImage = avatar_url?.buffer
@@ -82,11 +88,23 @@ class UsersServices {
 				})
 				.promise()
 
-			await this.usersRepository.update(uploadS3.Location, user_id)
-			return {
-				message: 'User updated successfully',
-			}
+			const result = await this.usersRepository.update(
+				uploadS3.Location,
+				user_id
+			)
+			console.log('🚀 ~ UsersServices ~ update ~ result:', result)
+			// return {
+			// 	message: 'User updated successfully',
+			// }
+			return result
 		}
+	}
+	async findUserById(id: string) {
+		const result = await this.usersRepository.findUser(id)
+
+		if (!result) throw new Error("User doens't exists")
+
+		return result
 	}
 }
 export { UsersServices }

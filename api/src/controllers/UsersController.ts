@@ -59,5 +59,21 @@ class UsersController {
 			next(error)
 		}
 	}
+
+	async findUserById(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void> {
+		const { user_id } = request
+
+		try {
+			const user = await this.usersServices.findUserById(user_id)
+			response.status(200).json(user)
+		} catch (error) {
+			next(error)
+		}
+	}
 }
+
 export { UsersController }
