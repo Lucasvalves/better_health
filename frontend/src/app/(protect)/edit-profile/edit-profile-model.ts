@@ -90,13 +90,24 @@ export default function useEditProfileModel({
   const handleChange = (field: keyof UpdateUserBody, value: string) => {
     setUpdateUserPayload((prev) => ({ ...prev, [field]: value }))
   }
+  const handleReset = () => {
+    setUpdateUserPayload({
+      oldPassword: '',
+      newPassword: '',
+      avatar_url: undefined
+    })
+
+    setImageUrl(user?.avatar_url || null)
+  }
 
   return {
     imageUrl,
     fileInputRef,
+    updateUserPayload,
     handleFileChange,
     triggerFileInput,
     handleUpdateUser,
-    handleChange
+    handleChange,
+    handleReset
   }
 }
