@@ -1,3 +1,9 @@
+import { jest } from '@jest/globals'
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => mockRouter
+}))
+
 import { screen, fireEvent, waitFor } from '@testing-library/react'
 import { AuthenticationView } from './authentication-view'
 import { useAuthenticationModel } from './authentication-model'
@@ -7,6 +13,7 @@ import {
 } from '@/test/mock/user-service/user'
 import { renderView } from '@/test/mock/react-query/renderScreen'
 import userEvent from '@testing-library/user-event'
+import { mockRouter } from '@/test/mock/next-router'
 
 export const MakeSut = () => {
   const methods = useAuthenticationModel({
