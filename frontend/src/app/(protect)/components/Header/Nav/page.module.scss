@@ -4,8 +4,62 @@
   display: flex;
   justify-content: space-evenly;
   font-size: var(--font-size-body);
+
   a:hover {
     transition: color 0.5s ease-in-out;
     opacity: 0.8;
   }
+
+  .profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .profile span {
+    margin-left: .2rem;
+
+  }
+
+  .dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .dropdownMenu.open {
+    opacity: 1;
+  }
+
+  .dropdownMenu {
+    position: absolute;
+    background-color: var(--primary-color);
+    top: 90%;
+    right: -20px;
+    padding: 0;
+    list-style-type: none;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .dropdownMenuItem {
+    padding: .7rem 1rem;
+    font-size: .9rem;
+  }
+
+  .logout {
+    padding: .7rem 1rem;
+    font-size: .9rem;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .logout:hover,
+  .dropdownMenuItem:hover {
+    background-color: rgba(88, 123, 173, 0.854);
+    border-radius: 8px;
+  }
+
 }
