@@ -5,19 +5,19 @@ import { UpdateUserBody, User } from '@/domain/models/user'
 import { UpdateUserServiceContract } from '@/data/user-service/update-user-service/update-user-service'
 import { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
-import { GetUserService } from '@/data/user-service/get-user-service/get-user-service'
+import { GetUserServiceContract } from '@/data/user-service/get-user-service/get-user-service'
 
 type ApiError = { message?: string }
 
-type UserServiceRegistry = {
+export type EditProfileServiceRegistry = {
   updateUserService: UpdateUserServiceContract
-  getUserService: GetUserService
+  getUserService: GetUserServiceContract
 }
 
 export default function useEditProfileModel({
   updateUserService,
   getUserService
-}: UserServiceRegistry) {
+}: EditProfileServiceRegistry) {
   const queryClient = useQueryClient()
 
   const [imageUrl, setImageUrl] = useState<string | null>(null)
@@ -90,13 +90,24 @@ export default function useEditProfileModel({
   const handleChange = (field: keyof UpdateUserBody, value: string) => {
     setUpdateUserPayload((prev) => ({ ...prev, [field]: value }))
   }
+  const handleReset = () => {
+    setUpdateUserPayload({
+      oldPassword: '',
+      newPassword: '',
+      avatar_url: undefined
+    })
+
+    setImageUrl(user?.avatar_url || null)
+  }
 
   return {
     imageUrl,
     fileInputRef,
+    updateUserPayload,
     handleFileChange,
     triggerFileInput,
     handleUpdateUser,
-    handleChange
+    handleChange,
+    handleReset
   }
 }

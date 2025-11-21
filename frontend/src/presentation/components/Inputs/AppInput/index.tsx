@@ -10,13 +10,15 @@ type Props = {
   label?: string
   className?: string
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  value?: string
 }
 export default function AppInput({
   label,
   placeholder,
   type,
   className,
-  onChange
+  onChange,
+  value
 }: Props) {
   const [showPassword, setShowPassword] = useState(false)
 
@@ -33,6 +35,7 @@ export default function AppInput({
           }
           placeholder={placeholder}
           onChange={onChange}
+          value={value}
         />
         <Condition when={type === 'password'}>
           <button

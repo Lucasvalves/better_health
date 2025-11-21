@@ -10,12 +10,14 @@ export default function EditProfileView(
   methods: ReturnType<typeof useEditProfileModel>
 ) {
   const {
+    imageUrl,
+    fileInputRef,
+    updateUserPayload,
     handleFileChange,
     triggerFileInput,
-    imageUrl,
     handleUpdateUser,
     handleChange,
-    fileInputRef
+    handleReset
   } = methods
 
   return (
@@ -52,6 +54,7 @@ export default function EditProfileView(
             type="password"
             onChange={(e) => handleChange('oldPassword', e.target.value)}
             className={styles.inputContainer}
+            value={updateUserPayload.oldPassword || ''}
           />
           <AppInput
             label="Nova senha"
@@ -59,9 +62,14 @@ export default function EditProfileView(
             type="password"
             onChange={(e) => handleChange('newPassword', e.target.value)}
             className={styles.inputContainer}
+            value={updateUserPayload.newPassword || ''}
           />
 
-          <ButtonGroup leftButtonLabel="Editar" rightButtonLabel="Cancelar" />
+          <ButtonGroup
+            leftButtonLabel="Editar"
+            rightButtonLabel="Cancelar"
+            rightButtonClick={handleReset}
+          />
         </div>
       </form>
     </div>
