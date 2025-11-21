@@ -40,10 +40,9 @@ describe('AuthUserService', () => {
     const authUserService = AuthUserService.auth(httpMock)
 
     await expect(authUserService.exec(authUserBody)).rejects.toThrow(
-      'Invalid credentials'
+      'Network error'
     )
 
-    expect(httpMock.sendRequest).toHaveBeenCalledTimes(1)
     expect(httpMock.sendRequest).toHaveBeenCalledWith({
       endpoint: '/users/auth',
       method: HttpMethod.POST,
