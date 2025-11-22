@@ -29,11 +29,7 @@ export class CreateSpecialtyService implements CreateSpecialtyServiceContract {
         Authorization: `Bearer ${token}`
       }
     })
-
-    console.log(
-      '🚀 ~ CreateSpecialtyService ~ exec ~ createdSpecialty:',
-      createdSpecialty
-    )
+    
     return createdSpecialty
   }
 }
