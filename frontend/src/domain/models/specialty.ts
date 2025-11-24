@@ -3,7 +3,7 @@ export type Specialty = {
   name: string
 }
 
-export type CreaetSpecialty = {
+export type CreateSpecialty = {
   body: Specialty
   token?: string
 }
