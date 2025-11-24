@@ -14,3 +14,9 @@ export const maskPhone = (value: string) => {
     .replace(/(\d{5})(\d{1,4})$/, '$1-$2')
     .substring(0, 15)
 }
+
+export const maskCRM = (value: string) => {
+  return value
+    .replace(/\D/g, '') 
+    .substring(0, 6)
+}

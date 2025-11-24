@@ -1,4 +1,4 @@
-import { Specialty, CreaetSpecialty } from '@/domain/models/specialty'
+import { Specialty, CreateSpecialty } from '@/domain/models/specialty'
 import {
   HttpMethod,
   IHttpClient
@@ -7,7 +7,7 @@ import {
 export type CreateSpecialtyBody = Omit<Specialty, 'id'>
 
 export type CreateSpecialtyServiceContract = {
-  exec: ({ body, token }: CreaetSpecialty) => Promise<Specialty>
+  exec: ({ body, token }: CreateSpecialty) => Promise<Specialty>
 }
 
 export class CreateSpecialtyService implements CreateSpecialtyServiceContract {
@@ -17,7 +17,7 @@ export class CreateSpecialtyService implements CreateSpecialtyServiceContract {
     return new CreateSpecialtyService(HttpClient)
   }
 
-  async exec({ body, token }: CreaetSpecialty): Promise<Specialty> {
+  async exec({ body, token }: CreateSpecialty): Promise<Specialty> {
     const createdSpecialty = await this.HttpClient.sendRequest<
       Specialty,
       CreateSpecialtyBody
@@ -29,7 +29,7 @@ export class CreateSpecialtyService implements CreateSpecialtyServiceContract {
         Authorization: `Bearer ${token}`
       }
     })
-    
+
     return createdSpecialty
   }
 }

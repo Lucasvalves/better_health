@@ -5,6 +5,7 @@ import style from './page.module.scss'
 import { ChangeEvent, useState } from 'react'
 
 type Props = {
+  id?: string
   placeholder?: string
   type?: string
   label?: string
@@ -13,6 +14,7 @@ type Props = {
   value?: string
 }
 export default function AppInput({
+  id,
   label,
   placeholder,
   type,
@@ -27,9 +29,10 @@ export default function AppInput({
   }
   return (
     <div className={style.container}>
-      <label htmlFor="fullName">{label}</label>
+      {label && <label htmlFor={id}>{label}</label>}
       <div className={`${style.inputContainer} ${className}`}>
         <input
+          id={id}
           type={
             type === 'password' ? (showPassword ? 'text' : 'password') : type
           }
