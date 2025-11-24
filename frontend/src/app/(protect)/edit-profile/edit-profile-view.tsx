@@ -25,7 +25,11 @@ export default function EditProfileView(
       <div>
         <p className={styles.title}>Editar Perfil</p>
       </div>
-      <form onSubmit={handleUpdateUser} className={styles.formWrapper}>
+      <form
+        onSubmit={handleUpdateUser}
+        className={styles.formWrapper}
+        data-testid="edit-profile-form"
+      >
         <div className={styles.itemsCenter}>
           <label className={styles.avatarWrapper}>
             <Image
@@ -49,6 +53,7 @@ export default function EditProfileView(
             </div>
           </label>
           <AppInput
+            id="oldPassword"
             label="Senha antiga"
             placeholder="******"
             type="password"
@@ -57,6 +62,7 @@ export default function EditProfileView(
             value={updateUserPayload.oldPassword || ''}
           />
           <AppInput
+            id="newPassword"
             label="Nova senha"
             placeholder="******"
             type="password"
