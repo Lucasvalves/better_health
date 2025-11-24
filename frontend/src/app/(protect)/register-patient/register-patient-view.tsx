@@ -23,6 +23,7 @@ export default function RegisterPatientView(
         <form onSubmit={handleCreatePatient}>
           <div className={styles.itemsCenter}>
             <AppInput
+              id="name"
               label="Nome"
               placeholder="Pablo Rocha"
               className={styles.inputContainer}
@@ -35,6 +36,7 @@ export default function RegisterPatientView(
               value={createPatientPayload.name}
             />
             <AppInput
+              id="cpf"
               label="CPF"
               placeholder="000.000.00-00"
               className={styles.inputContainer}
@@ -47,6 +49,7 @@ export default function RegisterPatientView(
               value={createPatientPayload.cpf}
             />
             <AppInput
+              id="phone"
               label="Telefone"
               placeholder="(71)99887-3114"
               className={styles.inputContainer}
