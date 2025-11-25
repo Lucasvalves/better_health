@@ -1,4 +1,4 @@
-import { IBreakTimeRange, IObject} from '../interfaces/AppointmentsInterface'
+import { IBreakTimeRange, IObject } from '../interfaces/AppointmentsInterface'
 import {
 	format,
 	parse,
@@ -54,12 +54,11 @@ export const addMinutesToDate = (date: Date, duration: Date) => {
 }
 
 export const splitByvalue = (array: string[], value: string) => {
-	let newArray: string[][]  = [[]]
-	array?.forEach((item:string) => {
-
+	let newArray: string[][] = [[]]
+	array?.forEach((item: string) => {
 		if (item != value) {
 			newArray[newArray.length - 1].push(item)
-		}else{
+		} else {
 			newArray.push([])
 		}
 	})
@@ -67,24 +66,26 @@ export const splitByvalue = (array: string[], value: string) => {
 	return newArray
 }
 
+export const chunk = (array: IObject, size: number) => {
+	if (!Array.isArray(array) || size <= 0) {
+		return []
+	}
 
-export const chunk=(array: IObject, size:number) => {
-  if (!Array.isArray(array) || size <= 0) {
-    return [];
-  }
+	const result = []
+	for (let i = 0; i < array.length; i += size) {
+		result.push(array.slice(i, i + size))
+	}
 
-  const result = [];
-  for (let i = 0; i < array.length; i += size) {
-    result.push(array.slice(i, i + size));
-  }
-
-  return result;
+	return result
 }
 
-
-export const  convertHourToDateTime =(hour: string): Date =>{
+export const convertHourToDateTime = (hour: string): Date => {
 	const BASE_DATE = '1970-01-01'
 	return new Date(`${BASE_DATE}T${hour}:00.000Z`)
 }
 
-
+export const normalize = (baseDate: Date, hourDate: Date) => {
+	const d = new Date(baseDate)
+	d.setHours(hourDate.getHours(), hourDate.getMinutes(), 0, 0)
+	return d
+}

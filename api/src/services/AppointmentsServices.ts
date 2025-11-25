@@ -18,8 +18,16 @@ import {
 	endOfDay,
 	startOfDay,
 	getHours,
+	getDay,
+	addMinutes,
 } from 'date-fns'
-import { breakTimeRange, addMinutesToDate, splitByvalue, chunk } from '../utils/util'
+import {
+	breakTimeRange,
+	addMinutesToDate,
+	splitByvalue,
+	chunk,
+	normalize,
+} from '../utils/util'
 import { PatientsRepository } from '../repositories/PatientsRepository'
 
 class AppointmentsServices {
@@ -40,26 +48,58 @@ class AppointmentsServices {
 		const specialty = await this.specialtiesRepository.find(specialties_id)
 		const patients = await this.patientsRepository.findPatient(patients_id)
 
+		if (!specialty) {
+			throw new Error('Invalid specialty')
+		}
 		if (specialty?.id != doctors?.specialties_id) {
 			throw new Error('This doctor does not provide the specified specialty')
 		}
 		if (!patients) {
 			throw new Error('Invalid patient')
 		}
-		const hour = getHours(addHours(date, +3))
 
-		if (hour <= 8 || hour >= 17) {
-			throw new Error('Create Schedule between 8 and 17.')
-		}
+		const dayOfWeek = getDay(date)
 
-		const schedules = await this.appointmentsRepository.findSchedules(
-			specialties_id,
-			date
+		const doctorTimes = await this.timesRepository.findByDoctorAndDay(
+			doctors_id,
+			dayOfWeek
 		)
 
-		if (schedules) {
-			throw new Error('There is already a patient scheduled for that time')
+		if (doctorTimes.length === 0) {
+			throw new Error('This doctor is not available on this day')
 		}
+
+		const appointmentStart = new Date(date)
+		const appointmentEnd = addMinutes(date, getMinutes(specialty.duration))
+
+		const fitsInSchedule = doctorTimes.some((t) => {
+			const start = normalize(appointmentStart, new Date(t.startHour))
+			const end = normalize(appointmentStart, new Date(t.endHour))
+
+			return appointmentStart >= start && appointmentEnd <= end
+		})
+
+		if (!fitsInSchedule) {
+			throw new Error('This time is outside the doctor schedule')
+		}
+
+		const existingAppointments =
+			await this.appointmentsRepository.findByDoctorsId(doctors_id, date)
+
+		const hasConflict = existingAppointments.some((app) => {
+			const existingStart = app.date
+			const existingEnd = addMinutes(
+				app.date,
+				getMinutes(app.Specialties.duration)
+			)
+
+			return appointmentStart < existingEnd && existingStart < appointmentEnd
+		})
+
+		if (hasConflict) {
+			throw new Error('This doctor already has an appointment at this time')
+		}
+
 		const result = await this.appointmentsRepository.create({
 			patients_id,
 			specialties_id,

@@ -1,5 +1,5 @@
 export interface ICreate {
-	date: string
+	date: Date
 	patients_id: string
 	doctors_id: string
 	specialties_id: string
@@ -9,7 +9,7 @@ export interface ICreateAvailableDays {
 	specialties_id: string
 }
 export interface IRange {
-	start?: Date| undefined
+	start?: Date | undefined
 	end?: Date | undefined
 }
 export interface IFilter {
@@ -17,18 +17,18 @@ export interface IFilter {
 	range: IRange
 }
 export interface IRangeRepository {
-	specialties_id:string
-	start?: Date| undefined
+	specialties_id: string
+	start?: Date | undefined
 	end?: Date | undefined
 }
-export interface IObject{
+export interface IObject {
 	[chave: string]: any
 }
 export interface IBreakTimeRange {
-  (
-    startDate: string,
-    startTime: string,
-    endTime: string,
-    intervalMinutes: number
-  ): string[];
+	(
+		startDate: string,
+		startTime: string,
+		endTime: string,
+		intervalMinutes: number
+	): string[]
 }
