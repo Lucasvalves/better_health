@@ -1,5 +1,5 @@
 import { prisma } from '../database/prisma'
-import { ICreate } from '../interfaces/TimesInterfaces'
+import { ICreateDB } from '../interfaces/TimesInterfaces'
 
 class TimesRepository {
 	async create({
@@ -8,7 +8,7 @@ class TimesRepository {
 		endHour,
 		specialties_id,
 		doctors_id,
-	}: ICreate) {
+	}: ICreateDB) {
 		const result = await prisma.times.create({
 			data: {
 				days,
@@ -40,7 +40,7 @@ class TimesRepository {
 				specialties_id,
 			},
 		})
-		
+
 		return result
 	}
 	async delete(id: string) {
@@ -49,20 +49,16 @@ class TimesRepository {
 		})
 		return result
 	}
-	// async findByDoctors(doctors_id: string) {
-	// 	const result = await prisma.times.findMany({
-	// 		where: {
-	// 			doctors_id,
-	// 		},
-	// 		select: {
-	// 			//data: { // nome da propriedade que deseja
-	// 				days: true, // indica que queremos apenas a parte da data
-	// 			//},
-	// 		},
-	// 	})
-	// 	return result
-	// 	//console.log(result)
-	// }
+	async findByDoctorAndDay(doctors_id: string, day: number) {
+		const result = await prisma.times.findMany({
+			where: {
+				doctors_id,
+				days: day,
+			},
+		})
+
+		return result
+	}
 }
 
 export { TimesRepository }

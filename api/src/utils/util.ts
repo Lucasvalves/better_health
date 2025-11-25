@@ -82,3 +82,9 @@ export const chunk=(array: IObject, size:number) => {
 }
 
 
+export const  convertHourToDateTime =(hour: string): Date =>{
+	const BASE_DATE = '1970-01-01'
+	return new Date(`${BASE_DATE}T${hour}:00.000Z`)
+}
+
+
