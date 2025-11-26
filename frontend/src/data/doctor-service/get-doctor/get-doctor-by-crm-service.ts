@@ -14,7 +14,7 @@ export type GetDoctorByCRMServiceContract = {
 }
 
 export class GetDoctorByCRMService implements GetDoctorByCRMServiceContract {
-  private constructor(private readonly HttpClient: IHttpClient) {}
+  constructor(private readonly HttpClient: IHttpClient) {}
 
   static create(HttpClient: IHttpClient): GetDoctorByCRMService {
     return new GetDoctorByCRMService(HttpClient)

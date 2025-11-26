@@ -11,7 +11,7 @@ export type CreateScheduleServiceContract = {
 }
 
 export class CreateScheduleService implements CreateScheduleServiceContract {
-  private constructor(private readonly HttpClient: IHttpClient) {}
+   constructor(private readonly HttpClient: IHttpClient) {}
 
   static create(HttpClient: IHttpClient): CreateScheduleService {
     return new CreateScheduleService(HttpClient)
