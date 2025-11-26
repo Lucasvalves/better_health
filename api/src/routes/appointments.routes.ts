@@ -147,7 +147,7 @@ class AppointmentsRoutes {
 	 *       401:
 	 *         description: Unauthorized
 	 */
-		this.router.get(
+		this.router.post(
 			'/available-days',
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.appointmentsController.availableDays.bind(this.appointmentsController)
