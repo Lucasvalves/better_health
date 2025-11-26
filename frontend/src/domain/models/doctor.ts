@@ -19,3 +19,11 @@ export type GetDoctorByCRMResponse = {
   specialties_id: string
   Specialties?: Specialty
 }
+
+
+export type getDoctorByIDServiceResponse = {
+  id: string
+  name: string
+  crm: string
+  specialties_id: string
+}

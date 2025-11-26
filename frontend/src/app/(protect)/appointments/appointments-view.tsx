@@ -4,17 +4,33 @@ import AppInput from '@/presentation/components/Inputs/AppInput'
 import styles from './page.module.scss'
 import { DayPicker } from 'react-day-picker'
 import { ptBR } from 'date-fns/locale'
-import { format, isWeekend } from 'date-fns'
-import { isPastDate, isWeekDay } from '@/shared/utils/helpers/calendarDate'
+import { format, isPast, isWeekend } from 'date-fns'
 import { useAppointmentsModel } from './appointments-model'
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
+import { CustomSelect } from '@/presentation/components/CustomSelect'
 
 export default function AppointmentsView(
   methods: ReturnType<typeof useAppointmentsModel>
 ) {
-  const { selectedDate, setSelectedDate, selectedTime, setSelectedTime } =
-    methods
+  const {
+    setSelectedDate,
+    setSelectedTime,
+    handleReset,
+    setCPF,
+    setCPFFinal,
+    setSpecialtyId,
+    handleCreateAppointment,
+    selectedDate,
+    selectedTime,
+    specialties,
+    specialtyId,
+    patient,
+    cpf,
+    normalizedAvailableDays,
+    availableTimes,
+    doctor
+  } = methods
 
   const [userName, setUserName] = useState<string>('')
   useEffect(() => {
@@ -29,36 +45,55 @@ export default function AppointmentsView(
         </p>
         <p className={styles.desc}>Inicie uma marcação!</p>
       </div>
-      <section className={styles.container}>
+      <form className={styles.container} onSubmit={handleCreateAppointment}>
         <div className={styles.wrapperLeft}>
           <AppInput
-            label="Insira o nome  do paciente"
-            placeholder="joetracker@gmail.com"
-            type="text"
-          />
-          <AppInput
+            id="cpf"
             label="Insira CPF do paciente"
             placeholder="12345678910"
             type="text"
+            onChange={(e) => setCPF(e.target.value)}
+            value={cpf}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                setCPFFinal(cpf)
+              }
+            }}
           />
-          <div>
-            <label htmlFor="specialties-select">
-              Selecione uma especialidade
-            </label>
-            <div className={styles.specialtiesSelect}>
-              <select id="specialties-select" name="specialties">
-                {/* <option disabled selectedDate hidden>Selecione...</option> */}
-                <option value="dermatologista">Dermatologista</option>
-                <option value="urologista">Urologista</option>
-                <option value="cardiologista">Cardiologista</option>
-                <option value="clinicoGeral">Clínico Geral</option>
-                <option value="angiologista">Angiologista</option>
-              </select>
-            </div>
+          <AppInput
+            id="name"
+            label="Nome  do paciente"
+            type="text"
+            disabled
+            value={patient?.name || ''}
+          />
+          <div className={styles.customSelect}>
+            <CustomSelect
+              value={specialtyId}
+              options={specialties?.map((s) => ({
+                label: s.name,
+                value: s.id ?? ''
+              }))}
+              onChange={(value) => setSpecialtyId(value)}
+              label="Especialidade"
+            />
           </div>
+
+          <AppInput
+            id="name"
+            label="Nome do medico"
+            type="text"
+            disabled
+            value={doctor?.name || ''}
+          />
         </div>
         <div className={styles.wrapperCenter}>
-          <ButtonGroup rightButtonLabel="Cancelar" leftButtonLabel="Agendar" />
+          <ButtonGroup
+            rightButtonClick={handleReset}
+            rightButtonLabel="Cancelar"
+            leftButtonLabel="Agendar"
+          />
         </div>
         <div className={styles.wrapperRight}>
           <label htmlFor="specialties-select">Selecione a data</label>
@@ -69,72 +104,52 @@ export default function AppointmentsView(
                 selected={selectedDate}
                 onSelect={setSelectedDate}
                 locale={ptBR}
-                fromMonth={new Date()}
-                className={styles.calendar}
-                modifiers={{
-                  available: isWeekDay,
-                  today: new Date()
-                }}
                 classNames={{
                   day: styles.day,
                   selected: styles.selected,
                   today: styles.today
                 }}
-                disabled={(date) => isPastDate(date) || isWeekend(date)}
+                disabled={(date) =>
+                  isPast(date) ||
+                  isWeekend(date) ||
+                  !normalizedAvailableDays.some(
+                    (d) => d.toDateString() === date.toDateString()
+                  )
+                }
               />
-              <div className={styles.time}>
+              <p>
+                {selectedDate
+                  ? `Horario: ${format(selectedDate, 'dd/MM/yyyy', { locale: ptBR })} às ${selectedTime ? selectedTime : ''}`
+                  : `Hoje ${selectedTime ? selectedTime : ''}`}
+              </p>
+            </div>
+
+            <div className={styles.containerTime}>
+              <div className={styles.timeList}>
                 <p>Horários Disponiveis</p>
-                <ul>
-                  {[
-                    { horario: '01h' },
-                    { horario: '02h' },
-                    { horario: '03h' },
-                    { horario: '04h' },
-                    { horario: '05h' },
-                    { horario: '06h' },
-                    { horario: '07h' },
-                    { horario: '08h' },
-                    { horario: '09h' },
-                    { horario: '10h' },
-                    { horario: '11h' },
-                    { horario: '12h' },
-                    { horario: '13h' },
-                    { horario: '14h' },
-                    { horario: '15h' },
-                    { horario: '16h' },
-                    { horario: '17h' },
-                    { horario: '18h' },
-                    { horario: '19h' },
-                    { horario: '20h' },
-                    { horario: '21h' },
-                    { horario: '22h' },
-                    { horario: '23h' },
-                    { horario: '24h' }
-                  ].map((item, i) => (
-                    <li
-                      key={i}
-                      className={
-                        selectedTime === item.horario ? styles.selectedTime : ''
-                      }
-                      onClick={(e) => {
-                        e.preventDefault()
-                        setSelectedTime(item.horario)
-                      }}
-                    >
-                      {item.horario}
-                    </li>
-                  ))}
-                </ul>
+
+                {availableTimes.length === 0 && selectedDate && (
+                  <p>Nenhum horário disponível neste dia.</p>
+                )}
+
+                {availableTimes.map((time) => (
+                  <button
+                    type="button"
+                    key={time}
+                    className={
+                      time === selectedTime ? styles.selectedTime : styles.time
+                    }
+                    onClick={() => setSelectedTime(time)}
+                  >
+                    {time}
+                  </button>
+                ))}
               </div>
             </div>
-            <p>
-              {selectedDate
-                ? `Horario: ${format(selectedDate, 'dd/MM/yyyy', { locale: ptBR })} às ${selectedTime ? selectedTime : ''}`
-                : `Hoje ${selectedTime ? selectedTime : ''}`}
-            </p>
           </div>
         </div>
-      </section>
+        {/* </div> */}
+      </form>
     </div>
   )
 }

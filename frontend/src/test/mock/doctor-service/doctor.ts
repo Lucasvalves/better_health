@@ -1,7 +1,7 @@
 import {
   GetDoctorByCRM,
   GetDoctorByCRMServiceContract
-} from '@/data/doctor-service/get-doctor/get-doctor-by-crm-service'
+} from '@/data/doctor-service/get-doctor/get-doctor-by-crm/get-doctor-by-crm-service'
 import { GetDoctorByCRMResponse } from '@/domain/models/doctor'
 
 export class InMemoryGetDoctorByCRMService
