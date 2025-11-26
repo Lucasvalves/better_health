@@ -167,8 +167,8 @@ class PatientsRoutes {
 	 *       404:
 	 *         description: Patient doens't exists
 	 */
-		this.router.get(
-			'/cpf/:cpf',
+		this.router.post(
+			'/cpf/',
 			this.authMiddleware.auth.bind(this.authMiddleware),
 			this.patientsController.findPatientsByCpf.bind(this.patientsController)
 		)

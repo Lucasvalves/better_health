@@ -58,7 +58,7 @@ class PatientsController {
 		response: Response,
 		next: NextFunction
 	): Promise<void> {
-		const { cpf } = request.params
+		const { cpf } = request.body
 
 		try {
 			const patient = await this.patientsServices.findPatientsByCpf(cpf)
