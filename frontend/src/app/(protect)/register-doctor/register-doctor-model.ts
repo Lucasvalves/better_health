@@ -52,12 +52,12 @@ export const useRegisterDoctorModel = (props: DoctorServiceRegistry) => {
   >({
     mutationFn: ({ body, token }) => createDoctorService.exec({ body, token }),
     onSuccess: () => {
-      enqueueSnackbar('Doutor criado com sucesso!', { variant: 'success' })
+      enqueueSnackbar('Médico criado com sucesso!', { variant: 'success' })
 
       queryClient.invalidateQueries({ queryKey: ['specialties'] })
     },
     onError: (err) => {
-      const message = err.response?.data?.message || 'Erro ao criar Doutor.'
+      const message = err.response?.data?.message || 'Erro ao criar Médico.'
       enqueueSnackbar(message, { variant: 'error' })
     }
   })
