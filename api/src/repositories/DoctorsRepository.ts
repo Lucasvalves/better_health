@@ -19,6 +19,9 @@ class DoctorsRepository {
 			where: {
 				crm,
 			},
+			include: {
+				Specialties: true,
+			},
 		})
 		return doctor
 	}
@@ -53,4 +56,3 @@ class DoctorsRepository {
 	}
 }
 export { DoctorsRepository }
-

@@ -211,8 +211,8 @@ class DoctorsRoutes {
 	 *       404:
 	 *         description: Doctor doens't exists
 	 */
-	this.router.get(
-		"/crm/:crm",
+	this.router.post(
+		"/crm/",
 		this.authMiddleware.auth.bind(this.authMiddleware),
 		this.doctorsController.findDoctorsByCrm.bind(this.doctorsController)
 	);

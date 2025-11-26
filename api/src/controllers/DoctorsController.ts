@@ -7,12 +7,15 @@ class DoctorsController {
 	constructor() {
 		this.doctorsServices = new DoctorsServices()
 	}
-	async store(request: Request, response: Response, next: NextFunction):Promise<void> {
+	async store(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void> {
 		const { name, crm, specialties_id } = request.body
 		const { user_id } = request
 
 		try {
-
 			const result = await this.doctorsServices.create({
 				name,
 				crm,
@@ -26,7 +29,11 @@ class DoctorsController {
 		}
 	}
 
-	async index(request: Request, response: Response, next: NextFunction):Promise<void> {
+	async index(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void> {
 		const { user_id } = request
 
 		try {
@@ -43,8 +50,6 @@ class DoctorsController {
 		next: NextFunction
 	) {
 		const { id } = request.params
-		console.log(id);
-
 
 		try {
 			const result = await this.doctorsServices.findDoctorsById(id)
@@ -57,9 +62,9 @@ class DoctorsController {
 		request: Request,
 		response: Response,
 		next: NextFunction
-	):Promise<void> {
-		const { crm } = request.params
-
+	): Promise<void> {
+		const { crm } = request.body
+		
 		try {
 			const result = await this.doctorsServices.findDoctorsByCrm(crm)
 			response.status(200).json(result)
@@ -67,7 +72,11 @@ class DoctorsController {
 			next(error)
 		}
 	}
-	async delete(request: Request, response: Response, next: NextFunction):Promise<void> {
+	async delete(
+		request: Request,
+		response: Response,
+		next: NextFunction
+	): Promise<void> {
 		const { id } = request.params
 
 		try {
