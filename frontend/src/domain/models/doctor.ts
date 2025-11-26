@@ -1,3 +1,5 @@
+import { Specialty } from "./specialty"
+
 export type Doctor = {
   id?: string
   name: string
@@ -8,4 +10,14 @@ export type Doctor = {
 export type CreaetDoctor = {
   body: Doctor
   token?: string
+}
+
+
+export type GetDoctorByCRMResponse = {
+  id: string
+  name: string
+  crm: string
+  specialties_id: string
+  user_id: string
+  Specialties?: Specialty
 }
