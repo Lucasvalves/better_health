@@ -35,8 +35,10 @@ export const Nav = () => {
       <Link href={enumsRoutes.SCHEDULE}>Montar Agenda</Link>
       <div className={styles.profile} ref={profileRef}>
         <div className={styles.dropdown} onClick={() => setOpen(!open)}>
-          <CgProfile size={18} />
-          <span>Perfil</span>
+          <span>
+            <CgProfile size={18} />
+            Perfil
+          </span>
 
           <ul className={`${styles.dropdownMenu} ${open && styles.open}`}>
             <Link href={enumsRoutes.REGISTER_DOCTOR}>
