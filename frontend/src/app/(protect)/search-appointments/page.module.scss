@@ -45,6 +45,28 @@
       >div {
         width: 50%;
       }
+
+      button {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        width: 100px;
+        margin-top: 10px;
+        border-radius: 5px;
+        height: 45px;
+        border: none;
+        cursor: pointer;
+        font-size: var(--font-size-body);
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+          opacity: 0.9;
+          transition: color 0.2s ease-in-out;
+        }
+      }
+
     }
 
     .wrapperTable {
