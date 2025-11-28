@@ -147,15 +147,15 @@ export const useAppointmentsModel = (props: AppointmentsServiceRegistry) => {
   const handleCreateAppointment = (e: FormEvent) => {
     e.preventDefault()
 
-    if (!availableDays?.doctrs) {
-      enqueueSnackbar('Dados do médico não encontrados.', { variant: 'error' })
-      return
-    }
-
     if (!patient?.id) {
       enqueueSnackbar('Dados do paciente não encontrados.', {
         variant: 'error'
       })
+      return
+    }
+
+    if (!availableDays?.doctrs) {
+      enqueueSnackbar('Dados do médico não encontrados.', { variant: 'error' })
       return
     }
 

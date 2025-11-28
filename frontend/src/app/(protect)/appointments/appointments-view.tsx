@@ -45,7 +45,11 @@ export default function AppointmentsView(
         </p>
         <p className={styles.desc}>Inicie uma marcação!</p>
       </div>
-      <form className={styles.container} onSubmit={handleCreateAppointment}>
+
+      <form
+        className={styles.container}
+        onSubmit={handleCreateAppointment}
+      >
         <div className={styles.wrapperLeft}>
           <AppInput
             id="cpf"
@@ -63,7 +67,7 @@ export default function AppointmentsView(
           />
           <AppInput
             id="name"
-            label="Nome  do paciente"
+            label="Nome do paciente"
             type="text"
             disabled
             value={patient?.name || ''}

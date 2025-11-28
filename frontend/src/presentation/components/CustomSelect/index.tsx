@@ -7,7 +7,6 @@ interface Option {
 }
 
 interface Props {
-  id?: string
   label?: string
   value: string | number
   options?: Option[]
@@ -20,7 +19,7 @@ export function CustomSelect({
   options,
   placeholder = 'Selecione...',
   onChange,
-  label
+  label,
 }: Props) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -39,8 +38,12 @@ export function CustomSelect({
 
   return (
     <div className={styles.customSelect} ref={ref}>
-      <label htmlFor="specialties-select">{label}</label>
-      <div className={styles.selected} onClick={() => setOpen(!open)}>
+      <label id="specialties-select">{label}</label>
+      <div
+        className={styles.selected}
+        onClick={() => setOpen(!open)}
+        aria-labelledby="specialties-select"
+      >
         {selectedLabel || placeholder}
         <span className={styles.arrow} />
       </div>
