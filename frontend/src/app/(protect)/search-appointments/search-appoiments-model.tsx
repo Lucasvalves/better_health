@@ -9,7 +9,7 @@ import { enqueueSnackbar } from 'notistack'
 
 import { Patient } from '@/domain/models/patient'
 
-import { GetPatientByCPFServiceContract } from '@/data/patient-service/get-patient/get-doctor-by-cpf-service'
+import { GetPatientByCPFServiceContract } from '@/data/patient-service/get-patient/get-patient-by-cpf-service'
 
 export type SearchAppointmentsServiceRegistry = {
   getPatientByCPFService: GetPatientByCPFServiceContract

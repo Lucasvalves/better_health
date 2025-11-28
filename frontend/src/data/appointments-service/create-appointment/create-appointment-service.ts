@@ -20,7 +20,6 @@ export class CreateAppointmentService
   }
 
   async exec({ body, token }: CreateAppointment): Promise<Appointment> {
-    console.log('🚀 ~ CreateAppointmentService ~ exec ~ body:', body)
     const createdAppointment = await this.HttpClient.sendRequest<
       Appointment,
       CreateAppointmentBody
@@ -32,11 +31,7 @@ export class CreateAppointmentService
         Authorization: `Bearer ${token}`
       }
     })
-    console.log(
-      '🚀 ~ CreateAppointmentService ~ exec ~ createdAppointment:',
-      createdAppointment
-    )
-
+    
     return createdAppointment
   }
 }

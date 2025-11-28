@@ -4,13 +4,13 @@ import { FormEvent, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { GetDoctorByCRMResponse } from '@/domain/models/doctor'
-import { GetDoctorByCRMServiceContract } from '@/data/doctor-service/get-doctor/get-doctor-by-crm/get-doctor-by-crm-service'
 import { CreateScheduleBody } from '@/data/schedule-service/create-times-service/create-schedule-service'
 import { AxiosError } from 'axios'
 import { enqueueSnackbar } from 'notistack'
 import { Schedule } from '@/domain/models/schedule'
 import { scheduleSchema } from '@/domain/validations/schedule-validation'
 import { ZodError } from 'zod'
+import { GetDoctorByCRMServiceContract } from '@/data/doctor-service/get-doctor/get-doctor-by-crm/get-doctor-by-crm-service'
 
 export interface ScheduleServiceRegistry {
   getDoctorByCRMService: GetDoctorByCRMServiceContract

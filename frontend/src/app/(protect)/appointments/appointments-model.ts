@@ -14,7 +14,7 @@ import { GetDoctorByCRMResponse } from '@/domain/models/doctor'
 
 import { GetSpecialtiesServiceContract } from '@/data/specialty-service/get-specialties-service/get-specialties-service'
 import { GetAvailableDaysServiceContract } from '@/data/appointments-service/get-specialties-service/get-available-days-service'
-import { GetPatientByCPFServiceContract } from '@/data/patient-service/get-patient/get-doctor-by-cpf-service'
+import { GetPatientByCPFServiceContract } from '@/data/patient-service/get-patient/get-patient-by-cpf-service'
 import { CreateAppointmentServiceContract } from '@/data/appointments-service/create-appointment/create-appointment-service'
 import { getDoctorByIDServiceServiceContract } from '@/data/doctor-service/get-doctor/get-doctor-by-id/get-doctor-by-id-service'
 

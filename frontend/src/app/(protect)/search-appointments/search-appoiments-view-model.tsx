@@ -1,7 +1,6 @@
-
 'use client'
 import { HttpClient } from '@/infrastructure/http/http-client'
-import { GetPatientByCPFService } from '@/data/patient-service/get-patient/get-doctor-by-cpf-service'
+import { GetPatientByCPFService } from '@/data/patient-service/get-patient/get-patient-by-cpf-service'
 import { useSearchAppointmentsModel } from './search-appoiments-model'
 import SearchAppointmentsView from './search-appoiments-view'
 
@@ -10,7 +9,7 @@ export const SearchAppointmentsViewModel = () => {
   const getPatientByCPFService = GetPatientByCPFService.create(httpClient)
 
   const methods = useSearchAppointmentsModel({
-    getPatientByCPFService,
+    getPatientByCPFService
   })
 
   return <SearchAppointmentsView {...methods} />
