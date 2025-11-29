@@ -5,8 +5,6 @@ import styles from './page.module.scss'
 import { Condition } from '@/presentation/components/Condition'
 import SignUpForm from './components/sign-up-form'
 import LoginForm from './components/login-form'
-import { enumsRoutes } from '@/shared/enums/enumsRoutes'
-import Link from 'next/link'
 import { useAuthenticationModel } from './authentication-model'
 
 export const AuthenticationView = (
@@ -94,12 +92,6 @@ export const AuthenticationView = (
               />
             </Condition>
           </div>
-          <p className={styles.links}>
-            <span>
-              Esqueceu sua senha?
-              <Link href={enumsRoutes.FORGOT}>Recuperar</Link>
-            </span>
-          </p>
         </div>
       </div>
     </div>

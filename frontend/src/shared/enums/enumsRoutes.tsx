@@ -7,5 +7,4 @@ export enum enumsRoutes {
   REGISTER_SPECIALTY = '/register-specialty',
   REGISTER_DOCTOR = '/register-doctor',
   REGISTER_PATIENT = '/register-patient',
-  FORGOT = '/forgot'
 }
