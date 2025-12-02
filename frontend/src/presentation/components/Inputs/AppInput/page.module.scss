@@ -61,4 +61,10 @@
       transition: color 0.2s ease-in-out;
     }
   }
+
+  @media (max-width: 768px) {
+    .inputContainer {
+      width: 100%;
+    }
+  }
 }

@@ -3,11 +3,13 @@
   background-color: var(--secondary-color);
   font-family: var(--font-poppins);
   width: 100%;
-  height: fit-content;
+  min-height: 100vh;
   display: flex;
   justify-content: space-between;
   font-size: 17px;
   gap: 1rem;
+  z-index: 0;
+  position: relative;
 
   .wrapper {
     width: 100%;

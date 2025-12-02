@@ -1,6 +1,10 @@
 import { Patient } from '@/domain/models/patient'
 import { Specialty } from '@/domain/models/specialty'
-import { Appointment, AvailableDaysResponse, CreateAppointment } from '@/domain/models/appointment'
+import {
+  Appointment,
+  AvailableDaysResponse,
+  CreateAppointment
+} from '@/domain/models/appointment'
 import { getDoctorByIDServiceResponse } from '@/domain/models/doctor'
 import {
   GetPatientByCPFServiceContract,
@@ -13,10 +17,8 @@ import {
 import {
   GetAvailableDaysServiceContract,
   GetAvailableDays
-} from '@/data/appointments-service/get-specialties-service/get-available-days-service'
-import {
-  CreateAppointmentServiceContract,
-} from '@/data/appointments-service/create-appointment/create-appointment-service'
+} from '@/data/appointments-service/get-available-days-service/get-available-days-service'
+import { CreateAppointmentServiceContract } from '@/data/appointments-service/create-appointment/create-appointment-service'
 import {
   getDoctorByIDServiceServiceContract,
   getDoctorByIDService

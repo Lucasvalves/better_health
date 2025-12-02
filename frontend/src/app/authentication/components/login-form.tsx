@@ -17,6 +17,7 @@ interface ILoginForm {
   setTouched: React.Dispatch<
     React.SetStateAction<Record<keyof LoginFormData, boolean>>
   >
+  className?: string
 }
 
 export default function LoginForm({
@@ -28,10 +29,11 @@ export default function LoginForm({
   isLoading,
   fieldErrors,
   touched,
-  setTouched
+  setTouched,
+  className
 }: ILoginForm) {
   return (
-    <form onSubmit={handleCreateLogin}>
+    <form onSubmit={handleCreateLogin} className={className}>
       <Input
         IconLeft={MdOutlineEmail}
         type="email"

@@ -13,7 +13,7 @@ import { Appointment } from '@/domain/models/appointment'
 import { GetDoctorByCRMResponse } from '@/domain/models/doctor'
 
 import { GetSpecialtiesServiceContract } from '@/data/specialty-service/get-specialties-service/get-specialties-service'
-import { GetAvailableDaysServiceContract } from '@/data/appointments-service/get-specialties-service/get-available-days-service'
+import { GetAvailableDaysServiceContract } from '@/data/appointments-service/get-available-days-service/get-available-days-service'
 import { GetPatientByCPFServiceContract } from '@/data/patient-service/get-patient/get-patient-by-cpf-service'
 import { CreateAppointmentServiceContract } from '@/data/appointments-service/create-appointment/create-appointment-service'
 import { getDoctorByIDServiceServiceContract } from '@/data/doctor-service/get-doctor/get-doctor-by-id/get-doctor-by-id-service'
@@ -41,6 +41,12 @@ export const useAppointmentsModel = (props: AppointmentsServiceRegistry) => {
 
   const token = Cookies.get('token')
   const queryClient = useQueryClient()
+
+  const [userName, setUserName] = useState<string>('')
+  useEffect(() => {
+    const name = Cookies.get('userName')?.split(' ').slice(0, 2).join(' ')
+    if (name) setUserName(name)
+  }, [])
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>()
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
@@ -207,6 +213,7 @@ export const useAppointmentsModel = (props: AppointmentsServiceRegistry) => {
     normalizedAvailableDays,
     availableTimes,
     doctor,
-    handleCreateAppointment
+    handleCreateAppointment,
+    userName
   }
 }

@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { FiLogOut } from 'react-icons/fi'
 import styles from './styles.module.scss'
 import { enumsRoutes } from '@/shared/enums/enumsRoutes'
 import { useHeaderModel } from '../header-model'
@@ -51,7 +50,6 @@ const MenuMobile = ({ menuMobileIsVisible, setMenuMobileIsVisible }: Props) => {
           <Link href={enumsRoutes.PROFILE} onClick={() => setMenuMobileIsVisible(false)} >Editar Perfil</Link>
 
           <Link href={enumsRoutes.AUTHENTICATION} onClick={logout}>
-            <FiLogOut />
             Sair
           </Link>
         </ul>

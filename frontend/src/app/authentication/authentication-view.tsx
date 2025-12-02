@@ -1,11 +1,12 @@
 'use client'
 
-import BackgroundImage from '@/presentation/components/BackgroundImage'
 import styles from './page.module.scss'
 import { Condition } from '@/presentation/components/Condition'
 import SignUpForm from './components/sign-up-form'
 import LoginForm from './components/login-form'
 import { useAuthenticationModel } from './authentication-model'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export const AuthenticationView = (
   methods: ReturnType<typeof useAuthenticationModel>
@@ -32,7 +33,18 @@ export const AuthenticationView = (
 
   return (
     <div className={styles.page}>
-      <BackgroundImage src="/bg-login.png" />
+      <div className={styles.backgroundImage}>
+        <Image
+          src="/bg-login.png"
+          alt=""
+          priority
+          fill
+          className={styles.bgImage}
+        />
+        <Link href="/">
+          <div className={styles.logo} />
+        </Link>
+      </div>
       <div className={styles.formWrapper}>
         <div className={styles.container}>
           <div className={styles.formOptions}>
@@ -50,7 +62,9 @@ export const AuthenticationView = (
             </button>
           </div>
           <h2 className={styles.title}>
-            {showLoginForm ? 'Olá! Seja Bem Vindo!' : 'Insira seus dados!'}
+            {showLoginForm
+              ? 'Bem-vindo de volta!'
+              : 'Crie sua conta para começar.'}
           </h2>
           <div className={styles.formArea}>
             <Condition when={showLoginForm}>
@@ -68,6 +82,7 @@ export const AuthenticationView = (
                 touched={touchedLogin}
                 setTouched={setTouchedLogin}
                 fieldErrors={fieldErrorsLogin}
+                className={styles.loginForm}
               />
             </Condition>
             <Condition when={signUpForm}>

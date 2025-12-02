@@ -31,51 +31,77 @@ export default function ScheduleView(
       <div>
         <p className={styles.title}>Montar Agenda</p>
       </div>
-      <form className={styles.container} onSubmit={handdlCreateSchedule}>
-        <div className={styles.wrapperLeft}>
-          <AppInput
-            id="crm"
-            label="Insira CRM do médico"
-            placeholder="25267"
-            type="text"
-            onChange={(e) => setCRM(e.target.value)}
-            value={crm}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault()
-                setCRMFinal(crm)
-              }
-            }}
-          />
-          <AppInput
-            id="nameDoctor"
-            label="Nome do médico"
-            type="text"
-            disabled
-            value={doctor?.name || ''}
-          />
+      <form onSubmit={handdlCreateSchedule}>
+        <div className={styles.container}>
+          <div className={styles.wrapperLeft}>
+            <AppInput
+              id="crm"
+              label="Insira CRM do médico"
+              placeholder="25267"
+              type="text"
+              onChange={(e) => setCRM(e.target.value)}
+              value={crm}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  setCRMFinal(crm)
+                }
+              }}
+            />
+            <AppInput
+              id="nameDoctor"
+              label="Nome do médico"
+              type="text"
+              disabled
+              value={doctor?.name || ''}
+            />
 
-          <AppInput
-            id="specialty"
-            label="Especialidade do médico"
-            type="text"
-            disabled
-            value={doctor?.Specialties?.name || ''}
-          />
-          <AppInput
-            id="startHour"
-            label="Hora de inicio da agenda"
-            type="time"
-            value={startHour}
-            onChange={(e) => setStartHour(e.target.value)}
-          />
-          <AppInput
-            id="endHour"
-            label="Hora de fim da agenda"
-            type="time"
-            value={endHour}
-            onChange={(e) => setEndHour(e.target.value)}
-          />
+            <AppInput
+              id="specialty"
+              label="Especialidade do médico"
+              type="text"
+              disabled
+              value={doctor?.Specialties?.name || ''}
+            />
+            <AppInput
+              id="startHour"
+              label="Hora de inicio da agenda"
+              type="time"
+              value={startHour}
+              onChange={(e) => setStartHour(e.target.value)}
+            />
+            <AppInput
+              id="endHour"
+              label="Hora de fim da agenda"
+              type="time"
+              value={endHour}
+              onChange={(e) => setEndHour(e.target.value)}
+            />
+          </div>
+          <div className={styles.wrapperRight}>
+            <label htmlFor="specialties-select">Selecione a data</label>
+            <div className={styles.picker}>
+              <DayPicker
+                mode="single"
+                required={true}
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                locale={ptBR}
+                fromMonth={new Date()}
+                className={styles.calendar}
+                modifiers={{
+                  available: isWeekDay,
+                  today: new Date()
+                }}
+                classNames={{
+                  day: styles.day,
+                  selected: styles.selected,
+                  today: styles.today
+                }}
+                disabled={(date) => isPastDate(date) || isWeekend(date)}
+              />
+            </div>
+          </div>
         </div>
         <div className={styles.wrapperCenter}>
           <ButtonGroup
@@ -83,30 +109,6 @@ export default function ScheduleView(
             rightButtonLabel="Cancelar"
             leftButtonLabel="Confirmar"
           />
-        </div>
-        <div className={styles.wrapperRight}>
-          <label htmlFor="specialties-select">Selecione a data</label>
-          <div className={styles.picker}>
-            <DayPicker
-              mode="single"
-              required={true}
-              selected={selectedDate}
-              onSelect={setSelectedDate}
-              locale={ptBR}
-              fromMonth={new Date()}
-              className={styles.calendar}
-              modifiers={{
-                available: isWeekDay,
-                today: new Date()
-              }}
-              classNames={{
-                day: styles.day,
-                selected: styles.selected,
-                today: styles.today
-              }}
-              disabled={(date) => isPastDate(date) || isWeekend(date)}
-            />
-          </div>
         </div>
       </form>
     </div>
