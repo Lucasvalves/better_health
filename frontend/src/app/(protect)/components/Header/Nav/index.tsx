@@ -2,14 +2,14 @@
 
 import { enumsRoutes } from '@/shared/enums/enumsRoutes'
 import styles from './page.module.scss'
-import { useNavModel } from './nav-model'
+import { useHeaderModel } from '../header-model'
 import Link from 'next/link'
 import { CgProfile } from 'react-icons/cg'
 import { useEffect, useRef, useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 
 export const Nav = () => {
-  const { logout } = useNavModel()
+  const { logout } = useHeaderModel()
   const [open, setOpen] = useState(false)
 
   const profileRef = useRef<HTMLDivElement>(null)
@@ -29,7 +29,7 @@ export const Nav = () => {
   }, [])
 
   return (
-    <div className={styles.container}>
+    <nav className={styles.container}>
       <Link href={enumsRoutes.APPOINTMENTS}>Realizar Agendamento</Link>
       <Link href={enumsRoutes.SEARCH_APPOINTMENTS}>Buscar Agendamentos</Link>
       <Link href={enumsRoutes.SCHEDULE}>Montar Agenda</Link>
@@ -64,6 +64,6 @@ export const Nav = () => {
           </ul>
         </div>
       </div>
-    </div>
+    </nav>
   )
 }
