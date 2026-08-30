@@ -1,6 +1,6 @@
 import { endOfDay, startOfDay } from 'date-fns'
 import { prisma } from '../database/prisma'
-import { ICreate,IRangeRepository } from '../interfaces/AppointmentsInterface'
+import { ICreate, IRangeRepository } from '../interfaces/AppointmentsInterface'
 
 class AppointmentsRepository {
 	async create({ patients_id, specialties_id, doctors_id, date }: ICreate) {
@@ -14,55 +14,100 @@ class AppointmentsRepository {
 		})
 		return result
 	}
-	async find({ specialties_id, start, end}:IRangeRepository) {
-			const result = await prisma.appointments.findMany({
-				where: {
-					specialties_id,
-					date:{
-						gte: start, //trazendo agendamentos a partir do dia informado
-						lt: end
-					 }
+	async find({ specialties_id, start, end }: IRangeRepository) {
+		const result = await prisma.appointments.findMany({
+			where: {
+				specialties_id,
+				date: {
+					gte: start, //trazendo agendamentos a partir do dia informado
+					lt: end,
 				},
-				orderBy: {
-				  date: 'asc', //ordenando de forma crescente
-				},
-			})
-			return result
-		}
-		async findSchedules(specialties_id:string, date: string ){
-			const result = await prisma.appointments.findFirst({
-				where: {
-					specialties_id,
-					date,
-				},
-			})
-			return result
-		}
-		async findByDoctorsId(doctors_id:string, lastDay:Date) {
-			const result = await prisma.appointments.findMany({
-				where: {
-					doctors_id,
+			},
+			orderBy: {
+				date: 'asc', //ordenando de forma crescente
+			},
+		})
+		return result
+	}
+	async findSchedules(specialties_id: string, date: string) {
+		const result = await prisma.appointments.findFirst({
+			where: {
+				specialties_id,
+				date,
+			},
+		})
+		return result
+	}
+	async findByDoctorsId(doctors_id: string, lastDay: Date) {
+		const result = await prisma.appointments.findMany({
+			where: {
+				doctors_id,
 
-					date:{//trazendo agendamentos do doctor no dia informado
-						gte: startOfDay(lastDay),
-						lt:endOfDay(lastDay),
-					 }
-				}, select: {
-						date: true, // indica que queremos apenas a parte da data
-						Specialties:true,
-						Doctors:true,
+				date: {
+					//trazendo agendamentos do doctor no dia informado
+					gte: startOfDay(lastDay),
+					lt: endOfDay(lastDay),
 				},
-				orderBy: {
-				  date: 'asc', //ordenando de forma crescente
-				},
+			},
+			select: {
+				date: true, // indica que queremos apenas a parte da data
+				Specialties: true,
+				Doctors: true,
+				Patients: true,
+			},
+			orderBy: {
+				date: 'asc', //ordenando de forma crescente
+			},
+		})
+		return result
+	}
+	async findAppointmentsPatient(patient_id: string) {
+		const result = await prisma.appointments.findMany({
+			where: {
+				patients_id: patient_id,
+			},
+			include: {
+				Specialties: true,
+				Doctors: true,
+				Patients: true,
+			},
+		})
 
-			})
-			return result
-		}
+		return result
+	}
+
+	async findAppointment(id: string) {
+		const result = await prisma.appointments.findFirst({
+			where: {
+				id,
+			},
+		})
+
+		return result
+	}
+
+	async delete(id: string) {
+		const result = await prisma.appointments.delete({
+			where: {
+				id,
+			},
+		})
+
+		return result
+	}
+
+	async update(id: string, newDate: Date) {
+		const result = await prisma.appointments.update({
+			where: {
+				id,
+			},
+			data: {
+				date: newDate,
+			},
+		})
+
+		return result
+	}
 }
 
 export { AppointmentsRepository }
-
-
-
-

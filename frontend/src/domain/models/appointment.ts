@@ -34,7 +34,7 @@ export type AppointmentsPatientResponse = {
   patients_id: string
   specialties_id: string
   doctors_id: string
-  Doctor: Doctor
-  Specialties: Specialty
-  Patients: Patient
+  Doctor?: Doctor
+  Specialties?: Specialty
+  Patients?: Patient
 }

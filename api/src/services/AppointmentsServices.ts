@@ -36,6 +36,7 @@ class AppointmentsServices {
 	private doctorsRepository: DoctorsRepository
 	private specialtiesRepository: SpecialtiesRepository
 	private timesRepository: TimesRepository
+
 	constructor() {
 		this.appointmentsRepository = new AppointmentsRepository()
 		this.patientsRepository = new PatientsRepository()
@@ -226,6 +227,65 @@ class AppointmentsServices {
 			doctrs,
 			schedule,
 		}
+	}
+	async findAppointmentsPatient(patient_id: string) {
+		const patient = await this.patientsRepository.findPatient(patient_id)
+
+		if (!patient) {
+			throw new Error('Invalid patient')
+		}
+
+		const result = await this.appointmentsRepository.findAppointmentsPatient(
+			patient_id
+		)
+
+		return result
+	}
+
+	async delete(id: string) {
+		const appointment = await this.appointmentsRepository.findAppointment(id)
+
+		if (!appointment) {
+			throw new Error("Appointment t doens't exists")
+		}
+
+		const result = await this.appointmentsRepository.delete(id)
+
+		return result
+	}
+
+	async update(id: string, newDate: string) {
+		const appointment = await this.appointmentsRepository.findAppointment(id)
+
+		if (!appointment) {
+			throw new Error("Appointment t doens't exists")
+		}
+
+		const appointmentStart = new Date(newDate)
+		const appointmentEnd = addMinutes(newDate, getMinutes(specialty.duration))
+
+		const existingAppointments =
+			await this.appointmentsRepository.findByDoctorsId(doctors_id, newDate)
+
+		const hasConflict = existingAppointments.some((app) => {
+			const existingStart = app.dat
+			const existingEnd = addMinutes(
+				app.date,
+				getMinutes(app.Specialties.duration)
+			)
+
+			return appointmentStart < existingEnd && existingStart < appointmentEnd
+		})
+
+		if (hasConflict) {
+			throw new Error('This doctor already has an appointment at this time')
+		}
+
+		const formatDate = new Date(newDate)
+
+		const result = await this.appointmentsRepository.update(id, formatDate)
+
+		return result
 	}
 }
 export { AppointmentsServices }

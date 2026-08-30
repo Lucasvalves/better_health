@@ -30,7 +30,7 @@ describe('AuthenticationView Component', () => {
 
     fireEvent.click(screen.getByText('Criar conta'))
 
-    expect(screen.getByText('Insira seus dados!')).toBeInTheDocument()
+    expect(screen.getByText('Crie sua conta para começar.')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Insira seu nome')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Insira seu email')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Insira uma senha')).toBeInTheDocument()
@@ -124,7 +124,7 @@ describe('AuthenticationView Component', () => {
     fireEvent.click(screen.getByText('Criar conta'))
     fireEvent.click(screen.getByText('Login'))
 
-    expect(screen.getByText('Olá! Seja Bem Vindo!')).toBeInTheDocument()
+    expect(screen.getByText('Bem-vindo de volta!')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Insira seu email')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Insira uma senha')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Entrar' })).toBeInTheDocument()

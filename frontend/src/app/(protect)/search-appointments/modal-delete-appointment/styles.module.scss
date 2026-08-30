@@ -1,0 +1,99 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.modal {
+  background: #fff;
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.25s ease;
+  text-align: center;
+
+  h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 1.8rem;
+
+    strong {
+      color: #d9534f;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+
+  button {
+    transition: 0.2s ease;
+    padding: 10px 0px;
+    width: 100px;
+    border-radius: 15px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+}
+
+.cancel {
+  border: solid 1px var(--primary-color);
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+
+  &:hover {
+    opacity: 0.9;
+    transition: color 0.2s ease-in-out;
+  }
+}
+
+.delete {
+  background: #e63946;
+  color: white;
+  border: none;
+
+  &:hover {
+    background: #d72f3d;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}
