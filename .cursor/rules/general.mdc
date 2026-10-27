@@ -1,0 +1,101 @@
+---
+description: General rules for the appointment scheduling project
+alwaysApply: true
+---
+
+# Project Instructions
+
+## Before Making Changes
+
+- Always read and follow these rules before making changes.
+- Inspect the existing code, architecture, dependencies, and patterns before implementing anything.
+- Reuse existing solutions whenever possible. Do not introduce new patterns without a clear reason.
+- Identify all affected files and dependencies before changing code.
+- Do not modify unrelated code or perform unnecessary refactoring.
+- If requirements are unclear or a change could affect existing behavior, ask before proceeding.
+
+## Response Style
+
+- Be concise and direct.
+- Answer only what was asked.
+- Use simple, clear language.
+- Prefer short answers and bullet points.
+- Avoid unnecessary explanations and repetition.
+- Explain technical decisions only when necessary or requested.
+
+## General Development
+
+- Follow the existing project architecture and coding conventions.
+- Use clear names and keep functions and components focused.
+- Avoid duplicated logic, unnecessary abstractions, and premature optimization.
+- Do not add dependencies unless necessary.
+- Do not add comments unless explicitly requested.
+- Never leave placeholder implementations, unexplained TODOs, or incomplete code.
+- Do not claim that code works without verifying it.
+
+## Backend — Node.js + Express
+
+- Follow the existing API structure, middleware patterns, and error-handling conventions.
+- Validate and sanitize incoming data at API boundaries.
+- Keep business rules separate from controllers and HTTP-specific logic.
+- Use consistent HTTP status codes and response formats.
+- Handle asynchronous errors properly.
+- Never expose internal errors, stack traces, credentials, or sensitive data in API responses.
+- Enforce authentication and authorization on protected endpoints.
+
+## Frontend — Next.js
+
+- Follow the existing routing strategy, rendering approach, component structure, and state-management patterns.
+- Reuse existing components, hooks, utilities, and design-system conventions.
+- Validate user input and handle loading, error, empty, and success states.
+- Keep API communication consistent with existing services and hooks.
+- Avoid unnecessary client components and duplicated state.
+- Never expose secrets or server-only environment variables to the browser.
+
+## AI Assistant — Fastify
+
+- Follow the existing Fastify plugin, route, schema-validation, and error-handling patterns.
+- Validate inputs and outputs at system boundaries.
+- Keep model-provider integrations separate from business logic.
+- Handle provider errors, rate limits, timeouts, and malformed responses.
+- Never expose API keys, internal prompts, private patient data, or sensitive information in logs or responses.
+- Treat model output as untrusted input. Validate it before using it in application logic.
+- Require explicit authorization before allowing the assistant to trigger actions that modify data or create appointments.
+
+## Appointment Scheduling and Business Rules
+
+- Treat appointment scheduling as a business-critical workflow.
+- Validate patient, provider, service, availability, appointment status, and scheduling constraints.
+- Prevent double bookings using server-side validation and database-level guarantees where supported.
+- Handle concurrent booking requests safely.
+- Store and compare dates consistently, accounting for the configured timezone.
+- Validate appointment creation, rescheduling, cancellation, and status transitions.
+- Enforce permissions so users can access only the data they are authorized to view or modify.
+- Never rely exclusively on frontend validation for business rules.
+- Do not invent or assume scheduling rules; inspect the existing implementation or ask for clarification.
+
+## Data and Security
+
+- Follow the existing database schema, ORM, migrations, and transaction patterns.
+- Avoid destructive schema or data changes without explicit approval.
+- Never hardcode credentials, tokens, or secrets.
+- Minimize access to sensitive patient information and avoid logging personal or medical data unnecessarily.
+- Follow existing authentication, authorization, and data-retention policies.
+
+## Testing and Verification
+
+- Inspect existing tests before changing behavior.
+- Add or update tests for new functionality, bug fixes, and important business rules.
+- Prioritize tests for appointment conflicts, authorization, date/time handling, and cancellation or rescheduling.
+- Run relevant tests, linting, and type checks when available.
+- Fix regressions introduced by your changes.
+- Report verification results accurately and mention any checks that could not be run.
+
+## Cross-Service Consistency
+
+- Respect the boundaries between the Express backend, Next.js frontend, and Fastify AI assistant.
+- Treat the backend as the source of truth for appointments, permissions, and business rules.
+- Do not duplicate critical scheduling logic in the frontend or AI assistant.
+- Use the existing API contracts and authentication mechanisms for communication between services.
+- Keep shared data formats and error-handling conventions consistent.
+- Do not introduce new endpoints or change API contracts without checking their impact on dependent services.
