@@ -33,8 +33,8 @@ class DoctorsServices {
 
 		return result
 	}
-	async index(user_id: string) {
-		const result = await this.doctorsRepository.findDoctorsByUserId(user_id)
+	async index() {
+		const result = await this.doctorsRepository.findAllDoctors()
 
 		return result
 	}

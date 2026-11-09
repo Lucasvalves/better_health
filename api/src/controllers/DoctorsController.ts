@@ -34,10 +34,9 @@ class DoctorsController {
 		response: Response,
 		next: NextFunction
 	): Promise<void> {
-		const { user_id } = request
 
 		try {
-			const result = await this.doctorsServices.index(user_id)
+			const result = await this.doctorsServices.index()
 
 			response.status(200).json(result)
 		} catch (error) {
@@ -64,7 +63,7 @@ class DoctorsController {
 		next: NextFunction
 	): Promise<void> {
 		const { crm } = request.body
-		
+
 		try {
 			const result = await this.doctorsServices.findDoctorsByCrm(crm)
 			response.status(200).json(result)

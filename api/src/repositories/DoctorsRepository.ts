@@ -26,11 +26,8 @@ class DoctorsRepository {
 		return doctor
 	}
 
-	async findDoctorsByUserId(user_id: string) {
+	async findAllDoctors() {
 		const doctors = await prisma.doctors.findMany({
-			where: {
-				user_id,
-			},
 			include: {
 				Specialties: true,
 			},
