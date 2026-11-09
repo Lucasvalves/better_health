@@ -50,6 +50,7 @@ class AppointmentsRepository {
 				},
 			},
 			select: {
+				id: true,
 				date: true, // indica que queremos apenas a parte da data
 				Specialties: true,
 				Doctors: true,

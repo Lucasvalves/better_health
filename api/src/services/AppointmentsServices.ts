@@ -261,14 +261,32 @@ class AppointmentsServices {
 			throw new Error("Appointment t doens't exists")
 		}
 
+		const specialty = await this.specialtiesRepository.find(
+			appointment.specialties_id
+		)
+
+		if (!specialty) {
+			throw new Error('Invalid specialty')
+		}
+
 		const appointmentStart = new Date(newDate)
-		const appointmentEnd = addMinutes(newDate, getMinutes(specialty.duration))
+		const appointmentEnd = addMinutes(
+			appointmentStart,
+			getMinutes(specialty.duration)
+		)
 
 		const existingAppointments =
-			await this.appointmentsRepository.findByDoctorsId(doctors_id, newDate)
+			await this.appointmentsRepository.findByDoctorsId(
+				appointment.doctors_id,
+				appointmentStart
+			)
 
 		const hasConflict = existingAppointments.some((app) => {
-			const existingStart = app.dat
+			if (app.id === id) {
+				return false
+			}
+
+			const existingStart = app.date
 			const existingEnd = addMinutes(
 				app.date,
 				getMinutes(app.Specialties.duration)
@@ -281,9 +299,7 @@ class AppointmentsServices {
 			throw new Error('This doctor already has an appointment at this time')
 		}
 
-		const formatDate = new Date(newDate)
-
-		const result = await this.appointmentsRepository.update(id, formatDate)
+		const result = await this.appointmentsRepository.update(id, appointmentStart)
 
 		return result
 	}
