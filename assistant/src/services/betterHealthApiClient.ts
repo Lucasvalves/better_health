@@ -141,4 +141,19 @@ export class BetterHealthApiClient {
     })
   }
 
+  listAppointmentsByPatient(patient_id: string): Promise<AppointmentRecord[]> {
+    return this.request<AppointmentRecord[]>(
+      '/appointments/appointments-patient',
+      {
+        method: 'POST',
+        body: { patient_id }
+      }
+    )
+  }
+
+  deleteAppointment(id: string): Promise<AppointmentRecord> {
+    return this.request<AppointmentRecord>(`/appointments/${id}`, {
+      method: 'DELETE'
+    })
+  }
 }

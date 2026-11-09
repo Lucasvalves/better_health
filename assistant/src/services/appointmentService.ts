@@ -21,12 +21,24 @@ export type BookAppointmentInput = {
   patientCpf?: string
 }
 
+export type CancelAppointmentInput = {
+  doctors_id?: string
+  datetime?: string
+  patientName?: string
+  patientCpf?: string
+  appointmentId?: string
+}
+
 function normalizeName(value: string): string {
   return value.trim().toLowerCase()
 }
 
 function normalizeCpf(value: string): string {
   return value.replace(/\D/g, '')
+}
+
+function sameSlot(left: Date, right: Date): boolean {
+  return Math.abs(left.getTime() - right.getTime()) < 60_000
 }
 
 export class AppointmentService {
@@ -69,6 +81,38 @@ export class AppointmentService {
       doctors_id: input.doctors_id,
       date: new Date(input.datetime).toISOString()
     })
+  }
+
+  async cancelAppointment(input: CancelAppointmentInput): Promise<void> {
+    if (input.appointmentId) {
+      await this.client.deleteAppointment(input.appointmentId)
+      return
+    }
+
+    if (!input.doctors_id || !input.datetime) {
+      throw new Error(
+        'Appointment ID or doctor ID and datetime are required to cancel'
+      )
+    }
+
+    const patient = await this.resolvePatient(
+      input.patientCpf,
+      input.patientName
+    )
+    const appointments = await this.client.listAppointmentsByPatient(patient.id)
+    const target = new Date(input.datetime)
+
+    const match = appointments.find(
+      (appointment) =>
+        appointment.doctors_id === input.doctors_id &&
+        sameSlot(new Date(appointment.date), target)
+    )
+
+    if (!match) {
+      throw new Error('Agendamento não encontrado para cancelamento')
+    }
+
+    await this.client.deleteAppointment(match.id)
   }
 
   private async resolveSpecialtyId(doctors_id: string): Promise<string> {

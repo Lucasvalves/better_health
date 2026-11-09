@@ -61,4 +61,52 @@ describe('AppointmentService', () => {
 
     assert.equal(appointment.id, 'appt-1')
   })
+
+  it('cancels appointment matching doctor and datetime for patient', async () => {
+    let deletedId: string | undefined
+
+    const fetchFn: typeof fetch = async (input, init) => {
+      const url = String(input)
+      const method = init?.method ?? 'GET'
+
+      if (url.endsWith('/patients') && method === 'GET') {
+        return jsonResponse([
+          { id: 'pat-1', name: 'Joao da Silva', cpf: '999', phone: '111' },
+        ])
+      }
+
+      if (url.endsWith('/appointments/appointments-patient') && method === 'POST') {
+        return jsonResponse([
+          {
+            id: 'appt-9',
+            date: '2026-02-11T11:00:00.000Z',
+            patients_id: 'pat-1',
+            specialties_id: 'spec-1',
+            doctors_id: 'doc-2',
+          },
+        ])
+      }
+
+      if (url.endsWith('/appointments/appt-9') && method === 'DELETE') {
+        deletedId = 'appt-9'
+        return jsonResponse({ id: 'appt-9' })
+      }
+
+      throw new Error(`Unexpected request ${method} ${url}`)
+    }
+
+    const service = new AppointmentService({
+      baseUrl: 'http://localhost:3333',
+      authToken: 'token',
+      fetchFn,
+    })
+
+    await service.cancelAppointment({
+      doctors_id: 'doc-2',
+      datetime: '2026-02-11T11:00:30.000Z',
+      patientName: 'Joao da Silva',
+    })
+
+    assert.equal(deletedId, 'appt-9')
+  })
 })
