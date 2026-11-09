@@ -1,14 +1,21 @@
-import { getSystemPrompt, getUserPromptTemplate, IntentSchema } from '../../prompts/v1/identifyIntent.ts';
-import { professionals } from '../../services/appointmentService.ts';
-import { OpenRouterService } from '../../services/openRouterService.ts';
-import type { GraphState } from '../graph.ts';
+import {
+  getSystemPrompt,
+  getUserPromptTemplate,
+  IntentSchema,
+} from '../../prompts/v1/identifyIntent.ts'
+import { AppointmentService } from '../../services/appointmentService.ts'
+import { OpenRouterService } from '../../services/openRouterService.ts'
+import type { GraphState } from '../graph.ts'
 
-export function createIdentifyIntentNode(llmClient: OpenRouterService) {
+export function createIdentifyIntentNode(
+  llmClient: OpenRouterService,
+  appointmentService: AppointmentService,
+) {
   return async (state: GraphState): Promise<Partial<GraphState>> => {
-    console.log(`🔍 Identifying intent...`);
-   const input = state.messages.at(-1)!.text;
+    const input = state.messages.at(-1)!.text
 
     try {
+      const professionals = await appointmentService.listProfessionalsForPrompt()
       const systemPrompt = getSystemPrompt(professionals)
       const userPrompt = getUserPromptTemplate(input)
       const result = await llmClient.generateStructured(
@@ -16,28 +23,26 @@ export function createIdentifyIntentNode(llmClient: OpenRouterService) {
         userPrompt,
         IntentSchema,
       )
-      if(!result.success){
-        console.log(`⚠️  Intent identification failed: ${result.error}`);
+
+      if (!result.success) {
         return {
           intent: 'unknown',
-          error: result.error
+          error: result.error ?? 'Intent identification failed',
         }
       }
 
       const intentData = result.data!
-      console.log(`✅ Intent identified: ${intentData.intent}`);
-
       return {
         ...intentData,
-      };
-
+      }
     } catch (error) {
-      console.error('❌ Error in identifyIntent node:', error);
       return {
-        ...state,
         intent: 'unknown',
-        error: error instanceof Error ? error.message : 'Intent identification failed',
-      };
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Intent identification failed',
+      }
     }
-  };
+  }
 }

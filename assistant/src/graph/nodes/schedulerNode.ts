@@ -1,58 +1,71 @@
-import { AppointmentService } from '../../services/appointmentService.ts';
-import type { GraphState } from '../graph.ts';
-import { z } from 'zod/v3';
+import { AppointmentService } from '../../services/appointmentService.ts'
+import type { GraphState } from '../graph.ts'
+import { z } from 'zod/v3'
 
-const ScheduleRequiredFieldsSchema = z.object({
-  professionalId: z.number({ required_error: 'Professional ID is required' }),
-  datetime: z.string({ required_error: 'Appointment datetime is required' }),
-  patientName: z.string({ required_error: 'Patient name is required' }),
-});
+const ScheduleRequiredFieldsSchema = z
+  .object({
+    doctors_id: z.string({ required_error: 'Doctor ID is required' }),
+    datetime: z.string({ required_error: 'Appointment datetime is required' }),
+    specialties_id: z.string().optional(),
+    patientName: z.string().optional(),
+    patientCpf: z.string().optional(),
+  })
+  .refine((data) => Boolean(data.patientName || data.patientCpf), {
+    message: 'Patient name or CPF is required',
+  })
+
+const CreatedAppointmentSchema = z.object({
+  id: z.string().min(1),
+  date: z.string().min(1),
+  patients_id: z.string().min(1),
+  specialties_id: z.string().min(1),
+  doctors_id: z.string().min(1),
+})
 
 export function createSchedulerNode(appointmentService: AppointmentService) {
   return async (state: GraphState): Promise<Partial<GraphState>> => {
-    console.log(`📅 Scheduling appointment...`);
-
     try {
       const validation = ScheduleRequiredFieldsSchema.safeParse(state)
 
-      if(!validation.success){
-        const errorMessages = validation.error.errors.map(e => e.message).join(', ')
-        console.log(`⚠️  Validation failed: ${errorMessages}`);
+      if (!validation.success) {
+        const errorMessages = validation.error.errors
+          .map((error) => error.message)
+          .join(', ')
         return {
           actionSuccess: false,
           actionError: errorMessages,
         }
       }
 
-      const appointment = appointmentService.bookAppointment(
-        validation.data.professionalId,
-        new Date(validation.data.datetime),
-        validation.data.patientName,
-        state.reason ?? 'general consultation'
-      )
+      const appointment = await appointmentService.bookAppointment({
+        doctors_id: validation.data.doctors_id,
+        specialties_id: validation.data.specialties_id,
+        datetime: validation.data.datetime,
+        patientName: validation.data.patientName,
+        patientCpf: validation.data.patientCpf,
+      })
 
-      // se quiser simular o erro de duas consultas (indisponible)
-      // const appointment2 = appointmentService.bookAppointment(
-      //   validation.data.professionalId,
-      //   new Date(validation.data.datetime),
-      //   validation.data.patientName,
-      //   state.reason ?? 'general consultation'
-      // )
+      const created = CreatedAppointmentSchema.safeParse(appointment)
 
-      console.log(`✅ Appointment scheduled successfully`);
+      if (!created.success) {
+        return {
+          actionSuccess: false,
+          actionError: 'The server did not confirm the appointment',
+        }
+      }
 
       return {
-        ...state,
         actionSuccess: true,
-        appointmentData: appointment,
-      };
+        actionError: undefined,
+        datetime: created.data.date,
+        appointmentData: created.data,
+      }
     } catch (error) {
-      console.log(`❌ Scheduling failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
       return {
-        ...state,
         actionSuccess: false,
-        actionError: error instanceof Error ? error.message : 'Scheduling failed',
-      };
+        actionError:
+          error instanceof Error ? error.message : 'Scheduling failed',
+      }
     }
-  };
+  }
 }

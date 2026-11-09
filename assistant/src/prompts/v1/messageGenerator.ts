@@ -18,7 +18,8 @@ export const getSystemPrompt = () => {
       empathy: 'Acknowledge patient emotions, especially for errors'
     },
     scenarios: {
-      schedule_success: 'Confirm the appointment with all details',
+      schedule_success:
+        'The appointment already exists. Confirm it using datetime, doctorName and patientName. Never say it was not scheduled.',
       schedule_error: 'Apologize and explain why scheduling failed',
       cancel_success: 'Confirm the cancellation',
       cancel_error: 'Apologize and explain why cancellation failed',
@@ -34,6 +35,9 @@ export const getUserPromptTemplate = (data: any) => {
     instructions: [
       'Generate an appropriate message for the given scenario',
       'Include all relevant details from the details object',
+      'If scenario is schedule_success, confirm the appointment. Do not say it failed or was not found',
+      'Mention an error only when details.error is present',
+      'Never include IDs, UUIDs or internal codes in the message',
       'Be clear and direct',
       'Show empathy, especially for errors',
       'For unknown intents, guide users back to scheduling/cancelling',
@@ -41,10 +45,10 @@ export const getUserPromptTemplate = (data: any) => {
     ],
     examples: {
       schedule_success: 'Sua consulta com o Dr. Alicio da Silva em 12 de fevereiro de 2026 às 16h foi confirmada para Maria Santos. Aguardamos sua visita!',
-      schedule_error: 'Peço desculpas, mas esse horário já está reservado. Por favor, tente outro horário ou entre em contato conosco para verificar a disponibilidade.',
+      schedule_error: 'Peço desculpas, mas não foi possível agendar. Motivo: horário indisponível. Tente outro horário.',
       cancel_success: 'Sua consulta com o Dr. Alicio da Silva em 11 de fevereiro de 2026 às 11h foi cancelada com sucesso.',
-      cancel_error: 'Não encontrei nenhuma consulta com essas informações. Por favor, verifique a data, o horário e o nome do médico.',
-      unknown: 'Posso ajudá-lo(a) a agendar ou cancelar consultas médicas. Como posso ajudá-lo(a) com sua consulta hoje?'
+      cancel_error: 'Não encontrei nenhuma consulta com essas informações. Verifique a data, o horário e o nome do médico.',
+      unknown: 'Posso ajudar a agendar ou cancelar consultas médicas. Como posso ajudar com sua consulta hoje?'
     }
   });
 };

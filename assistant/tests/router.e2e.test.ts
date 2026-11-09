@@ -1,51 +1,66 @@
-import { describe, it } from 'node:test';
-import assert from 'node:assert/strict';
-import { createServer } from '../src/server.ts';
-import { professionals } from '../src/services/appointmentService.ts';
+import { describe, it } from 'node:test'
+import assert from 'node:assert/strict'
+import { AIMessage, HumanMessage } from 'langchain'
+import { createServer } from '../src/server.ts'
 
-const app = createServer();
+describe('POST /chat', () => {
+  it('rejects requests without token', async () => {
+    const app = createServer({
+      buildGraph: () => {
+        throw new Error('should not build graph without token')
+      },
+    })
 
-async function makeARequest(question: string) {
-    return await app.inject({
-        method: 'POST',
-        url: '/chat',
-        payload: {
-            question,
-        },
-    });
-}
+    const response = await app.inject({
+      method: 'POST',
+      url: '/chat',
+      payload: {
+        question: 'Quero agendar uma consulta amanhã às 16h',
+      },
+    })
 
-describe('Medical Appointment System - E2E Tests', async () => {
+    assert.equal(response.statusCode, 400)
+  })
 
-    it.skip('Schedule appointment - Success', async () => {
-        const response = await makeARequest(
-            `Olá, sou Maria Santos e quero agendar uma consulta com ${professionals.at(0)?.name} para amanhã às 16h para um check-up regular`
-        )
+  it('invokes graph with token and returns sanitized payload', async () => {
+    let receivedToken: string | undefined
 
-        console.log('Schedule Success Response:', response.body);
+    const app = createServer({
+      buildGraph: (token: string) => {
+        receivedToken = token
+        return {
+          invoke: async () => ({
+            intent: 'schedule',
+            actionSuccess: true,
+            doctorName: 'Dr. Test',
+            datetime: '2026-02-12T16:00:00.000Z',
+            patientName: 'Maria Santos',
+            appointmentData: { id: 'appt-1' },
+            messages: [
+              new HumanMessage('agendar'),
+              new AIMessage('Consulta confirmada.'),
+            ],
+          }),
+        } as unknown as ReturnType<typeof import('../src/graph/factory.ts').buildGraph>
+      },
+    })
 
-        assert.equal(response.statusCode, 200);
-        const body = JSON.parse(response.body);
-        assert.equal(body.intent, 'schedule');
-        assert.equal(body.actionSuccess, true);
-    });
+    const response = await app.inject({
+      method: 'POST',
+      url: '/chat',
+      payload: {
+        question: 'Quero agendar uma consulta amanhã às 16h',
+        token: 'jwt-from-better-health',
+      },
+    })
 
+    assert.equal(response.statusCode, 200)
+    assert.equal(receivedToken, 'jwt-from-better-health')
 
-    it('Cancel appointment - Success', async () => {
-
-         await makeARequest(
-            `Sou Joao da Silva e quero agendar uma consulta com ${professionals.at(1)?.name} para hoje às 14h`
-        )
-
-        const response = await makeARequest(
-            `Cancele minha consulta com ${professionals.at(1)?.name} que tenho hoje às 14h, me chamo Joao da Silva`
-        );
-
-        console.log('Cancel Success Response:', response.body);
-
-        assert.equal(response.statusCode, 200);
-        const body = JSON.parse(response.body);
-        assert.equal(body.intent, 'cancel');
-        assert.equal(body.actionSuccess, true);
-    });
-});
+    const body = JSON.parse(response.body)
+    assert.equal(body.intent, 'schedule')
+    assert.equal(body.actionSuccess, true)
+    assert.equal(body.appointmentData.id, 'appt-1')
+    assert.equal(body.token, undefined)
+  })
+})
