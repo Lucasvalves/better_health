@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import {
   BetterHealthApiClient,
   BetterHealthApiError,
-} from '../src/services/betterHealthApiClient.ts'
+} from '../../src/services/betterHealthApiClient.ts'
 
 describe('BetterHealthApiClient', () => {
   it('sends Authorization bearer token and parses JSON', async () => {

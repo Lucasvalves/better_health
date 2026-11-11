@@ -1,9 +1,9 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { HumanMessage } from 'langchain'
-import { createSchedulerNode } from '../src/graph/nodes/schedulerNode.ts'
-import type { AppointmentService } from '../src/services/appointmentService.ts'
-import type { GraphState } from '../src/graph/graph.ts'
+import { createSchedulerNode } from '../../src/graph/nodes/schedulerNode.ts'
+import type { AppointmentService } from '../../src/services/appointmentService.ts'
+import type { GraphState } from '../../src/graph/graph.ts'
 
 const created = {
   id: '0d1da9fd-3ca5-4f65-b7b5-0865289f8ca8',
@@ -14,7 +14,7 @@ const created = {
 }
 
 function state(): GraphState {
-  return {
+  return {  
     messages: [new HumanMessage('Quero agendar uma consulta')],
     doctors_id: created.doctors_id,
     datetime: '2026-11-10T12:00:00.000Z',

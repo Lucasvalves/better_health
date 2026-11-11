@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { AppointmentService } from '../src/services/appointmentService.ts'
+import { AppointmentService } from '../../src/services/appointmentService.ts'
 
 function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {

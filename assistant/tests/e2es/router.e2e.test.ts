@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { AIMessage, HumanMessage } from 'langchain'
-import { createServer } from '../src/server.ts'
+import { createServer } from '../../src/server.ts'
 
 describe('POST /chat', () => {
   it('rejects requests without token', async () => {
@@ -26,7 +26,7 @@ describe('POST /chat', () => {
     let receivedToken: string | undefined
 
     const app = createServer({
-      buildGraph: (token: string) => {
+      buildGraph: (token?: string) => {
         receivedToken = token
         return {
           invoke: async () => ({
@@ -41,7 +41,7 @@ describe('POST /chat', () => {
               new AIMessage('Consulta confirmada.'),
             ],
           }),
-        } as unknown as ReturnType<typeof import('../src/graph/factory.ts').buildGraph>
+        } as unknown as ReturnType<typeof import('../../src/graph/factory.ts').buildGraph>
       },
     })
 

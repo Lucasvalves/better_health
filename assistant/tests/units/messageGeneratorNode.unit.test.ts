@@ -1,9 +1,9 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { HumanMessage } from 'langchain'
-import { createMessageGeneratorNode } from '../src/graph/nodes/messageGeneratorNode.ts'
-import type { OpenRouterService } from '../src/services/openRouterService.ts'
-import type { GraphState } from '../src/graph/graph.ts'
+import { createMessageGeneratorNode } from '../../src/graph/nodes/messageGeneratorNode.ts'
+import type { OpenRouterService } from '../../src/services/openRouterService.ts'
+import type { GraphState } from '../../src/graph/graph.ts'
 
 const APPOINTMENT_ID = '0d1da9fd-3ca5-4f65-b7b5-0865289f8ca8'
 const FALLBACK = 'Desculpe, não consegui gerar a resposta agora. Tente novamente.'
