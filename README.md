@@ -1,146 +1,95 @@
 # Better Health
 
-A system that simplifies the management of users, doctors, and patients, enabling efficient appointment scheduling in health clinics.
+Clinic management and appointment scheduling on a single platform, with a conversational assistant that books and cancels appointments through the same API.
 
 ---
 
 ## About
 
-Clinics often deal with scattered records, fragmented schedules, and manual booking. **Better Health** brings these operations into a single platform: registering professionals and patients, defining specialties and availability, and booking appointments based on real calendar slots.
+Clinics often deal with scattered records, fragmented schedules, and manual booking. Better Health brings those operations together: registering users, patients, doctors, and specialties, defining each doctor's availability, and booking appointments in real calendar slots without conflicts.
 
-The goal is to reduce day-to-day operational friction — less rework, fewer scheduling conflicts, and clearer visibility into who is available, when, and in which specialty.
+The system is split into three services. The **API** owns the data, permissions, and scheduling rules. The **frontend** and the **assistant** are two clients of that API, so a booking made by either one goes through the same validation.
 
 ---
 
-## What it offers
+## Capabilities
 
-| Area | Capability |
+| Area | What you can do |
 | --- | --- |
-| **Authentication** | Login and protected sessions for internal areas |
-| **Patients** | Patient registration and clinic linkage |
-| **Doctors** | Professional registration with CRM and specialty |
-| **Specialties** | Specialty registration and appointment duration |
-| **Schedule** | Doctor availability by days and time ranges |
-| **Appointments** | Create, view, edit, and cancel appointments |
-| **Profile** | Edit the logged-in user's profile |
+| **Access** | Create an account, sign in, and edit your profile and avatar |
+| **Registration** | Manage patients, doctors (CRM and specialty), and specialties (with appointment duration) |
+| **Availability** | Define the weekdays and time ranges each doctor works |
+| **Appointments** | See available days, book, search by patient, reschedule, and cancel |
+| **Assistant** | Book or cancel an appointment from a free-text request |
 
 Typical workflow:
 
-1. Register specialties and doctors
-2. Configure availability (days and hours)
-3. Register patients
-4. Book appointments in available slots
-5. Search, edit, or cancel appointments as needed
+1. Register a user and sign in
+2. Register specialties and doctors
+3. Set each doctor's availability
+4. Register patients
+5. Book, reschedule, or cancel appointments, from the web app or through the assistant
 
 ---
 
 ## Architecture
 
-This repository is a monorepo with two main packages:
-
 ```
 better_health/
-├── api/        # Backend (Express + Prisma)
-└── frontend/   # Frontend (Next.js)
+├── api/          # REST API
+├── frontend/     # Web app
+└── assistant/    # Conversational agent
 ```
 
-### Backend (`api/`)
+```
+Browser ──► frontend :3000 ──► api :3333 ──► SQLite
+                                  ▲
+Client ───► assistant :3001 ──────┘
+                 │
+                 └──► OpenRouter (language model)
+```
 
-REST API built with **Node.js**, **Express**, and **TypeScript**, organized in layers:
+| Service | Role | Stack | Port | Docs |
+| --- | --- | --- | --- | --- |
+| `api` | Source of truth for data, authentication, and scheduling rules | Express, Prisma, SQLite | 3333 | [api/README.md](api/README.md) |
+| `frontend` | Web interface for clinic staff | Next.js, React | 3000 | [frontend/README.md](frontend/README.md) |
+| `assistant` | Natural-language scheduling and cancellation | Fastify, LangGraph | 3001 | [assistant/README.md](assistant/README.md) |
 
-- **Routes** → endpoint definitions  
-- **Controllers** → HTTP input/output  
-- **Services** → business rules  
-- **Repositories** → data access via Prisma  
+### Shared principles
 
-Persistence with **Prisma** and **SQLite**. Authentication via **JWT**. API docs with **Swagger**.
-
-Core entities: `Users`, `Patients`, `Doctors`, `Specialties`, `Times`, and `Appointments`.
-
-### Frontend (`frontend/`)
-
-**Next.js (App Router)** app with **React** and **TypeScript**, following an **MVVM** pattern per feature (`model` / `view-model` / `view`) and a Clean Architecture–inspired separation of concerns:
-
-- `app/` — pages and routes  
-- `data/` — API communication services  
-- `domain/` — models and validations  
-- `presentation/` — shared components and providers  
-- `infrastructure/` — infrastructure details (HTTP, cookies, etc.)
-
-Styling with **Sass**, form validation with **Zod**, and remote data with **TanStack Query** and **Axios**.
-
----
-
-## Stack
-
-| Layer | Technologies |
-| --- | --- |
-| Frontend | Next.js 15, React 19, TypeScript, Sass, TanStack Query, Zod, Jest |
-| Backend | Express, TypeScript, Prisma, SQLite, JWT, Swagger, Jest |
-| Tooling | ESLint, Prettier, React Testing Library |
+- **The API is the single source of truth.** Appointment constraints, authorization, and persistence live there. The frontend and the assistant never reimplement them.
+- **One authentication mechanism.** Users sign in through the API and receive a JWT. The frontend stores it, and the assistant receives it on each request and forwards it to the API.
+- **Each service is independent.** Services communicate only over HTTP, run on their own, and are configured through their own environment files.
 
 ---
 
 ## Getting started
 
-### Prerequisites
+Prerequisites:
 
-- Node.js 18+  
-- npm or yarn  
+- Node.js 18+ for `api` and `frontend`
+- Node.js 24.10+ for `assistant`
+- npm
 
-### API
+Configure and start the services in this order. Each service README lists its environment variables and commands.
 
-```bash
-cd api
-npm install
-# set DATABASE_URL in .env (e.g. file:./dev.db)
-npx prisma migrate deploy
-npm run dev
-```
+1. [`api`](api/README.md#getting-started) — the other two depend on it
+2. [`frontend`](frontend/README.md#getting-started) — open [http://localhost:3000](http://localhost:3000)
+3. [`assistant`](assistant/README.md#getting-started) — optional, needs an OpenRouter key
 
-The API runs in development with hot reload (`ts-node-dev`).
-
-### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000). The app redirects to the authentication screen.
-
-### Tests
-
-```bash
-# frontend
-cd frontend && npm test
-
-# api
-cd api && npm test
-```
-
----
-
-## API overview
-
-| Resource | Responsibility |
-| --- | --- |
-| `/users` | Registration, authentication, and profile |
-| `/patients` | Patient management |
-| `/doctors` | Doctor management |
-| `/specialties` | Specialty management |
-| `/times` | Schedule availability |
-| `/appointments` | Appointment booking and maintenance |
+Interactive API docs are available at [http://localhost:3333/v1/docs](http://localhost:3333/v1/docs) once the API is running.
 
 ---
 
 ## Contributing
 
-1. Create a branch from `main`  
-2. Keep changes focused on a single responsibility  
-3. Add tests when the flow warrants it  
-4. Open a pull request describing the problem and the solution  
+1. Create a branch from `main`
+2. Keep changes focused on a single responsibility
+3. Add tests when the flow warrants it, especially for appointment conflicts, authorization, and date handling
+4. Use commit messages in the form `type: short description` (`feat`, `fix`, `refactor`, `test`, `docs`, `style`, `chore`)
+5. Open a pull request describing the problem and the solution
+
+Service-specific conventions are in each service README.
 
 ---
 

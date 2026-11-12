@@ -1,297 +1,123 @@
-# Prompt Chaining Article Generator
+# Assistant
 
-Demonstration of **prompt engineering** with LangChain using structured outputs and conditional edges to generate high-quality technical articles through multiple AI agents reviewing each other.
+Conversational agent that books and cancels Better Health appointments from free-text requests. It does not touch the database: every action goes through the [API](../api/README.md) using the caller's token. See the [root README](../README.md) for how it fits into the system.
 
-## 🎯 Goals
+**Stack:** Node.js 24.10+, Fastify, LangGraph, LangChain, OpenRouter, Zod, Node test runner.
 
-This project exemplifies:
-- **Structured Outputs**: Using Zod schemas to prevent hallucinations
-- **Prompt Chaining**: Three-stage pipeline with quality feedback loop
-- **Minimal Code**: Let AI agents review each other instead of complex logic
-- **Real API Testing**: Integration tests with actual OpenRouter calls
-- **Quality Assurance**: Automatic retry until score ≥ 8/10
+---
 
-## Features
+## Getting started
 
-- 🎨 **3-Stage Pipeline**: Plan → Draft → Review (with quality loop)
-- 📊 **Structured Validation**: Zod schemas at every step
-- 🔄 **Conditional Edges**: Retry review until quality threshold met
-- 📝 **Template System**: JSON prompts with variable interpolation
-- 🧪 **Real API Tests**: No mocks, actual LLM calls
-- 📁 **Organized Outputs**: `outputs/timestamp-topic/output.md`
+Copy `.env.example` to `.env`:
 
-## Architecture
-
-### LangGraph Workflow
-
-```
-START → plan → draft → review ⟲ (if score < 8) → END
-         ↓       ↓       ↓
-      outline  article  final + scores
-```
-
-### Project Structure
-
-```
-src/
-  ├── config.ts                 # Configuration with env vars
-  ├── index.ts                  # CLI entry point
-  ├── graph/
-  │   ├── graph.ts             # StateGraph with conditional edges
-  │   ├── factory.ts           # Graph builder
-  │   └── nodes/
-  │       ├── planNode.ts      # Outline generation (Zod validated)
-  │       ├── draftNode.ts     # Article drafting
-  │       └── reviewNode.ts    # Quality scoring & improvement
-  ├── services/
-  │   └── openrouter-service.ts  # LLM client
-  └── utils/
-      └── prompt-loader.ts     # Template loading & interpolation
-prompts/
-  └── v1/
-      ├── plan.json           # Outline generation prompt
-      ├── draft.json          # Section writing prompt
-      └── review.json         # Quality review prompt
-tests/
-  └── article-generator.test.ts  # Real API integration test
-```
-  │   ├── graph.ts          # StateGraph definition with co-located types
-  │   ├── factory.ts        # Graph creation factory
-  │   └── nodes/            # LangGraph nodes (workflow steps)
-  │       ├── outline.node.ts    # Generate article structure + parsing
-  │       ├── research.node.ts   # Research sections in parallel
-  │       ├── write.node.ts      # Write sections + assembly
-  │       └── review.node.ts     # Polish final article
-  ├── services/
-  │   └── openrouter-service.ts  # OpenRouter SDK wrapper (implements LLMClient)
-  └── utils/
-      └── prompt-loader.ts  # Load prompts from template files
-
-prompts/                    # Prompt templates with variables
-  ├── outline.txt           # Section structure generation
-  ├── research.txt          # Research individual sections
-  ├── write-section.txt     # Write section content
-  └── review.txt            # Review and improve
-
-tests/
-  └── article-generator.test.ts  # Graph workflow tests
-```
-
-## Installation
+| Variable | Purpose |
+| --- | --- |
+| `OPENROUTER_API_KEY` | OpenRouter key used for the language model |
+| `BETTER_HEALTH_API_URL` | API base URL (defaults to `http://localhost:3333`) |
+| `BETTER_HEALTH_DEV_TOKEN` | Optional fallback JWT for local use and LangGraph Studio. Never commit a real token |
+| `LANGSMITH_API_KEY`, `LANGCHAIN_TRACING_V2`, `LANGCHAIN_PROJECT` | Optional LangSmith tracing |
+| `PORT` | HTTP port (defaults to `3001`) |
 
 ```bash
 npm install
+npm run dev
 ```
 
-## Configuration
-
-Create `.env` file:
-
-```env
-# OpenRouter Configuration (required)
-OPENROUTER_API_KEY=sk-or-v1-...
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
-OPENROUTER_HTTP_REFERER=https://your-site.com
-OPENROUTER_X_TITLE=Article Generator
-
-# Model Configuration
-MODEL_TIMEOUT=60000
-MODEL_MAX_RETRIES=3
-
-# Article Configuration
-MIN_SECTIONS=3
-MAX_SECTIONS=8
-TARGET_WORDS_PER_SECTION=200
-
-# Logging
-LOG_LEVEL=info
-```
-
-## Usage
-
-### Generate Article
+The API must be running. Get a token from `POST /users/auth` on the API, then:
 
 ```bash
-# Using topic flag
-npm run generate -- --topic "Test-Driven Development in TypeScript"
-
-# With custom output path
-npm run generate -- --topic "Docker Best Practices" --output my-article.md
+curl -X POST http://localhost:3001/chat \
+  -H 'Content-Type: application/json' \
+  -d '{"question":"Agendar consulta com o Dr. Silva amanhã às 10h para Maria, CPF 12345678900","token":"<jwt>"}'
 ```
 
-### Run Tests
+### Scripts
+
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Server with watch mode and inspector |
+| `npm start` | Server |
+| `npm run test:unit` | Unit tests |
+| `npm run test:e2e` | Route tests (load `.env`) |
+| `npm test` | All tests (load `.env`) |
+| `npm run langgraph:serve` | LangGraph Studio for the `medical_appointments` graph |
+
+---
+
+## How it works
+
+### Endpoint
+
+`POST /chat`
+
+| Field | Rule |
+| --- | --- |
+| `question` | string, at least 10 characters |
+| `token` | string, Better Health JWT |
+
+The response includes `intent`, `actionSuccess`, `actionError`, `error`, the extracted `doctorName`, `datetime`, `patientName`, `appointmentData`, and the conversation `messages`; the last message is the reply. A body that fails validation (missing `token`, short `question`) returns `400`. A rejected token returns `401`. Other failures return `500` with a generic message.
+
+### Graph
+
+Defined in `src/graph/graph.ts`:
+
+```
+START → identifyIntent ─┬─ schedule ─► message → END
+                        ├─ cancel   ─► message → END
+                        └─ unknown or error ─► message → END
+```
+
+| Node | Responsibility |
+| --- | --- |
+| `identifyIntent` | Loads the clinic's doctors from the API, then asks the model for a structured result: intent (`schedule`, `cancel`, `unknown`) and the appointment fields |
+| `schedule` | Checks the required fields (doctor, datetime, patient name or CPF) and creates the appointment |
+| `cancel` | Cancels by appointment id, or by doctor, datetime, and patient |
+| `message` | Writes the reply from the outcome. Falls back to a fixed message if the reply is empty or contains an id |
+
+The graph state (`GraphState`) is declared in the same file. Nodes return partial state updates.
+
+### Boundaries
+
+- **Model output is untrusted.** Intent data is parsed against a Zod schema, and each node validates the fields it needs before calling the API.
+- **Scheduling rules stay in the API.** The assistant resolves the patient and specialty, then sends the booking request. Conflicts, availability, and permissions are decided by the API and reported back in the reply.
+- **The token is per request.** `src/graph/factory.ts` builds a graph for each call with the token from `/chat`, falling back to `BETTER_HEALTH_DEV_TOKEN` only when none is given.
+
+### Structure
+
+```
+src/
+├── index.ts            # Starts the server
+├── server.ts           # Fastify app and /chat route
+├── config.ts           # Environment and model settings
+├── graph/
+│   ├── graph.ts        # State and graph definition
+│   ├── factory.ts      # Builds the graph for a token
+│   └── nodes/          # One file per node
+├── prompts/v1/         # System and user prompts with Zod output schemas
+└── services/
+    ├── openRouterService.ts      # Model client with structured output
+    ├── betterHealthApiClient.ts  # HTTP client for the API
+    └── appointmentService.ts     # Booking and cancellation logic on top of the client
+tests/
+├── units/              # Unit tests with fake dependencies
+└── e2es/               # Route tests that inject a fake graph
+langgraph.json          # Graph entry for LangGraph Studio
+```
+
+### Extending
+
+To support a new action, add a node in `src/graph/nodes/`, extend the `intent` enum in `graph.ts` and `prompts/v1/identifyIntent.ts`, wire the node and its edge in `buildAppointmentGraph`, and add a scenario to `prompts/v1/messageGenerator.ts`. Calls to new API endpoints go through `betterHealthApiClient.ts`.
+
+The model list and temperature are in `src/config.ts`.
+
+---
+
+## Tests
 
 ```bash
-npm test
+npm run test:unit
 ```
 
-## How It Works
+Unit tests cover the scheduler node, the message generator node, the API client, and the appointment service. The e2e test calls `POST /chat` with an injected graph. Neither needs the network or a model key.
 
-### 1. Outline Node
-
-Generates article structure:
-- Title
-- Introduction
-- Sections with key points
-- Conclusion
-
-**State Updates**: `outline`, `currentStep`
-
-### 2. Research Node
-
-Researches all sections **in parallel**:
-```typescript
-const researchPromises = sections.map(section =>
-  llmClient.generate(researchPrompt)
-);
-const results = await Promise.all(researchPromises);
-```
-
-**State Updates**: `researchResults`, `currentStep`
-
-### 3. Write Sections Node
-
-Writes each section **sequentially** using research:
-- Loops through sections
-- Uses section research + key points
-- Calculates word count
-- Builds draft article
-
-**State Updates**: `sections`, `draftArticle`, `totalWords`, `currentStep`
-
-### 4. Review Node
-
-Reviews and improves final article:
-- Checks tone and style
-- Improves transitions
-- Ensures consistency
-- Polishes language
-
-**State Updates**: `finalArticle`, `currentStep`
-
-## LangGraph Concepts
-
-### StateGraph
-
-Defines the workflow with typed state:
-```typescript
-const ArticleStateAnnotation = Annotation.Root({
-  topic: Annotation<string>,
-  outline: Annotation<any>,
-  researchResults: Annotation<string[]>,
-  sections: Annotation<any[]>,
-  draftArticle: Annotation<string>,
-  finalArticle: Annotation<string>,
-  totalWords: Annotation<number>,
-  currentStep: Annotation<string>,
-});
-```
-
-### Node Functions
-
-Each node receives state and returns partial state updates:
-```typescript
-export const createOutlineNode = (llmClient: LLMClient) => {
-  return async (state: GraphState): Promise<Partial<GraphState>> => {
-    const outline = await generateOutline(state.topic);
-    return {
-      outline,
-      currentStep: 'outline_completed',
-    };
-  };
-};
-```
-
-### Graph Construction
-
-```typescript
-const workflow = new StateGraph({ stateSchema: ArticleStateAnnotation })
-  .addNode('generateOutline', outlineNode)
-  .addNode('conductResearch', researchNode)
-  .addNode('writeSections', writeSectionsNode)
-  .addNode('reviewArticle', reviewNode)
-  .addEdge(START, 'generateOutline')
-  .addEdge('generateOutline', 'conductResearch')
-  .addEdge('conductResearch', 'writeSections')
-  .addEdge('writeSections', 'reviewArticle')
-  .addEdge('reviewArticle', END);
-
-return workflow.compile();
-```
-
-## Testing Strategy
-
-Uses **MockLLMClient** with deterministic responses:
-
-```typescript
-class MockLLMClient implements LLMClient {
-  responses: Map<string, string>;
-
-  async generate(prompt: string): Promise<string> {
-    if (prompt.includes('outline')) return mockOutline;
-    if (prompt.includes('Research')) return mockResearch;
-    if (prompt.includes('Write')) return mockSection;
-    if (prompt.includes('Review')) return mockReview;
-  }
-}
-```
-
-Tests verify:
-- ✅ Complete article generation through graph
-- ✅ Multiple LLM calls in chain
-- ✅ Correct state flow through all nodes
-- ✅ Word count calculation
-
-## Key Patterns
-
-### Single Responsibility Principle
-
-- **Nodes**: One transformation per node
-- **Services**: LLM interactions only
-- **Utils**: Reusable helpers (prompt loading)
-- **Config**: Environment management
-
-### Dependency Injection
-
-Nodes receive dependencies as parameters:
-```typescript
-createOutlineNode(llmClient: LLMClient, config: ArticleConfig)
-```
-
-### Immutable State
-
-Nodes return new state objects, never mutate:
-```typescript
-return {
-  ...state,
-  outline: newOutline,
-};
-```
-
-### Prompt Templates
-
-Prompts stored in files, not code:
-```typescript
-const prompt = await PromptLoader.load('outline', {
-  topic: state.topic,
-  minSections: config.minSections,
-  maxSections: config.maxSections,
-});
-```
-
-## Learning Objectives
-
-1. **Prompt Chaining**: Build complex outputs from simple steps
-2. **LangGraph**: State management in LLM workflows
-3. **Parallel Execution**: Research sections concurrently
-4. **Sequential Processing**: Write sections in order
-5. **State Transitions**: Track progress through workflow
-6. **Testing**: Mock LLMs for deterministic tests
-
-## Node Version
-
-Requires Node.js >= 22.0.0 for TypeScript strip-types support.
-
-## License
-
-MIT
+`npm test` and `npm run test:e2e` load `.env` through `--env-file`, so create that file first. `npm run test:unit` does not.
