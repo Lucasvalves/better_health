@@ -3,6 +3,7 @@ import {
   getUserPromptTemplate,
   MessageSchema,
 } from '../../prompts/v1/messageGenerator.ts'
+import { SAFETY_ALERT_MESSAGE } from '../../prompts/v1/safetyAlert.ts'
 import { OpenRouterService } from '../../services/openRouterService.ts'
 import type { GraphState } from '../graph.ts'
 import { AIMessage } from 'langchain'
@@ -12,6 +13,12 @@ const UUID_PATTERN =
 
 export function createMessageGeneratorNode(llmClient: OpenRouterService) {
   return async (state: GraphState): Promise<Partial<GraphState>> => {
+    if (state.safetyAlert) {
+      return {
+        messages: [...state.messages, new AIMessage(SAFETY_ALERT_MESSAGE)],
+      }
+    }
+
     try {
       const hasSucceeded = state.actionSuccess ? 'success' : 'error'
       const scenario =

@@ -20,6 +20,7 @@ const AppointmentStateAnnotation = z.object({
   messages: withLangGraph(z.custom<BaseMessage[]>(), MessagesZodMeta),
 
   intent: z.enum(['schedule', 'cancel', 'unknown']).optional(),
+  safetyAlert: z.boolean().optional(),
   doctors_id: z.string().optional(),
   specialties_id: z.string().optional(),
   doctorName: z.string().optional(),
@@ -53,7 +54,12 @@ export function buildAppointmentGraph(
     .addConditionalEdges(
       'identifyIntent',
       (state: GraphState): string => {
-        if (state.error || !state.intent || state.intent === 'unknown') {
+        if (
+          state.safetyAlert ||
+          state.error ||
+          !state.intent ||
+          state.intent === 'unknown'
+        ) {
           return 'message'
         }
         return state.intent
