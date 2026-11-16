@@ -42,7 +42,7 @@ better_health/
 ```
 
 ```
-Browser ──► frontend :3000 ──► api :3333 ──► SQLite
+Browser ──► frontend :3000 ──► api :3333 ──► PostgreSQL
                                   ▲
 Client ───► assistant :3001 ──────┘
                  │
@@ -51,7 +51,7 @@ Client ───► assistant :3001 ──────┘
 
 | Service | Role | Stack | Port | Docs |
 | --- | --- | --- | --- | --- |
-| `api` | Source of truth for data, authentication, and scheduling rules | Express, Prisma, SQLite | 3333 | [api/README.md](api/README.md) |
+| `api` | Source of truth for data, authentication, and scheduling rules | Express, Prisma, PostgreSQL | 3333 | [api/README.md](api/README.md) |
 | `frontend` | Web interface for clinic staff | Next.js, React | 3000 | [frontend/README.md](frontend/README.md) |
 | `assistant` | Natural-language scheduling and cancellation | Fastify, LangGraph | 3001 | [assistant/README.md](assistant/README.md) |
 

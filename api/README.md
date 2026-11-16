@@ -2,7 +2,7 @@
 
 REST API for Better Health. It owns users, patients, doctors, specialties, availability, and appointments, and enforces the scheduling rules for every client. See the [root README](../README.md) for how it fits into the system.
 
-**Stack:** Node.js, Express, TypeScript, Prisma, SQLite, JWT, Swagger, Jest, Supertest.
+**Stack:** Node.js, Express, TypeScript, Prisma, PostgreSQL, JWT, Swagger, Jest, Supertest.
 
 ---
 
@@ -12,7 +12,7 @@ Copy `.env.default` to `.env` and fill it in:
 
 | Variable | Purpose |
 | --- | --- |
-| `DATABASE_URL` | Prisma connection string, e.g. `file:./dev.db` |
+| `DATABASE_URL` | Prisma connection string, e.g. `postgresql://USER:PASSWORD@HOST:5432/DATABASE?schema=public` |
 | `ACCESS_KEY_TOKEN` | Secret used to sign and verify JWTs |
 | `PORT` | HTTP port (defaults to `3333`) |
 | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION` | S3 credentials, only needed for avatar upload |
