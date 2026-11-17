@@ -20,7 +20,9 @@ export function buildGraph(authToken?: string) {
     baseUrl: config.betterHealthApiUrl,
     authToken: token,
   })
-  return buildAppointmentGraph(llmClient, appointmentService)
+  return buildAppointmentGraph(llmClient, appointmentService, {
+    timeZone: config.timeZone,
+  })
 }
 
 export const graph = async (runtime?: {

@@ -9,7 +9,10 @@ import type { BaseMessage } from '@langchain/core/messages'
 
 import { createSchedulerNode } from './nodes/schedulerNode.ts'
 import { createCancellerNode } from './nodes/cancellerNode.ts'
-import { createIdentifyIntentNode } from './nodes/identifyIntentNode.ts'
+import {
+  createIdentifyIntentNode,
+  type ClockOptions,
+} from './nodes/identifyIntentNode.ts'
 import { createMessageGeneratorNode } from './nodes/messageGeneratorNode.ts'
 
 import { z } from 'zod/v3'
@@ -21,9 +24,14 @@ const AppointmentStateAnnotation = z.object({
 
   intent: z.enum(['schedule', 'cancel', 'unknown']).optional(),
   safetyAlert: z.boolean().optional(),
-  doctors_id: z.string().optional(),
-  specialties_id: z.string().optional(),
   doctorName: z.string().optional(),
+  doctorCrm: z.string().optional(),
+  specialtyName: z.string().optional(),
+  doctorOptions: z
+    .array(
+      z.object({ name: z.string(), crm: z.string(), specialty: z.string() }),
+    )
+    .optional(),
   datetime: z.string().optional(),
   patientName: z.string().optional(),
   patientCpf: z.string().optional(),
@@ -42,14 +50,18 @@ export type GraphState = z.infer<typeof AppointmentStateAnnotation>
 export function buildAppointmentGraph(
   llmClient: OpenRouterService,
   appointmentService: AppointmentService,
+  clock: ClockOptions = {},
 ) {
   const workflow = new StateGraph({
     stateSchema: AppointmentStateAnnotation,
   })
-    .addNode('identifyIntent', createIdentifyIntentNode(llmClient, appointmentService))
-    .addNode('schedule', createSchedulerNode(appointmentService))
+    .addNode(
+      'identifyIntent',
+      createIdentifyIntentNode(llmClient, appointmentService, clock),
+    )
+    .addNode('schedule', createSchedulerNode(appointmentService, clock.now))
     .addNode('cancel', createCancellerNode(appointmentService))
-    .addNode('message', createMessageGeneratorNode(llmClient))
+    .addNode('message', createMessageGeneratorNode(llmClient, clock.timeZone))
     .addEdge(START, 'identifyIntent')
     .addConditionalEdges(
       'identifyIntent',
