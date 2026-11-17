@@ -5,6 +5,7 @@ export type ModelConfig = {
   betterHealthApiUrl: string
   /** Optional fallback for local/studio when request has no token. Never commit a real JWT. */
   betterHealthDevToken: string
+  timeZone: string
 
   provider: {
     sort: {
@@ -19,7 +20,7 @@ export type ModelConfig = {
 
 console.assert(
   process.env.OPENROUTER_API_KEY,
-  'OPENROUTER_API_KEY is not set in environment variables',
+  'OPENROUTER_API_KEY is not set in environment variables'
 )
 
 export const config: ModelConfig = {
@@ -29,15 +30,16 @@ export const config: ModelConfig = {
   betterHealthApiUrl:
     process.env.BETTER_HEALTH_API_URL ?? 'http://localhost:3333',
   betterHealthDevToken: process.env.BETTER_HEALTH_DEV_TOKEN ?? '',
+  timeZone: 'America/Sao_Paulo',
   models: [
     // https://openrouter.ai/models?fmt=cards&max_price=0&supported_parameters=response_format
-    'nvidia/nemotron-3.5-super-vl:free',
+    'nvidia/nemotron-3.5-super-vl:free'
   ],
   provider: {
     sort: {
       by: 'throughput',
-      partition: 'none',
-    },
+      partition: 'none'
+    }
   },
-  temperature: 0.7,
+  temperature: 0.7
 }
