@@ -4,6 +4,10 @@ import {
   MessageSchema,
 } from '../../prompts/v1/messageGenerator.ts'
 import { SAFETY_ALERT_MESSAGE } from '../../prompts/v1/safetyAlert.ts'
+import {
+  DEFAULT_TIME_ZONE,
+  formatLocalDateTime,
+} from '../../services/dateTimeResolver.ts'
 import { OpenRouterService } from '../../services/openRouterService.ts'
 import type { GraphState } from '../graph.ts'
 import { AIMessage } from 'langchain'
@@ -11,7 +15,10 @@ import { AIMessage } from 'langchain'
 const UUID_PATTERN =
   /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i
 
-export function createMessageGeneratorNode(llmClient: OpenRouterService) {
+export function createMessageGeneratorNode(
+  llmClient: OpenRouterService,
+  timeZone: string = DEFAULT_TIME_ZONE,
+) {
   return async (state: GraphState): Promise<Partial<GraphState>> => {
     if (state.safetyAlert) {
       return {
@@ -26,13 +33,17 @@ export function createMessageGeneratorNode(llmClient: OpenRouterService) {
           ? `${state.intent}_${hasSucceeded}`
           : 'unknown'
       const confirmed = state.appointmentData as { date?: string } | undefined
+      const when = confirmed?.date ?? state.datetime
       const details = {
         doctorName: state.doctorName,
-        datetime: confirmed?.date ?? state.datetime,
+        datetime: when ? formatLocalDateTime(when, timeZone) : undefined,
         patientName: state.patientName,
         ...(state.actionSuccess
           ? {}
-          : { error: state.actionError ?? state.error }),
+          : {
+              error: state.actionError ?? state.error,
+              doctorOptions: state.doctorOptions,
+            }),
       }
 
       const systemPrompt = getSystemPrompt()
