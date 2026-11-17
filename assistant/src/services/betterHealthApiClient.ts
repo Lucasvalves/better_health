@@ -123,10 +123,6 @@ export class BetterHealthApiClient {
     return this.request<Specialty[]>('/specialties', { method: 'GET' })
   }
 
-  listPatients(): Promise<Patient[]> {
-    return this.request<Patient[]>('/patients', { method: 'GET' })
-  }
-
   findPatientByCpf(cpf: string): Promise<Patient> {
     return this.request<Patient>('/patients/cpf/', {
       method: 'POST',

@@ -1,24 +1,23 @@
 import { AppointmentService } from '../../services/appointmentService.ts'
+import { DoctorSelectionError } from '../../services/doctorResolver.ts'
 import type { GraphState } from '../graph.ts'
+import { PatientCpfSchema } from './patientCpfSchema.ts'
 import { z } from 'zod/v3'
 
 const CancelRequiredFieldsSchema = z
   .object({
+    patientCpf: PatientCpfSchema,
     appointmentId: z.string().optional(),
-    doctors_id: z.string().optional(),
+    doctorCrm: z.string().trim().optional(),
+    doctorName: z.string().trim().optional(),
     datetime: z.string().optional(),
-    patientName: z.string().optional(),
-    patientCpf: z.string().optional(),
   })
   .refine(
     (data) =>
       Boolean(data.appointmentId) ||
-      (Boolean(data.doctors_id) &&
-        Boolean(data.datetime) &&
-        Boolean(data.patientName || data.patientCpf)),
+      (Boolean(data.doctorCrm || data.doctorName) && Boolean(data.datetime)),
     {
-      message:
-        'Appointment ID or doctor, datetime, and patient name/CPF are required',
+      message: 'Appointment ID or doctor and datetime are required',
     },
   )
 
@@ -37,17 +36,25 @@ export function createCancellerNode(appointmentService: AppointmentService) {
       }
 
       await appointmentService.cancelAppointment({
-        appointmentId: validation.data.appointmentId,
-        doctors_id: validation.data.doctors_id,
-        datetime: validation.data.datetime,
-        patientName: validation.data.patientName,
         patientCpf: validation.data.patientCpf,
+        appointmentId: validation.data.appointmentId,
+        doctorCrm: validation.data.doctorCrm,
+        doctorName: validation.data.doctorName,
+        datetime: validation.data.datetime,
       })
 
       return {
         actionSuccess: true,
       }
     } catch (error) {
+      if (error instanceof DoctorSelectionError) {
+        return {
+          actionSuccess: false,
+          actionError: error.message,
+          doctorOptions: error.options,
+        }
+      }
+
       return {
         actionSuccess: false,
         actionError:

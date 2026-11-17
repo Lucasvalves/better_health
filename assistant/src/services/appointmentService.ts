@@ -5,32 +5,28 @@ import {
   type FetchLike,
   type Patient
 } from './betterHealthApiClient.ts'
+import {
+  hasDoctorQuery,
+  resolveDoctor,
+  type DoctorQuery
+} from './doctorResolver.ts'
 
-export type ProfessionalForPrompt = {   
-  id: string
-  name: string
-  specialty: string
-  specialties_id: string
+export type BookAppointmentInput = DoctorQuery & {
+  datetime: string
+  patientCpf: string
 }
 
-export type BookAppointmentInput = {
-  doctors_id: string
-  specialties_id?: string
-  datetime: string
-  patientName?: string
-  patientCpf?: string
+export type BookedAppointment = {
+  appointment: AppointmentRecord
+  doctor: Pick<Doctor, 'name' | 'crm'>
 }
 
 export type CancelAppointmentInput = {
-  doctors_id?: string
+  patientCpf: string
+  doctorCrm?: string
+  doctorName?: string
   datetime?: string
-  patientName?: string
-  patientCpf?: string
   appointmentId?: string
-}
-
-function normalizeName(value: string): string {
-  return value.trim().toLowerCase()
 }
 
 function normalizeCpf(value: string): string {
@@ -60,53 +56,50 @@ export class AppointmentService {
     )
   }
 
-  async listProfessionalsForPrompt(): Promise<ProfessionalForPrompt[]> {
-    const doctors = await this.client.listDoctors()
-    return doctors.map((doctor) => this.toProfessional(doctor))
+  async listSpecialtyNamesForPrompt(): Promise<string[]> {
+    const specialties = await this.client.listSpecialties()
+    return specialties.map((specialty) => specialty.name)
   }
 
-  async bookAppointment(
-    input: BookAppointmentInput
-  ): Promise<AppointmentRecord> {
-    const patient = await this.resolvePatient(
-      input.patientCpf,
-      input.patientName
-    )
-    const specialties_id =
-      input.specialties_id ?? (await this.resolveSpecialtyId(input.doctors_id))
+  async bookAppointment(input: BookAppointmentInput): Promise<BookedAppointment> {
+    const doctor = await this.findDoctor(input)
+    const patient = await this.resolvePatient(input.patientCpf)
 
-    return this.client.createAppointment({
+    const appointment = await this.client.createAppointment({
       patients_id: patient.id,
-      specialties_id,
-      doctors_id: input.doctors_id,
+      specialties_id: doctor.specialties_id,
+      doctors_id: doctor.id,
       date: new Date(input.datetime).toISOString()
     })
+
+    return { appointment, doctor: { name: doctor.name, crm: doctor.crm } }
   }
 
   async cancelAppointment(input: CancelAppointmentInput): Promise<void> {
-    if (input.appointmentId) {
-      await this.client.deleteAppointment(input.appointmentId)
-      return
+    const doctorQuery = {
+      doctorCrm: input.doctorCrm,
+      doctorName: input.doctorName
     }
 
-    if (!input.doctors_id || !input.datetime) {
+    if (
+      !input.appointmentId &&
+      (!hasDoctorQuery(doctorQuery) || !input.datetime)
+    ) {
       throw new Error(
-        'Appointment ID or doctor ID and datetime are required to cancel'
+        'Appointment ID or doctor name/CRM and datetime are required to cancel'
       )
     }
 
-    const patient = await this.resolvePatient(
-      input.patientCpf,
-      input.patientName
-    )
+    const patient = await this.resolvePatient(input.patientCpf)
     const appointments = await this.client.listAppointmentsByPatient(patient.id)
-    const target = new Date(input.datetime)
 
-    const match = appointments.find(
-      (appointment) =>
-        appointment.doctors_id === input.doctors_id &&
-        sameSlot(new Date(appointment.date), target)
-    )
+    const match = input.appointmentId
+      ? appointments.find((appointment) => appointment.id === input.appointmentId)
+      : await this.findByDoctorAndDatetime(
+          appointments,
+          doctorQuery,
+          new Date(input.datetime!)
+        )
 
     if (!match) {
       throw new Error('Agendamento não encontrado para cancelamento')
@@ -115,49 +108,32 @@ export class AppointmentService {
     await this.client.deleteAppointment(match.id)
   }
 
-  private async resolveSpecialtyId(doctors_id: string): Promise<string> {
-    const doctors = await this.client.listDoctors()
-    const doctor = doctors.find((item) => item.id === doctors_id)
-    if (!doctor) {
-      throw new Error('Doctor not found')
-    }
-    return doctor.specialties_id
-  }
+  private async findByDoctorAndDatetime(
+    appointments: AppointmentRecord[],
+    doctorQuery: DoctorQuery,
+    target: Date
+  ): Promise<AppointmentRecord | undefined> {
+    const doctor = await this.findDoctor(doctorQuery)
 
-  private async resolvePatient(
-    patientCpf?: string,
-    patientName?: string
-  ): Promise<Patient> {
-    if (patientCpf) {
-      return this.client.findPatientByCpf(normalizeCpf(patientCpf))
-    }
-
-    if (!patientName) {
-      throw new Error('Patient CPF or name is required')
-    }
-
-    const patients = await this.client.listPatients()
-    const matches = patients.filter(
-      (patient) => normalizeName(patient.name) === normalizeName(patientName)
+    return appointments.find(
+      (appointment) =>
+        appointment.doctors_id === doctor.id &&
+        sameSlot(new Date(appointment.date), target)
     )
-
-    if (matches.length === 0) {
-      throw new Error('Patient not found')
-    }
-
-    if (matches.length > 1) {
-      throw new Error('Multiple patients found with this name; provide the CPF')
-    }
-
-    return matches[0]!
   }
 
-  private toProfessional(doctor: Doctor): ProfessionalForPrompt {
-    return {
-      id: doctor.id,
-      name: doctor.name,
-      specialty: doctor.Specialties?.name ?? doctor.specialties_id,
-      specialties_id: doctor.specialties_id
+  private async findDoctor(query: DoctorQuery): Promise<Doctor> {
+    const doctors = await this.client.listDoctors()
+    return resolveDoctor(doctors, query)
+  }
+
+  private async resolvePatient(patientCpf: string): Promise<Patient> {
+    const cpf = normalizeCpf(patientCpf)
+
+    if (cpf.length !== 11) {
+      throw new Error('Patient CPF must have 11 digits')
     }
+
+    return this.client.findPatientByCpf(cpf)
   }
 }

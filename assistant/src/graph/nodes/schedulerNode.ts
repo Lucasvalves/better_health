@@ -1,18 +1,22 @@
 import { AppointmentService } from '../../services/appointmentService.ts'
+import { DoctorSelectionError } from '../../services/doctorResolver.ts'
 import type { GraphState } from '../graph.ts'
+import { PatientCpfSchema } from './patientCpfSchema.ts'
 import { z } from 'zod/v3'
 
 const ScheduleRequiredFieldsSchema = z
   .object({
-    doctors_id: z.string({ required_error: 'Doctor ID is required' }),
+    patientCpf: PatientCpfSchema,
     datetime: z.string({ required_error: 'Appointment datetime is required' }),
-    specialties_id: z.string().optional(),
-    patientName: z.string().optional(),
-    patientCpf: z.string().optional(),
+    doctorCrm: z.string().trim().optional(),
+    doctorName: z.string().trim().optional(),
+    specialtyName: z.string().trim().optional(),
   })
-  .refine((data) => Boolean(data.patientName || data.patientCpf), {
-    message: 'Patient name or CPF is required',
-  })
+  .refine(
+    (data) =>
+      Boolean(data.doctorCrm || data.doctorName || data.specialtyName),
+    { message: 'Doctor name, CRM or specialty is required' },
+  )
 
 const CreatedAppointmentSchema = z.object({
   id: z.string().min(1),
@@ -22,7 +26,10 @@ const CreatedAppointmentSchema = z.object({
   doctors_id: z.string().min(1),
 })
 
-export function createSchedulerNode(appointmentService: AppointmentService) {
+export function createSchedulerNode(
+  appointmentService: AppointmentService,
+  now: () => Date = () => new Date(),
+) {
   return async (state: GraphState): Promise<Partial<GraphState>> => {
     try {
       const validation = ScheduleRequiredFieldsSchema.safeParse(state)
@@ -31,17 +38,26 @@ export function createSchedulerNode(appointmentService: AppointmentService) {
         const errorMessages = validation.error.errors
           .map((error) => error.message)
           .join(', ')
+
         return {
           actionSuccess: false,
           actionError: errorMessages,
+          doctorOptions: undefined,
         }
       }
 
-      const appointment = await appointmentService.bookAppointment({
-        doctors_id: validation.data.doctors_id,
-        specialties_id: validation.data.specialties_id,
+      if (new Date(validation.data.datetime).getTime() <= now().getTime()) {
+        return {
+          actionSuccess: false,
+          actionError: 'The requested date and time have already passed',
+        }
+      }
+
+      const { appointment, doctor } = await appointmentService.bookAppointment({
+        doctorCrm: validation.data.doctorCrm,
+        doctorName: validation.data.doctorName,
+        specialtyName: validation.data.specialtyName,
         datetime: validation.data.datetime,
-        patientName: validation.data.patientName,
         patientCpf: validation.data.patientCpf,
       })
 
@@ -57,10 +73,19 @@ export function createSchedulerNode(appointmentService: AppointmentService) {
       return {
         actionSuccess: true,
         actionError: undefined,
+        doctorName: doctor.name,
         datetime: created.data.date,
         appointmentData: created.data,
       }
     } catch (error) {
+      if (error instanceof DoctorSelectionError) {
+        return {
+          actionSuccess: false,
+          actionError: error.message,
+          doctorOptions: error.options,
+        }
+      }
+
       return {
         actionSuccess: false,
         actionError:
