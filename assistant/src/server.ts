@@ -1,4 +1,4 @@
-import { HumanMessage } from 'langchain'
+import { AIMessage, HumanMessage } from 'langchain'
 import { buildGraph } from './graph/factory.ts'
 
 import Fastify from 'fastify'
@@ -17,22 +17,42 @@ export const createServer = (deps?: { buildGraph?: BuildGraphFn }) => {
           type: 'object',
           required: ['question', 'token'],
           properties: {
-            question: { type: 'string', minLength: 10 },
+            question: { type: 'string', minLength: 1 },
             token: { type: 'string', minLength: 1 },
+            history: {
+              type: 'array',
+              maxItems: 10,
+              items: {
+                type: 'object',
+                required: ['role', 'content'],
+                properties: {
+                  role: { type: 'string', enum: ['user', 'assistant'] },
+                  content: { type: 'string', minLength: 1, maxLength: 2000 },
+                },
+              },
+            },
           },
         },
       },
     },
     async function (request, reply) {
       try {
-        const { question, token } = request.body as {
+        const { question, token, history = [] } = request.body as {
           question: string
           token: string
+          history?: Array<{ role: 'user' | 'assistant'; content: string }>
         }
 
         const compiledGraph = createGraph(token)
         const response = await compiledGraph.invoke({
-          messages: [new HumanMessage(question)],
+          messages: [
+            ...history.map((message) =>
+              message.role === 'user'
+                ? new HumanMessage(message.content)
+                : new AIMessage(message.content),
+            ),
+            new HumanMessage(question),
+          ],
         })
 
         return {
