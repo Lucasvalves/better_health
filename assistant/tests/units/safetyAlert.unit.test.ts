@@ -10,9 +10,11 @@ import type { AppointmentService } from '../../src/services/appointmentService.t
 const intentWithAlert = {
   intent: 'schedule',
   safetyAlert: true,
-  doctors_id: 'e4d2e938-126d-4d58-90e3-bdd69aeeaf02',
-  datetime: '2026-11-13T11:00:00.000Z',
+  doctorName: 'Erica Silva',
+  relativeDay: 'tomorrow',
+  hour: 11,
   patientName: 'Maria Santos',
+  patientCpf: '12345678909',
 }
 
 function fakes(intentData: Record<string, unknown>) {
@@ -28,17 +30,32 @@ function fakes(intentData: Record<string, unknown>) {
   } as unknown as OpenRouterService
 
   const service = {
-    listProfessionalsForPrompt: async () => [],
+    listSpecialtyNamesForPrompt: async () => [],
     bookAppointment: async () => {
       calls.booked += 1
-      return { id: 'appointment-1', date: '2026-11-13T11:00:00.000Z' }
+      return {
+        appointment: {
+          id: 'appointment-1',
+          date: '2026-11-13T11:00:00.000Z',
+          patients_id: 'patient-1',
+          specialties_id: 'specialty-1',
+          doctors_id: 'doctor-1',
+        },
+        doctor: { name: 'Erica Silva', crm: '12345/SP' },
+      }
     },
     cancelAppointment: async () => {
       throw new Error('cancel must not run')
     },
   } as unknown as AppointmentService
 
-  return { calls, graph: buildAppointmentGraph(llm, service) }
+  return {
+    calls,
+    graph: buildAppointmentGraph(llm, service, {
+      timeZone: 'America/Sao_Paulo',
+      now: () => new Date('2026-11-12T12:00:00.000Z'),
+    }),
+  }
 }
 
 describe('safety alert', () => {

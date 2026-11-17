@@ -40,7 +40,10 @@ describe('message generator node', () => {
 
     const payload = JSON.parse(prompts[0]!)
     assert.equal(payload.scenario, 'schedule_success')
-    assert.equal(payload.details.datetime, '2026-11-10T15:00:00.000Z')
+    assert.equal(
+      payload.details.datetime,
+      'terça-feira, 10 de novembro de 2026 às 12h',
+    )
     assert.equal(payload.details.error, undefined)
     assert.equal(JSON.stringify(payload).includes(APPOINTMENT_ID), false)
   })
@@ -62,6 +65,42 @@ describe('message generator node', () => {
     const payload = JSON.parse(prompts[0]!)
     assert.equal(payload.scenario, 'schedule_error')
     assert.equal(payload.details.error, 'The server did not confirm the appointment')
+  })
+
+  it('sends the doctor options so the user can choose one', async () => {
+    const prompts: string[] = []
+    const doctorOptions = [
+      { name: 'Erica Silva', crm: '12345/SP', specialty: 'Cardiologia' },
+    ]
+
+    await createMessageGeneratorNode(llmCapturingPrompt(prompts))({
+      messages: [new HumanMessage('Quero um cardiologista')],
+      intent: 'schedule',
+      actionSuccess: false,
+      actionError: 'Doctors are available for this specialty',
+      doctorOptions,
+    })
+
+    const payload = JSON.parse(prompts[0]!)
+    assert.deepEqual(payload.details.doctorOptions, doctorOptions)
+  })
+
+  it('sends the doctor options so the user can choose one', async () => {
+    const prompts: string[] = []
+    const doctorOptions = [
+      { name: 'Erica Silva', crm: '12345/SP', specialty: 'Cardiologia' },
+    ]
+
+    await createMessageGeneratorNode(llmCapturingPrompt(prompts))({
+      messages: [new HumanMessage('Quero um cardiologista')],
+      intent: 'schedule',
+      actionSuccess: false,
+      actionError: 'Doctors are available for this specialty',
+      doctorOptions,
+    })
+
+    const payload = JSON.parse(prompts[0]!)
+    assert.deepEqual(payload.details.doctorOptions, doctorOptions)
   })
 
   it('replaces a reply that contains an id with the fallback message', async () => {
