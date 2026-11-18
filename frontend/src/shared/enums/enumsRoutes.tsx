@@ -1,4 +1,5 @@
 export enum enumsRoutes {
+  HOME = '/',
   APPOINTMENTS = '/appointments',
   AUTHENTICATION = '/authentication',
   SCHEDULE = '/schedule',
