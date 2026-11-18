@@ -30,6 +30,7 @@ export const Nav = () => {
 
   return (
     <nav className={styles.container}>
+      <Link href={enumsRoutes.HOME}>Assistente</Link>
       <Link href={enumsRoutes.APPOINTMENTS}>Realizar Agendamento</Link>
       <Link href={enumsRoutes.SEARCH_APPOINTMENTS}>Buscar Agendamentos</Link>
       <Link href={enumsRoutes.SCHEDULE}>Montar Agenda</Link>

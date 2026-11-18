@@ -14,9 +14,9 @@ export function middleware(req: NextRequest) {
     '/register-patient'
   ]
 
-  const isProtectedRoute = protectedRoutes.some((path) =>
-    req.nextUrl.pathname.startsWith(path)
-  )
+  const isProtectedRoute =
+    req.nextUrl.pathname === '/' ||
+    protectedRoutes.some((path) => req.nextUrl.pathname.startsWith(path))
 
   if (isProtectedRoute && !token) {
     return NextResponse.redirect(new URL('/authentication', req.url))
@@ -27,6 +27,7 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
+    '/',
     '/appointments/:path*',
     '/edit-profile/:path*',
     '/schedule/:path*',

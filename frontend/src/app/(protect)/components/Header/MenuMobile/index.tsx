@@ -25,6 +25,12 @@ const MenuMobile = ({ menuMobileIsVisible, setMenuMobileIsVisible }: Props) => {
       <nav>
         <ul>
           <Link
+            href={enumsRoutes.HOME}
+            onClick={() => setMenuMobileIsVisible(false)}
+          >
+            Assistente
+          </Link>
+          <Link
             href={enumsRoutes.APPOINTMENTS}
             onClick={() => setMenuMobileIsVisible(false)}
           >

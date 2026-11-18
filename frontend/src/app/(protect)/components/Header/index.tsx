@@ -16,7 +16,7 @@ export default function Header() {
       <section className={styles.wrapper}>
         <div>
           <div className={styles.containerMenu}>
-            <Link href={enumsRoutes.APPOINTMENTS}>
+            <Link href={enumsRoutes.HOME}>
               <div className={styles.logo} />
             </Link>
             <Nav />

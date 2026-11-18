@@ -167,7 +167,7 @@ export const useAuthenticationModel = (props: UserServiceRegistry) => {
       })
 
       enqueueSnackbar('Login realizado com sucesso!', { variant: 'success' })
-      router.push('/appointments')
+      router.push('/')
     } catch (err) {
       if (err instanceof Error) {
         enqueueSnackbar(err.message || 'Erro ao autenticar usuário.', {
