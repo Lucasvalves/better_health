@@ -10,25 +10,26 @@ Web interface for Better Health clinic staff. It talks only to the [API](../api/
 
 Copy `.env.default` to `.env` and set the API address:
 
-| Variable | Purpose |
-| --- | --- |
-| `NEXT_PUBLIC_API_BETTER_HEALTH_URL` | Base URL of the API, e.g. `http://localhost:3333` |
+| Variable                            | Purpose                                                                                                                         |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_BETTER_HEALTH_URL` | Base URL of the API, e.g. `http://localhost:3333`                                                                               |
+| `NEXT_PUBLIC_ASSISTANT_API_URL`     | Server-only base URL of the [assistant](../assistant/README.md), e.g. `http://localhost:3001`. Optional; defaults to that value |
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The home page redirects to `/authentication`. The API must be running.
+Open [http://localhost:3000](http://localhost:3000). The home page (`/`) is the Better Assistant chat and requires a signed-in user. The API must be running; the assistant is needed only for the chat.
 
 ### Scripts
 
-| Script | Description |
-| --- | --- |
-| `npm run dev` | Development server |
+| Script                        | Description                 |
+| ----------------------------- | --------------------------- |
+| `npm run dev`                 | Development server          |
 | `npm run build` / `npm start` | Production build and server |
-| `npm run lint` | ESLint |
-| `npm test` | Jest |
+| `npm run lint`                | ESLint                      |
+| `npm test`                    | Jest                        |
 
 ---
 
@@ -36,16 +37,21 @@ Open [http://localhost:3000](http://localhost:3000). The home page redirects to 
 
 ### Pages
 
-| Route | Purpose |
-| --- | --- |
-| `/authentication` | Sign in and create an account |
-| `/appointments` | Book an appointment |
-| `/search-appointments` | Find, edit, and cancel a patient's appointments |
-| `/schedule` | Define a doctor's availability |
-| `/register-doctor`, `/register-patient`, `/register-specialty` | Registration forms |
-| `/edit-profile` | Update profile data |
+| Route                                                          | Purpose                                                                                |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `/`                                                            | Main page with the Better Assistant chat (book or cancel appointments by conversation) |
+| `/authentication`                                              | Sign in and create an account                                                          |
+| `/appointments`                                                | Book an appointment                                                                    |
+| `/search-appointments`                                         | Find, edit, and cancel a patient's appointments                                        |
+| `/schedule`                                                    | Define a doctor's availability                                                         |
+| `/register-doctor`, `/register-patient`, `/register-specialty` | Registration forms                                                                     |
+| `/edit-profile`                                                | Update profile data                                                                    |
 
 All routes except `/authentication` are protected. `src/middleware.ts` redirects to `/authentication` when the `token` cookie is missing. The cookie is set by the route handler at `src/app/api/auth/route.ts` after a successful login. Route paths are centralized in `src/shared/enums/enumsRoutes.tsx`.
+
+### Better Assistant
+
+The chat calls the Next.js route handler `src/app/api/assistant/route.ts`, which reads the `token` cookie and forwards the question and recent history to the assistant's `POST /chat` (`NEXT_PUBLIC_ASSISTANT_API_URL`), then returns only the last reply. The browser never talks to the assistant directly. State lives in `AssistantChatProvider` (`src/presentation/providers/`), mounted in `app/(protect)/layout.tsx`, so the conversation continues across pages. `ChatPanel` is the chat UI used on `/`; `AssistantWidget` is the minimized chat shown on every other protected page.
 
 ### Structure
 

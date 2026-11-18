@@ -43,10 +43,11 @@ better_health/
 
 ```
 Browser ──► frontend :3000 ──► api :3333 ──► PostgreSQL
-                                  ▲
-Client ───► assistant :3001 ──────┘
-                 │
-                 └──► OpenRouter (language model)
+                │                ▲
+                │ /api/assistant │
+                └─► assistant :3001
+                         │
+                         └──► OpenRouter (language model)
 ```
 
 | Service | Role | Stack | Port | Docs |
